@@ -1,29 +1,29 @@
 import Button from "@mui/material/Button";
 import "./index.scss";
 import { useGetUsersQuery } from "../../services/user.service";
-import { useEffect } from "react";
+import { getCurrentUser } from "../../services/auth.service";
+import { AddButton } from "../../components/AddButton";
+import { useTypedSelector } from "../../store";
 
 export const Home = () => {
   const { data, error, isLoading, refetch } = useGetUsersQuery();
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  const user = useTypedSelector((state) => state.auth.user);
 
   return (
     <div className="home">
-      <h1 className="home_h">Home</h1>
+      <h1 className="home_h">Home </h1>
+      <h2 className="home">{user.name}</h2>
       <Button
         variant="contained"
         onClick={() => {
           refetch();
-          console.log(isLoading);
-          console.log(error);
-          console.log(data);
+          console.log(getCurrentUser());
         }}
       >
         Hello World
       </Button>
+      <AddButton />
     </div>
   );
 };

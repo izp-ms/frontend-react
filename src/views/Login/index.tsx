@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 // import "./Login.scss";
 import { useLoginMutation } from "../../services/user.service";
 import { useNavigate } from "react-router-dom";
 import useToken from "../../hooks/useToken";
+import { useTypedDispatch } from "../../store";
+import { getCurrentUser } from "../../services/auth.service";
+import { setUser } from "../../store/auth.slice";
 
 export default function Login() {
   const { setToken } = useToken();
@@ -11,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState<string>();
   const [login, { isSuccess }] = useLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch();
 
   async function loginUser(credentials: any) {
     login({ email: "admin2@email.com", password: "string123" }).then(
@@ -20,6 +23,9 @@ export default function Login() {
           return null;
         }
         setToken(response.data.token);
+        const user = getCurrentUser();
+        console.log(user);
+        dispatch(setUser(user));
         return response.data.token;
       }
     );
@@ -33,7 +39,7 @@ export default function Login() {
     });
     console.log(token);
     navigate("/home");
-    // setToken(token);
+    setToken(token);
   };
 
   return (

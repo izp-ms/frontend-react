@@ -1,50 +1,22 @@
-// import { useLoginMutation } from "./user.service";
-
-export const API_URL = "/auth";
-
-// // const register = (email: any, password: any) => {
-// //   return axios
-// //     .post(API_URL + "/signup", {
-// //       email,
-// //       password,
-// //     })
-// //     .then((response: any) => {
-// //       if (response.data.accessToken) {
-// //         localStorage.setItem("user", JSON.stringify(response.data));
-// //       }
-
-// //       return response.data;
-// //     });
-// // };
-
-// const login = (email: any, password: any) => {
-//   return axios
-//     .post(API_URL + "/login", {
-//       email,
-//       password,
-//     })
-//     .then((response: any) => {
-//       if (response.data.accessToken) {
-//         localStorage.setItem("user", JSON.stringify(response.data));
-//       }
-
-//       return response.data;
-//     });
-// };
+import jwt_decode from "jwt-decode";
+import { CurrentUser } from "../models/current-user";
+import { ID, EMAIL, NAME, ROLE } from "../core/config";
 
 export const logout = () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("token");
 };
 
-export const getCurrentUser = (): any => {
-  return JSON.parse(localStorage.getItem("user") || "");
+export const getCurrentUser = (): CurrentUser | undefined => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    return undefined;
+  }
+
+  const decoded: Record<string, string> = jwt_decode(token);
+  return {
+    id: decoded[ID],
+    email: decoded[EMAIL],
+    name: decoded[NAME],
+    role: decoded[ROLE],
+  };
 };
-
-// const authService = {
-//   signup,
-//   login,
-//   logout,
-//   getCurrentUser,
-// };
-
-// export default authService;

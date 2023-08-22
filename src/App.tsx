@@ -1,23 +1,37 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Home } from "./views/Home";
 import { About } from "./views/About";
-import useToken from "./hooks/useToken";
 import Login from "./views/Login";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
-  const { token } = useToken();
-
-  if (!token) {
-    console.log(token);
-
-    return <Login />;
-  }
-
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <ProtectedRoute>
+            <About />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="*"
         element={
