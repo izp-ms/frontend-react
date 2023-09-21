@@ -6,16 +6,19 @@ import {
   MenuItem,
   Toolbar,
 } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DrawerList } from "../DrawerList";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { useTypedDispatch, useTypedSelector } from "../../store";
 import { AccountCircle } from "@mui/icons-material";
 import LoginIcon from "@mui/icons-material/Login";
 import { logout } from "../../store/auth.slice";
 import { useNavigate } from "react-router-dom";
 import { StyledButton } from "../StyledButton";
+import { ColorModeContext } from "../../App";
+
+import styles from "./styles.module.scss";
 
 interface Props {
   children: React.ReactNode;
@@ -30,6 +33,8 @@ export const Navigation = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
+  const colorMode = useContext(ColorModeContext);
 
   const toggleDrawer = (): void => {
     setIsDrawerOpen(false);
@@ -52,7 +57,7 @@ export const Navigation = (props: Props) => {
   return (
     <>
       <AppBar>
-        <Toolbar sx={{ height: 50 }}>
+        <Toolbar sx={{ height: 50, background: "primary" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -70,6 +75,9 @@ export const Navigation = (props: Props) => {
           >
             Postcardia
           </h1>
+          <h3 className={styles.theme} onClick={colorMode.toggleColorMode}>
+            <Brightness4Icon />
+          </h3>
           {user ? (
             <div>
               <IconButton

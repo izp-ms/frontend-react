@@ -5,7 +5,7 @@ interface Props {
   content: string;
   disabled?: boolean;
   icon?: ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
 export const StyledButton = (props: Props) => {

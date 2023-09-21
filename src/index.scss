@@ -1,8 +1,8 @@
-@import './styles/mixins.scss';
-@import './styles/variables.scss';
+@import './styles/styles.scss';
 
 body {
   font-family: "Rubik";
   margin: 0;
   padding: 0;
+  background: $gray-40;
 }
