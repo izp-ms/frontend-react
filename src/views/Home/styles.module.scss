@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+@mixin H_Big{font-family: 'Rubik';font-style: normal;font-weight: 400;font-size: 64px;letter-spacing: 0px;}
+@mixin H_Medium{font-family: 'Rubik';font-style: normal;font-weight: 300;font-size: 48px;letter-spacing: 0px;}
+@mixin H_Small{font-family: 'Rubik';font-style: normal;font-weight: 400;font-size: 24px;letter-spacing: 0px;}
+$Dark100:#010e0e;
+$Darkish100:#121B1E;
+$Gray100:#374647;
+$Gray80:#626e6f;
+$Gray60:#7f8a8a;
+$Gray40:#a7b2b3;
+$Gray10:#d0d4d4;
+$Gray5:#e6eaea;
+$Gray0:#eff3f3;
+$White100:#FFFFFF;
+$White72:rgba(255, 255, 255, 0.72);
+$White40:rgba(255, 255, 255, 0.40);
+$White12:rgba(255, 255, 255, 0.12);
+$Primary100:#8DCFDE;
+$Primary50:#28f6fd;
+$Primary20:#5ceff4;
+$Primary10:#a1fcff;
+$Primary5:#e1fbfc;
+$Primary0:#f2fcfd;
+
+
+
+
+
+
+.container1{
+  background-image: none;
+}
+
+.nav{
+  position: relative;
+  &_logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 2rem;
+    &_image__img{
+      scale: 0.7;
+    }
+    
+    &__h{
+      position: relative;
+      margin: 1rem 2rem;
+      @include H_Medium;
+      color: $Darkish100;
+      z-index: 100;
+      &::after {
+        content: '';
+        position: absolute;
+        z-index: -100;
+        width: 95%;
+        height: 50%;
+        top: 3.2rem;
+        left: -1rem;
+        top: 2.2rem;
+        display: block;
+        background: $Primary100;
+        border-radius: 25px;
+      }
+    }
+  }
+  &_menu{
+    //display: none;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    &_sign{
+      text-decoration: none;
+        
+      &_btn{
+        
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: $Darkish100;
+        border-radius: 15px;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        &:hover{
+          background-color: $Gray100;
+          transition: all 0.3s;
+        }
+        &__img{
+
+        }
+        &__p{
+          margin: 0 1rem;
+          text-decoration: none;
+          color: $White100;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 30px;
+          font-weight: 600;
+        }
+      }
+    }
+    &_color{
+      
+      padding: 0;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    &_lang{
+      padding: 0;
+      width: 73px;
+      height: 74px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: none;
+      border: none;
+      cursor: pointer;
+      
+    }
+  }
+}
+
+.header{
+  position: relative;
+  background-color: $Primary100;
+  padding: 10rem 8rem;
+  &_intro{
+    width: 50%;
+    &__h{
+      @include H_Big;
+      color: $Darkish100;
+      margin-top: 0;
+    }
+    &_picture{
+      position: absolute;
+      right: 2rem;
+      top: 1rem;
+      scale: 0.6;
+      &__img{
+        //scale: 0.6;
+      }
+    }
+    &__p{
+      @include H_Small;
+      color: $Darkish100;
+    }
+  }
+  &_mosaic{
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    scale: 0.6;
+      &__img{
+        //scale: 0.4;
+      }
+  }
+}
+
+.download{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 16rem;
+  position: relative;
+  //background-color: $Primary50;
+  &__h{
+    margin-top: 0;
+    position: relative;
+    @include H_Big;
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -100;
+      width: 55%;
+      height: 50%;
+      top: 3rem;
+      left: 3rem;
+      display: block;
+      background: $Primary100;
+      border-radius: 25px;
+    }
+  }
+  &__p{
+    @include H_Small;
+    text-align: center;
+    padding-left: 30rem;
+    padding-right: 30rem;
+  }
+  &_links{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 11rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    
+    &_btn{
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        z-index: -100;
+        width: 85%;
+        height: 60%;
+        top: 3rem;
+        left: 1rem;
+        display: block;
+        background: $Primary100;
+        border-radius: 15px;
+      }
+    }
+  }
+  &_decoration{
+    position: absolute;
+    left: 3rem;
+    bottom: 3rem;
+    &__img{
+      
+    }
+  }
+}
+
+.preview{
+  background-color: $Gray10;
+  //padding: 2rem 3rem;
+  display: flex;
+  flex-direction: row;
+  //justify-content: center;
+  justify-content: space-evenly;
+  //gap: 10rem;
+  z-index: -100;
+  background-image:  url('../../assets/background_polygon.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  &_profile{
+    z-index: 100;
+    position: relative;
+    scale: 0.6;
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -10;
+      width: 96%;
+      height: 98%;
+      top: 1rem;
+      left: -1rem;
+      display: block;
+      background: $Primary100;
+      border-radius: 15px;
+    }
+  }
+}
+
+.banner{
+  padding-top: 10rem;
+  padding-left: 14rem;
+  height: 500px;
+  &_decoration{
+    border-radius: 15px;
+    height: 231px;
+    width: 423px;
+    background-color: $Primary100;
+    position: relative;
+    &__img{
+      &_1{
+        position: absolute;
+        top: -4rem;
+        left: -4rem;
+        scale: 0.6;
+      }
+      &_2{
+        position: absolute;
+        top: -8rem;
+        left: -8rem;
+        scale: 0.6;
+      }
+    }
+  }
+}
+
+.footer{
+  background-color: $Primary100;
+  padding: 3rem 0 3rem 0;
+  //text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20rem;
+  &__p{
+    margin:0;
+    padding: 0; 
+    @include H_Small;
+    color: $Darkish100;
+  }
+}
