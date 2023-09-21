@@ -41,6 +41,9 @@ export const App = () => {
             primary: mode === "light" ? "#282828" : "#F1F0F6",
             secondary: mode === "light" ? "#8DCFDE" : "#8DCFDE",
           },
+          error: {
+            main: mode === "light" ? "#FF0000" : "#FF0000",
+          },
         },
         components: {
           MuiCssBaseline: {

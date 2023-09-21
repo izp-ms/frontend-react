@@ -58,23 +58,18 @@ export const Navigation = (props: Props) => {
     <>
       <AppBar>
         <Toolbar sx={{ height: 50, background: "primary" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() => setIsDrawerOpen(true)}
-            edge="start"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <h1
-            style={{ flexGrow: 1 }}
-            onClick={() => {
-              console.log(user);
-            }}
-          >
-            Postcardia
-          </h1>
+          {user && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => setIsDrawerOpen(true)}
+              edge="start"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <h1 style={{ flexGrow: 1 }}>Postcardia</h1>
           <h3 className={styles.theme} onClick={colorMode.toggleColorMode}>
             <Brightness4Icon />
           </h3>

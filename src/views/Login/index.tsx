@@ -9,7 +9,7 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import styles from "./styles.module.scss";
 import {
-  FormControl,
+  FormGroup,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -52,95 +52,78 @@ export default function Login() {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       const { email, password } = values;
-
-      console.log(values);
-
       login({ email: email, password: password })
         .then((response: any) => {
           if (response.error) {
+            setToastStatus("error");
+            setToastErrorMessage(
+              response.error.data.message ?? "Something went wrong"
+            );
             return null;
           }
           setToken(response.data.token);
           const user = getCurrentUser();
           dispatch(setUser(user));
           navigate("/profile");
-
           setToken(response.data.token);
         })
         .catch((e) => {
-          console.log(e);
           setToastStatus("error");
-          setToastErrorMessage("Something went wrong");
+          setToastErrorMessage(e.message ?? "Something went wrong");
         });
-      // await loginUser(email, password);
     },
     enableReinitialize: true,
   });
-
-  // const loginUser = async (email: string, password: string): Promise<void> => {
-  //   // login({ email: "admin2@email.com", password: "string123" })
-  //   login({ email: email, password: password })
-  //     .then((response: any) => {
-  //       if (response.error) {
-  //         return null;
-  //       }
-  //       setToken(response.data.token);
-  //       const user = getCurrentUser();
-  //       dispatch(setUser(user));
-  //       navigate("/profile");
-
-  //       setToken(response.data.token);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       setToastStatus("error");
-  //       setToastErrorMessage("Something went wrong");
-  //     });
-  // };
-
-  // const handleSubmit = async () => {
-  //   await loginUser(values.email, values.password);
-  // };
 
   return (
     <div className={styles.container}>
       <div className={styles.login}>
         <h1>Login</h1>
         <form className={styles.form} onSubmit={submitForm}>
-          <TextField
-            value={values.email}
-            onChange={(e) => setFieldValue("email", e.target.value)}
-            placeholder="E-mail"
-            error={Boolean(errors.email && touched.email)}
-            InputProps={{
-              startAdornment: <AlternateEmailIcon color="secondary" />,
-            }}
-          />
-          <OutlinedInput
-            id="password"
-            type={showPassword ? "text" : "password"}
-            startAdornment={<LockPersonIcon />}
-            placeholder="Password"
-            value={values.password}
-            onChange={(e) => setFieldValue("password", e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(true)}
-                  onMouseDown={() => setShowPassword(false)}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
+          <FormGroup>
+            <TextField
+              value={values.email}
+              onChange={(e) => setFieldValue("email", e.target.value)}
+              placeholder="E-mail"
+              error={Boolean(errors.email && touched.email)}
+              InputProps={{
+                startAdornment: <AlternateEmailIcon color="secondary" />,
+              }}
+            />
+            <InputLabel sx={{ color: "red" }}>
+              {errors.email ?? null}
+            </InputLabel>
+          </FormGroup>
+          <FormGroup>
+            <OutlinedInput
+              id="password"
+              type={showPassword ? "text" : "password"}
+              startAdornment={<LockPersonIcon />}
+              placeholder="Password"
+              value={values.password}
+              onChange={(e) => setFieldValue("password", e.target.value)}
+              error={Boolean(errors.password && touched.password)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(true)}
+                    onMouseDown={() => setShowPassword(false)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <InputLabel sx={{ color: "red" }} htmlFor="password">
+              {errors.password ?? null}
+            </InputLabel>
+          </FormGroup>
           <StyledButton
             content="Login"
             onClick={async () => {
               console.log(values);
-              setToastStatus("error");
               await submitForm();
             }}
           />
