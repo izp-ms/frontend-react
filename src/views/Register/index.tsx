@@ -1,8 +1,26 @@
 // import React, { useState } from "react";
 // import AuthService from "../services/auth.service";
+
+import { useNavigate } from "react-router-dom";
+
+import styles from "./styles.module.scss";
+
 // import { useNavigate } from "react-router-dom";
-export const Signup = () => {
-  return <h1>xd</h1>;
+export const Register = () => {
+  const navigate = useNavigate();
+
+  const handleMoveToLoginView = (): void => {
+    navigate("/login");
+  };
+
+  return (
+    <div className={styles.container}>
+      <div>
+        Already have an account?{" "}
+        <span onClick={handleMoveToLoginView}>Login</span>
+      </div>
+    </div>
+  );
 };
 // const Signup = () => {
 //   const [email, setEmail] = useState("");

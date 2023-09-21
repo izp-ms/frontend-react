@@ -1,26 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { removeJwtToken } from "../services/auth.service";
+import { CurrentUser } from "../models/user";
 
 const auth = createSlice({
   name: "auth",
   initialState: {
-    user: {
-      id: "",
-      email: "",
-      name: "",
-      role: "",
-    },
+    user: undefined as CurrentUser | undefined,
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
     },
     logout: (state) => {
-      state.user = {
-        id: "",
-        email: "",
-        name: "",
-        role: "",
-      };
+      removeJwtToken();
+      state.user = undefined;
     },
   },
 });

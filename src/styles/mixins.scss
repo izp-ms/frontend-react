@@ -1,0 +1,27 @@
+@mixin container {
+  padding: 5rem 3rem;
+}
+
+@mixin H_Big {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 64px;
+  letter-spacing: 0px;
+}
+
+@mixin H_Medium {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 48px;
+  letter-spacing: 0px;
+}
+
+@mixin H_Small {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0px;
+}

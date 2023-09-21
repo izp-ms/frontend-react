@@ -1,8 +1,8 @@
 import jwt_decode from "jwt-decode";
-import { CurrentUser } from "../models/current-user";
 import { ID, EMAIL, NAME, ROLE } from "../core/config";
+import { CurrentUser } from "../models/user";
 
-export const logout = () => {
+export const removeJwtToken = () => {
   sessionStorage.removeItem("token");
 };
 
