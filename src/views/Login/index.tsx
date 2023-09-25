@@ -27,7 +27,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
-  const [toastErrorMessage, setToastErrorMessage] = useState(
+  const [toastErrorMessage, setToastErrorMessage] = useState<string>(
     "Something went wrong"
   );
 
@@ -123,7 +123,6 @@ export default function Login() {
           <StyledButton
             content="Login"
             onClick={async () => {
-              console.log(values);
               await submitForm();
             }}
           />

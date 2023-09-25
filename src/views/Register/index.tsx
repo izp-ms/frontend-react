@@ -61,7 +61,6 @@ export const Register = () => {
           exclusive: true,
           message: "Confirm password must be the same as password",
           test: (confirmPassword: string) => {
-            console.log(confirmPassword, password[0]);
             if (confirmPassword === password[0]) {
               return true;
             }
@@ -76,8 +75,6 @@ export const Register = () => {
     validationSchema: registerSchema,
     onSubmit: async (values) => {
       const { email, nickName, password, confirmPassword } = values;
-
-      console.log(values);
 
       if (password !== confirmPassword) {
         setToastStatus("error");

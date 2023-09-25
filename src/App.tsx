@@ -4,15 +4,21 @@ import { About } from "./views/About";
 import Login from "./views/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ThemeProvider } from "@emotion/react";
-import { Suspense, createContext, useMemo, useState } from "react";
+import { Suspense, createContext, useEffect, useMemo, useState } from "react";
 import { CssBaseline, Skeleton, createTheme } from "@mui/material";
 import { Navigation } from "./components/Navigation";
 import { Home } from "./views/Home";
 import { Register } from "./views/Register";
+import { useTypedDispatch, useTypedSelector } from "./store";
+import { getCurrentUser } from "./services/auth.service";
+import { setUser } from "./store/auth.slice";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 export const App = () => {
+  const user = useTypedSelector((state) => state.auth.user);
+  const dispatch = useTypedDispatch();
+
   const [mode, setMode] = useState<"light" | "dark">("light");
   const colorMode = useMemo(
     () => ({
@@ -22,6 +28,12 @@ export const App = () => {
     }),
     []
   );
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(setUser(getCurrentUser()));
+    }
+  }, [dispatch, user]);
 
   const theme = useMemo(
     () =>
@@ -50,6 +62,7 @@ export const App = () => {
             styleOverrides: {
               body: {
                 backgroundColor: mode === "light" ? "#C4CDCD" : "#2F2F2F",
+                color: mode === "light" ? "#282828" : "#282828",
               },
             },
           },

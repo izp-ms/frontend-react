@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
-import { CurrentUser, ResponseLogin, User, UserRegister } from "../models/user";
+import {
+  CurrentUser,
+  LoginResponse,
+  User,
+  UserData,
+  UserRegister,
+  UserUpdate,
+} from "../models/user";
+import { getTokenFromSessionStorage } from "../hooks/useToken";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -9,7 +17,7 @@ export const userApi = createApi({
     getUsers: builder.query<{ hello: string }, void>({
       query: () => "/api/User",
     }),
-    login: builder.mutation<ResponseLogin, User>({
+    login: builder.mutation<LoginResponse, User>({
       query: (body) => ({
         url: "/api/User/login",
         method: "POST",
@@ -23,8 +31,32 @@ export const userApi = createApi({
         body,
       }),
     }),
+    getUserData: builder.query<UserData, void>({
+      query: () => ({
+        url: "/api/User",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getTokenFromSessionStorage()}`,
+        },
+      }),
+    }),
+    updateUserData: builder.mutation<UserUpdate, UserUpdate>({
+      query: (body) => ({
+        url: "/api/User",
+        method: "PUT",
+        body,
+        headers: {
+          Authorization: `Bearer ${getTokenFromSessionStorage()}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useLoginMutation, useRegisterMutation } =
-  userApi;
+export const {
+  useGetUsersQuery,
+  useLoginMutation,
+  useRegisterMutation,
+  useGetUserDataQuery,
+  useUpdateUserDataMutation,
+} = userApi;

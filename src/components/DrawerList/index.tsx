@@ -5,11 +5,13 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Divider,
 } from "@mui/material";
 
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import PersonIcon from "@mui/icons-material/Person";
+import PagesIcon from "@mui/icons-material/Pages";
+import SettingsIcon from "@mui/icons-material/Settings";
+import PeopleIcon from "@mui/icons-material/People";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +20,8 @@ interface Props {
 export const DrawerList = (props: Props) => {
   const { setIsDrawerOpen } = props;
 
-  // TODO: change list items
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{ width: 250 }}
@@ -27,29 +30,41 @@ export const DrawerList = (props: Props) => {
       onKeyDown={() => setIsDrawerOpen(false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate("/profile")}>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate("/postcards")}>
+            <ListItemIcon>
+              <PagesIcon />
+            </ListItemIcon>
+            <ListItemText primary="Postcards" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate("/friends")}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Friends" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate("/settings")}>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );

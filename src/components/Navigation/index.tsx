@@ -70,9 +70,15 @@ export const Navigation = (props: Props) => {
             </IconButton>
           )}
           <h1 style={{ flexGrow: 1 }}>Postcardia</h1>
-          <h3 className={styles.theme} onClick={colorMode.toggleColorMode}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            className={styles.theme}
+            onClick={colorMode.toggleColorMode}
+            edge="start"
+          >
             <Brightness4Icon />
-          </h3>
+          </IconButton>
           {user ? (
             <div>
               <IconButton
