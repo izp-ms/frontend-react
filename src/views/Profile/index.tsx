@@ -24,7 +24,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
-  const { data: userData, refetch } = useGetUserDataQuery();
+  const { data: userData, refetch } = useGetUserDataQuery(user?.id ?? "0");
 
   const [updateUserData] = useUpdateUserDataMutation();
 

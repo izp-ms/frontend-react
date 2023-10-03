@@ -31,9 +31,9 @@ export const userApi = createApi({
         body,
       }),
     }),
-    getUserData: builder.query<UserData, void>({
-      query: () => ({
-        url: "/api/User",
+    getUserData: builder.query<UserData, string>({
+      query: (id: string) => ({
+        url: `/api/User?userId=${id}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${getTokenFromSessionStorage()}`,
