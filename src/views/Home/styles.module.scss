@@ -135,6 +135,37 @@
     height: 168px;
 }
 
+.photos_section {
+    width: 100%;
+    min-height: 1080px;
+    height: auto;
+    background-color: #C4CDCD;
+    display: flex;
+    justify-content: end;
+}
+
+.background_trapezoid{
+    border-bottom: 1080px solid #8DCFDE;
+	border-left: 800px solid transparent;
+	border-right: 0px solid transparent;
+	height: 0;
+	width: 1200px;
+}
+
+.preview_wrapper{
+    position: absolute;
+    display: flex;
+    width:100%;
+    justify-content: space-around;
+    padding-top: 90px;
+}
+
+.preview{
+    width: 400px;
+    height: auto;
+    padding-bottom: 40px;
+}
+
 @media (max-width: 1720px) {
     .shop_cards_wrapper {
         padding: 0 0 200px 350px;
@@ -146,6 +177,19 @@
     .shop_cards_wrapper {
         padding: 0 0 40px 350px;
         flex-direction: column;
+    }
+
+    .preview_wrapper{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .background_trapezoid{
+        border-bottom: 4080px solid #8DCFDE;
+    }
+
+    .preview{
+        width:600px;
     }
 }
 
@@ -201,6 +245,16 @@
         padding: 0;
         width: 100%;
         align-items: center;
+    }
+
+    .background_trapezoid{
+        display: none;
+    }
+
+    .preview{
+        width:100%;
+        padding-left: 40px;
+        padding-right: 40px;
     }
 }
 

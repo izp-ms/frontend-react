@@ -5,9 +5,7 @@ import dotsImage from '../../assets/svg/dots.svg';
 import linesStreightImage from '../../assets/svg/lines-streight.svg';
 import googlePlayCard from '../../assets/png/google-play.png';
 import appStoreCard from '../../assets/png/app-store.png';
-
-
-
+import preview from '../../assets/png/preview.png';
 
 export const Home = () => {
   return (
@@ -41,6 +39,15 @@ export const Home = () => {
             <img className={styles.store_card} src={appStoreCard} alt="App store" />
           </div>
         </div>
+      </div>
+      <div className={styles.photos_section}>
+      <div className={styles.background_trapezoid}></div>
+      <div className={styles.preview_wrapper}>
+      <img className={styles.preview} src={preview} alt="Preview" />
+      <img className={styles.preview} src={preview} alt="Preview" />
+      <img className={styles.preview} src={preview} alt="Preview" />
+      
+      </div>
       </div>
     </>
   );
