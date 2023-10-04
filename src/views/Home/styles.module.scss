@@ -2,7 +2,6 @@
 
 .postcard_section {
     width: 100%;
-    min-height: 965px;
     height: auto;
     background-color: #8DCFDE;
     padding-bottom: 50px;
@@ -19,7 +18,7 @@
 .postcard_section_information {
     flex-direction: column;
     gap: 80px;
-    
+
 
     & h2 {
         font-size: 128px;
@@ -50,12 +49,107 @@
     padding-right: 77px;
 }
 
-.dots_image{
-   max-width: 100%;
+.dots_image {
+    max-width: 100%;
     height: auto;
 }
 
-@media (max-width: 1120px) {
+.download_section {
+    width: 100%;
+    min-height: 1080px;
+    height: auto;
+    background-color: #ffffff;
+    padding-bottom: 60px;
+}
+
+.download_section_content {
+    padding: 50px 70px 0 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.download_section_information {
+    flex-direction: column;
+    gap: 80px;
+    width: 100%;
+    align-items: center;
+
+
+    & h2 {
+        font-size: 128px;
+        font-family: "Rubik";
+        font-style: normal;
+        font-weight: 400;
+        margin: 0;
+        line-height: 128px;
+    }
+
+    & p {
+        font-size: 36px;
+        font-family: "Rubik";
+        font-style: normal;
+        font-weight: 400;
+        margin: 0;
+        max-width: 1547px;
+        text-align: center;
+    }
+}
+
+.download_now {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.download_now_shadow {
+    width: 530px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: #8DCFDE;
+    margin-left: -220px;
+    margin-top: -60px;
+}
+
+.lines_streight_image_wrapper {
+    position: relative;
+    width: 300px;
+}
+
+.lines_streight_image {
+    position: absolute;
+    left: 0;
+    max-width: 100%;
+    height: auto;
+}
+
+.shop_cards_wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 0 350px 200px 350px;
+    justify-content: space-between;;
+}
+
+.store_card {
+    width: 435px;
+    height: 168px;
+}
+
+@media (max-width: 1720px) {
+    .shop_cards_wrapper {
+        padding: 0 0 200px 350px;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 1360px) {
+    .shop_cards_wrapper {
+        padding: 0 0 40px 350px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 1150px) {
 
     .postcard_section_content {
         padding: 100px 60px 0 60px;
@@ -65,26 +159,73 @@
         display: none;
     }
 
-    .dots_image{
+    .dots_image {
         display: none;
-     }
+    }
 
-     .postcard_section_information {
+    .postcard_section_information {
         gap: 40px;
+
         & h2 {
             font-size: 80px;
         }
     }
+
+    .download_section_content {
+        padding: 50px 35px 0 35px;
+    }
+
+    .download_section_information {
+        gap: 40px;
+
+        & h2 {
+            font-size: 80px;
+            line-height: 80px;
+        }
+    }
+
+    .download_now_shadow {
+        width: 340px;
+        height: 45px;
+        margin-left: -130px;
+        margin-top: -40px;
+    }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 850px) {
+    .lines_streight_image {
+        display: none;
+    }
+
+    .shop_cards_wrapper {
+        padding: 0;
+        width: 100%;
+        align-items: center;
+    }
+}
+
+@media (max-width: 699px) {
+    .download_now {
+        align-items: flex-start;
+    }
+
+    .download_now_shadow {
+        width: 340px;
+        height: 45px;
+        margin-top: -120px;
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 500px) {
 
     .postcard_section_content {
         padding: 100px 30px 0 30px;
     }
 
-     .postcard_section_information {
+    .postcard_section_information {
         gap: 20px;
+
         & h2 {
             font-size: 60px;
         }
@@ -92,5 +233,21 @@
         & p {
             font-size: 26px;
         }
+    }
+
+    .download_section_information {
+        gap: 20px;
+
+        & h2 {
+            font-size: 60px;
+            line-height: 60px;
+        }
+    }
+
+    .download_now_shadow {
+        width: 250px;
+        height: 30px;
+        margin-top: -85px;
+        margin-left: 60px;
     }
 }
