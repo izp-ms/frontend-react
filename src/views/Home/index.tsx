@@ -41,13 +41,12 @@ export const Home = () => {
         </div>
       </div>
       <div className={styles.photos_section}>
-      <div className={styles.background_trapezoid}></div>
-      <div className={styles.preview_wrapper}>
-      <img className={styles.preview} src={preview} alt="Preview" />
-      <img className={styles.preview} src={preview} alt="Preview" />
-      <img className={styles.preview} src={preview} alt="Preview" />
-      
-      </div>
+        <div className={styles.background_trapezoid}></div>
+        <div className={styles.preview_wrapper}>
+          <img className={styles.preview} src={preview} alt="Preview" />
+          <img className={styles.preview} src={preview} alt="Preview" />
+          <img className={styles.preview} src={preview} alt="Preview" />
+        </div>
       </div>
     </>
   );
