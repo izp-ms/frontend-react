@@ -34,7 +34,7 @@ export const Home = () => {
           <div className={styles.lines_streight_image_wrapper}>
             <img className={styles.lines_streight_image} src={linesStreightImage} alt="Lines" />
           </div>
-          <div className={styles.shop_cards_wrapper}>
+          <div className={styles.store_cards_wrapper}>
             <img className={styles.store_card} src={googlePlayCard} alt="Google play" />
             <img className={styles.store_card} src={appStoreCard} alt="App store" />
           </div>
