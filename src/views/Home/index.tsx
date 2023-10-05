@@ -1,60 +1,53 @@
+import { Box, Stack } from "@mui/material";
+import styles from "./styles.module.scss";
+import postcardImage from '../../assets/svg/postcard.svg';
+import dotsImage from '../../assets/svg/dots.svg';
+import linesStreightImage from '../../assets/svg/lines-streight.svg';
+import googlePlayCard from '../../assets/png/google-play.png';
+import appStoreCard from '../../assets/png/app-store.png';
+import preview from '../../assets/png/preview.png';
+
 export const Home = () => {
   return (
-    <div style={{ background: "red" }}>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque maxime
-      voluptates neque, quaerat suscipit odit facilis vel rem, consequuntur
-      totam repellendus tempore nostrum optio. Doloremque corporis possimus,
-      officiis sit temporibus facere repellendus itaque alias enim iusto, minima
-      eum quis sapiente, maxime est iste illum culpa aut. Saepe eos placeat
-      quaerat sapiente ipsa incidunt architecto ab a soluta porro, illo earum
-      suscipit corporis in provident adipisci modi voluptates accusamus
-      reprehenderit iure. Veniam impedit sint voluptatum iure, voluptas quaerat
-      eos recusandae praesentium cumque assumenda facere facilis eum sed magnam
-      quod error ab! Reiciendis commodi aliquam beatae unde velit nobis culpa
-      quasi, aut ipsum atque dolorum neque, voluptate a voluptates blanditiis
-      error maiores rerum. Id quaerat aliquid, minus ea voluptates nam
-      architecto cum eaque, consectetur praesentium ratione similique sapiente
-      neque. Facere, soluta quibusdam minima obcaecati, voluptatum laboriosam
-      quaerat incidunt repellat placeat inventore dignissimos culpa provident
-      eos beatae cum sunt eius fugiat. Incidunt aspernatur nesciunt ea dicta
-      repudiandae aliquid necessitatibus eum quod! Omnis et obcaecati ducimus
-      iusto, facere quibusdam eveniet autem itaque, quam cupiditate dolor! Fuga,
-      necessitatibus est tenetur ipsa magnam sapiente voluptate, qui quidem quam
-      sit incidunt temporibus. Repellendus, laborum! Facere porro saepe,
-      dignissimos obcaecati vel cum dicta voluptatum accusantium perferendis
-      aspernatur, exercitationem minima quae vero nisi, omnis eum nostrum
-      maiores! Nobis alias, placeat doloribus aliquid laborum vitae modi tenetur
-      exercitationem. Iusto illum consequatur sed quam veritatis quibusdam animi
-      culpa perspiciatis quae tempore officia minus dignissimos sint ratione
-      quod a obcaecati saepe voluptatum, ullam reprehenderit praesentium rem
-      officiis neque similique. Ad ab modi rem hic, labore laboriosam rerum
-      officia. Animi, necessitatibus earum. Veritatis qui illum quod nihil error
-      optio aspernatur dolorum exercitationem eveniet facilis voluptatem
-      obcaecati aliquam possimus commodi quaerat, voluptatibus ab deleniti
-      doloremque tenetur nam modi eligendi quibusdam reprehenderit a! Atque fuga
-      perferendis beatae quae temporibus, obcaecati dicta asperiores sint odio
-      repudiandae, minima consequatur quia quos. Repudiandae laboriosam iste
-      nisi. A ipsum consequatur excepturi, omnis, corporis reiciendis iure
-      nesciunt voluptas accusamus, hic adipisci! Iste veniam ullam non rem
-      delectus est facilis doloribus facere? Odit neque amet dolorem eos nobis,
-      doloremque molestiae? Maxime ratione tenetur fugit nulla sint distinctio
-      in qui iusto excepturi, voluptate esse ea quaerat perspiciatis magnam
-      alias voluptatibus dolores suscipit quibusdam ex consequuntur eum
-      veritatis quidem, modi enim. Nostrum beatae aliquam perferendis cupiditate
-      reprehenderit facilis ex, nesciunt nisi. Nostrum odio voluptatibus ipsam,
-      facilis eaque magni earum quo illo quam explicabo? Quisquam nam
-      voluptatibus, nemo tempora hic ratione porro. Ratione eveniet cumque nulla
-      sequi quos inventore enim quidem accusantium minima distinctio molestiae
-      natus sunt, tenetur, voluptate a! Laborum ratione facere vero quibusdam
-      provident numquam facilis itaque voluptate aperiam modi, ea voluptatum
-      dolore reprehenderit velit incidunt nulla obcaecati placeat dignissimos
-      maxime pariatur? Numquam optio suscipit consequuntur alias. Repudiandae
-      vero laboriosam cupiditate amet repellat eum quasi a expedita voluptate
-      quisquam natus, dolorum, dolores explicabo at perspiciatis impedit odit
-      dignissimos fugit earum enim! Fuga eius facere illum eligendi illo,
-      provident, porro voluptate, alias atque consequatur odio voluptatem ipsum!
-      Totam deleniti nobis iste laudantium harum perspiciatis impedit,
-      architecto magni amet ullam. Doloremque rerum asperiores culpa?
-    </div>
+    <>
+      <div className={styles.postcard_section}>
+        <div className={styles.postcard_section_content}>
+          <Stack className={styles.postcard_section_information}>
+            <h2>Postcard</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla congue pulvinar libero, sed accumsan dolor volutpat at. Nam egestas gravida ullamcorper. Aliquam pellentesque fermentum nisl, id dictum dui imperdiet ut. Sed condimentum lobortis commodo. Donec iaculis neque id quam aliquet, non ultrices erat mattis.</p>
+          </Stack>
+          <Stack className={styles.postcard_section_images}>
+            <img className={styles.postcard_image} src={postcardImage} alt="Postcard" />
+            <img className={styles.dots_image} src={dotsImage} alt="Dots" />
+          </Stack>
+        </div>
+      </div>
+      <Box className={styles.download_section} sx={{ backgroundColor: "background.paper" , color: "text.primary" }}>
+        <Box className={styles.download_section_content}>
+          <Stack className={styles.download_section_information}>
+            <div className={styles.download_now}>
+              <h2 style={{ zIndex: 1 }}>DOWNLOAD NOW</h2>
+              <div className={styles.download_now_shadow} />
+            </div>
+            <p>Praesent at condimentum libero, quis ultrices sem. Mauris eleifend lacus ac dolor commodo, non venenatis odio congue. Duis rhoncus ipsum iaculis eleifend mollis. Ut eu risus nec leo laoreet tristique. Fusce accumsan, velit vel rhoncus ultricies, massa tortor pharetra purus, ac condimentum dolor elit a justo. Vestibulum tempus est sit amet lectus dictum, a vestibulum lorem facilisis. Curabitur maximus orci neque, eget feugiat velit ullamcorper quis. Sed eu dolor sit amet risus pharetra sodales ut vitae metus. Ut condimentum volutpat pretium.</p>
+          </Stack>
+          <div className={styles.lines_streight_image_wrapper}>
+            <img className={styles.lines_streight_image} src={linesStreightImage} alt="Lines" />
+          </div>
+          <div className={styles.store_cards_wrapper}>
+            <img className={styles.store_card} src={googlePlayCard} alt="Google play" />
+            <img className={styles.store_card} src={appStoreCard} alt="App store" />
+          </div>
+        </Box>
+      </Box>
+      <div className={styles.photos_section}>
+        <div className={styles.background_trapezoid}></div>
+        <div className={styles.preview_wrapper}>
+          <img className={styles.preview} src={preview} alt="Preview" />
+          <img className={styles.preview} src={preview} alt="Preview" />
+          <img className={styles.preview} src={preview} alt="Preview" />
+        </div>
+      </div>
+    </>
   );
 };
