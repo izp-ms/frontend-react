@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import styles from "./styles.module.scss";
 import postcardImage from '../../assets/svg/postcard.svg';
 import dotsImage from '../../assets/svg/dots.svg';
@@ -22,8 +22,8 @@ export const Home = () => {
           </Stack>
         </div>
       </div>
-      <div className={styles.download_section}>
-        <div className={styles.download_section_content}>
+      <Box className={styles.download_section} sx={{ backgroundColor: "background.paper" , color: "text.primary" }}>
+        <Box className={styles.download_section_content}>
           <Stack className={styles.download_section_information}>
             <div className={styles.download_now}>
               <h2 style={{ zIndex: 1 }}>DOWNLOAD NOW</h2>
@@ -38,8 +38,8 @@ export const Home = () => {
             <img className={styles.store_card} src={googlePlayCard} alt="Google play" />
             <img className={styles.store_card} src={appStoreCard} alt="App store" />
           </div>
-        </div>
-      </div>
+        </Box>
+      </Box>
       <div className={styles.photos_section}>
         <div className={styles.background_trapezoid}></div>
         <div className={styles.preview_wrapper}>
