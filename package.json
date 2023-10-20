@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/rubik": "^5.0.12",
     "@mui/icons-material": "^5.14.9",
-    "@mui/material": "^5.14.0",
+    "@mui/material": "^5.14.14",
     "@mui/x-date-pickers": "^6.15.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
