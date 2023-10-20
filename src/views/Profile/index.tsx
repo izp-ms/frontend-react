@@ -25,7 +25,17 @@ export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
   const { data: userData, refetch } = useGetUserDataQuery(user?.id ?? "0");
-
+  const { data: paginatedPostcardData, refetch:dupa} = useGetPaginatedPostardQuery({
+      filters:{
+        userId:1024
+      },
+      pagination:{
+        pageSize:1,
+        pageNumber:10
+      }
+    }
+  );
+  
   const [updateUserData] = useUpdateUserDataMutation();
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -90,6 +100,14 @@ export const Profile = () => {
 
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
+
+      <div onClick={()=>{
+        dupa();
+        console.log(paginatedPostcardData)
+      }}>{paginatedPostcardData?.content.map(postcard =>{
+         return <div>{postcard.title}</div>;
+      })}</div>
+
       <Box className={styles.profile} sx={{ background: "background.paper" }}>
         <img
           src={`data:image/jpeg;base64,${userData?.backgroundBase64}`}
