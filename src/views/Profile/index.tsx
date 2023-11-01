@@ -27,14 +27,14 @@ export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
   const { data: userData, refetch } = useGetUserDataQuery(user?.id ?? "0");
-  const { data: paginatedPostcardData, refetch:dupa} = useGetPaginatedPostardQuery({
-      filters:{
-        userId:1024
-      },
+  const { data: paginatedPostcardData, refetch:getInfo} = useGetPaginatedPostardQuery({
       pagination:{
-        pageSize:1,
-        pageNumber:10
-      }
+        pageNumber: 1,
+        pageSize: 10,
+      },
+      filters: {
+        userId: Number(user?.id ?? "0"),
+      },
     }
   );
   
@@ -76,7 +76,7 @@ export const Profile = () => {
     initialValues: initialValue,
     validationSchema: userSchema,
     onSubmit: async (values) => {
-      updateUserData(values)
+      await updateUserData(values)
         .then((response: any) => {
           if (response.error) {
             setToastStatus("error");
@@ -101,14 +101,16 @@ export const Profile = () => {
   };
 
   return (
+    
     <Box className={styles.container} sx={{ color: "text.primary" }}>
 
       <div onClick={()=>{
-        dupa();
+        getInfo();
         console.log(paginatedPostcardData)
       }}>{paginatedPostcardData?.content.map(postcard =>{
          return <div>{postcard.title}</div>;
-      })}</div>
+      })}
+      </div>
 
       <Box className={styles.profile} sx={{ background: "background.paper" }}>
         <img
@@ -247,7 +249,15 @@ export const Profile = () => {
           </div>
         </div>
       </Box>
+
+      
+      
       <Postcard />
+      
+
+
+
+
       <Toast
         toastStatus={toastStatus}
         successMessage={toastSuccessMessage}

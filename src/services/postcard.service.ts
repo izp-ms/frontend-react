@@ -17,7 +17,6 @@ export interface PostcardPayload{
   pagination: Pagination;
   filters:FiltersPostcard;
 }
-
 export const postcardApi = createApi({
   reducerPath: "postcardApi",
   baseQuery: fetchBaseQuery({ 
@@ -29,7 +28,7 @@ export const postcardApi = createApi({
   endpoints: (builder) => ({
     getPaginatedPostard: builder.query<PaginationResponse, PostcardPayload>({
       query: (params) => ({
-        url: `/api/Postcard?PageNumber=1&PageSize=10&UserId=1024`,
+        url: `/api/Postcard?PageNumber=${params.pagination.pageNumber}&PageSize=${params.pagination.pageSize}&UserId=${params.filters.userId}`,     
       }),
     }),
   }),
