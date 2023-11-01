@@ -1,18 +1,17 @@
 export interface Postcard {
-  id: string;
-  userId: string;
+  id: number;
   title: string;
   content: string;
-  image: PostcardData;
+  postcardDataId: number;
   type: string;
-  createdAt: Date;
-}
-
-export interface PostcardData {
-  id: string;
+  createdAt: string;
+  userId: number;
+  isSent: boolean;
   imageBase64: string;
   country: string;
   city: string;
+  postcardDataTitle: string;
   longitude: string;
   latitude: string;
+  collectRangeInMeters: number;
 }
