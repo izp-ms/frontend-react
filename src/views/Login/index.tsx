@@ -36,7 +36,7 @@ export default function Login() {
   const dispatch = useTypedDispatch();
 
   const initialValue = {
-    email: "string@gmail.com",
+    email: "admin@email.com",
     password: "string123",
   };
 

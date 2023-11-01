@@ -12,7 +12,13 @@ import { getTokenFromSessionStorage } from "../hooks/useToken";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API_URL,
+    prepareHeaders: (header) => {
+      header.set("Authorization", `Bearer ${getTokenFromSessionStorage()}`);
+      return header;
+    },
+  }),
   endpoints: (builder) => ({
     getUsers: builder.query<{ hello: string }, void>({
       query: () => "/api/User",
@@ -35,9 +41,6 @@ export const userApi = createApi({
       query: (id: string) => ({
         url: `/api/User?userId=${id}`,
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${getTokenFromSessionStorage()}`,
-        },
       }),
     }),
     updateUserData: builder.mutation<UserUpdate, UserUpdate>({
@@ -45,9 +48,6 @@ export const userApi = createApi({
         url: "/api/User",
         method: "PUT",
         body,
-        headers: {
-          Authorization: `Bearer ${getTokenFromSessionStorage()}`,
-        },
       }),
     }),
   }),

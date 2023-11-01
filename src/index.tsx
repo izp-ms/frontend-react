@@ -12,6 +12,7 @@ import "@fontsource/rubik/400.css";
 import "@fontsource/rubik/400-italic.css";
 
 import "./index.scss";
+import { SettingsContext } from "./context/settings-context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,7 +21,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <SettingsContext>
+          <App />
+        </SettingsContext>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

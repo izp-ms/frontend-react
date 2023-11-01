@@ -20,7 +20,6 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { Toast, ToastStatus } from "../../components/Toast";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { Postcard } from "../../components/Postcard";
 
 export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -228,7 +227,6 @@ export const Profile = () => {
           </div>
         </div>
       </Box>
-      <Postcard />
       <Toast
         toastStatus={toastStatus}
         successMessage={toastSuccessMessage}

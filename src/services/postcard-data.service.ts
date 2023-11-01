@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
-import { PostcardData } from "../models/postcard";
 import { Coordinates } from "../models/coordinates";
+import { PostcardData } from "../models/postcard-data";
 
 export const postcardDataApi = createApi({
   reducerPath: "postcardDataApi",
