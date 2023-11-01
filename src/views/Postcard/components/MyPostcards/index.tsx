@@ -11,19 +11,15 @@ export const MyPostcards = (props: Props) => {
   const { postcards } = props;
 
   return (
-    <div onClick={() => console.log(postcards)}>
-      <>
-        <div>My Postcards</div>
+    <div className={styles.postcard}>
+      <div>My Postcards</div>
+      <div>
         <div className={styles.postcard_list}>
-          {postcards.map((postcard: Postcard) => {
-            return (
-              // <div key={postcard.id}>
-              <PostcardCard postcard={postcard} />
-              // </div>
-            );
-          })}
+          {postcards.map((postcard: Postcard) => (
+            <PostcardCard postcard={postcard} />
+          ))}
         </div>
-      </>
+      </div>
     </div>
   );
 };

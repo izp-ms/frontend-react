@@ -1,3 +1,5 @@
+@import '../../styles/styles.scss';
+
 .transition {
   height: 300px;
   width: 200px;
@@ -10,7 +12,7 @@
   transform-style: preserve-3d;
   position: relative;
   border-radius: 5px;
-  border: 5px solid white;
+  border: 5px solid black;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
   cursor: pointer;
@@ -28,16 +30,16 @@
   align-items: center;
   font-family: Montserrat;
   font-weight: 800;
-  font-size: 60px;
+  // font-size: 60px;
   color: white;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
 }
 
 .card_front {
-  background-color: #73d0ff;
+  background-color: $grey;
 }
 
 .card_back {
-  background-color: #ffad66;
+  background-color: $grey;
   transform: rotateY(180deg);
 }

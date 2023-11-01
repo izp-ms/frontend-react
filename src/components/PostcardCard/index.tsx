@@ -12,7 +12,7 @@ interface Props {
 
 export const PostcardCard = (props: Props) => {
   const { postcard } = props;
-  const [showReverse, setShowReverse] = useState<boolean>(false);
+  const [showReverse, setShowReverse] = useState<boolean>(true);
 
   return (
     <div className={styles.transition}>
@@ -21,12 +21,18 @@ export const PostcardCard = (props: Props) => {
           className={styles.card}
           onClick={() => setShowReverse((prev) => !prev)}
         >
+          <div className={styles.card_front}>
+            <PostcardBack postcard={postcard} />
+          </div>
           <div className={styles.card_back}>
+            <PostcardFront postcard={postcard} />
+          </div>
+          {/* <div className={styles.card_back}>
             <PostcardBack postcard={postcard} />
           </div>
           <div className={styles.card_front}>
             <PostcardFront postcard={postcard} />
-          </div>
+          </div> */}
         </div>
       </CSSTransition>
     </div>
