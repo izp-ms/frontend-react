@@ -138,14 +138,6 @@ export const Profile = () => {
     
     <Box className={styles.container} sx={{ color: "text.primary" }}>
 
-      <div onClick={()=>{
-        getInfo();
-        console.log(paginatedPostcardData)
-      }}>{paginatedPostcardData?.content.map(postcard =>{
-         return <div>{postcard.title}</div>;
-      })}
-      </div>
-
       <Box className={styles.profile} sx={{ background: "background.paper" }}>
         <img
           src={`data:image/jpeg;base64,${user123?.backgroundBase64}`}
@@ -158,9 +150,8 @@ export const Profile = () => {
             alt="Avatar"
             src={`data:image/jpeg;base64,${user123?.avatarBase64}`}
           />
-          <Button onClick={handleOpen}>Edit Profile</Button>
-          <span>user123{user123?.firstName}</span>
-                  <span>values{values.firstName}</span>
+          
+          
           <Modal
                 open={open}
                 onClose={handleClose}
@@ -209,17 +200,19 @@ export const Profile = () => {
                   setOpen(false);
                   refetch();
                 }}>
-                  <CheckIcon />
-                  Update profile
+                  <Button variant="contained">
+                    <CheckIcon />
+                    Update profile
+                  </Button>
                 </span>
                 </BoxM>
               </Modal>
-
           <div>
             {!isEdit ? (
+              
               <span
                 className={styles.edit_profile}
-                onClick={() => setIsEdit(true)}
+                onClick={handleOpen}
               >
                 <EditIcon />
                 <span>Edit profile</span>
