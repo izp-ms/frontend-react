@@ -21,20 +21,26 @@ export const Postcard = (props: Props) => {
   }
 );
   return (
-    <div className={styles.transition}>
-      <CSSTransition in={showReverse} timeout={500} classNames="flip">
-        <div
-          className={styles.card}
-          onClick={() => setShowReverse((prev) => !prev)}
-        >
-          
-          <div className={styles.card_back}>Back</div>
-          <div className={styles.card_front}>
-          {paginatedPostcardData?.content.map(postcard =>{
-            return <div>{postcard.title}</div>;
-          })}</div>
-        </div>
-      </CSSTransition>
-    </div>
+      <div className={styles.transition}>
+        <CSSTransition in={showReverse} timeout={500} classNames="flip">
+          <div
+            className={styles.card}
+            onClick={() => setShowReverse((prev) => !prev)}
+          >
+            
+            {/* <div className={styles.card_front}>
+            {paginatedPostcardData?.content.map(postcard =>{
+              return <div>{postcard.id}</div>;
+            })}</div> */}
+            <div className={styles.card_front}>
+            {paginatedPostcardData?.content[0].title}
+            
+            </div>
+
+            <div className={styles.card_back}>Back</div>
+            
+          </div>
+        </CSSTransition>
+      </div>
   );
 };
