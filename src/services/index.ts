@@ -1,6 +1,6 @@
 import { postcardApi } from "./postcard.service";
 import { userApi } from "./user.service";
-import { postcardApi } from "./postcard.service";
+
 
 
 export const apiReducers = {

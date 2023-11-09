@@ -34,7 +34,20 @@ export const postcardApi = createApi({
         };
       },
     }),
+
+
+
+
+  //   GetFavoritePostcards: builder.query<UserData, string>({
+  //     query: (id: string) => ({
+  //       url: `/api/User?userId=${id}`,
+  //       method: "GET",
+  //     }),
+  //   }),
   }),
 });
 
-export const { useGetPostcardsQuery } = postcardApi;
+export const { 
+  useGetPostcardsQuery 
+  //useGetFavoritePostcardsQuery 
+} = postcardApi;
