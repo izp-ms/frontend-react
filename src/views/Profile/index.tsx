@@ -20,8 +20,8 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { Toast, ToastStatus } from "../../components/Toast";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { Postcard } from "../../components/Postcard";
-import { useGetPaginatedPostardQuery } from "../../services/postcard.service";
+
+// import { useGetPaginatedPostardQuery } from "../../services/postcard.service";
 import BoxM from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -32,16 +32,16 @@ export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
   const { data: userData, refetch } = useGetUserDataQuery(user?.id ?? "0");
-  const { data: paginatedPostcardData, refetch:getInfo} = useGetPaginatedPostardQuery({
-      pagination:{
-        pageNumber: 1,
-        pageSize: 10,
-      },
-      filters: {
-        userId: Number(user?.id ?? "0"),
-      },
-    }
-  );
+  // const { data: paginatedPostcardData, refetch:getInfo} = useGetPaginatedPostardQuery({
+  //     pagination:{
+  //       pageNumber: 1,
+  //       pageSize: 10,
+  //     },
+  //     filters: {
+  //       userId: Number(user?.id ?? "0"),
+  //     },
+  //   }
+  // );
 
   const [updateUserData] = useUpdateUserDataMutation();
 
