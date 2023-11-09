@@ -11,12 +11,12 @@ export const PostcardFront = (props: Props) => {
   return (
     <div className={styles.front}>
       <img
-        className={styles.front_image}
+        className={styles.front__image}
         src={postcard.imageBase64}
         alt="postcard"
       />
-      <div>PostcardFront {postcard.country}</div>
-      <div>lorem100</div>
+      <div className={styles.front_title}>{postcard.postcardDataTitle}</div>
+      <div className={styles.front_country}>{postcard.country}</div>
     </div>
   );
 };

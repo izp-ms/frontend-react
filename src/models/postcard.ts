@@ -14,6 +14,7 @@ export interface Postcard {
   longitude: string;
   latitude: string;
   collectRangeInMeters: number;
+  order?: number;
 }
 
 

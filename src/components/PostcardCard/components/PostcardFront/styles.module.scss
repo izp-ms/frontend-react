@@ -1,8 +1,17 @@
 .front {
   width: 100%;
   white-space: wrap;
-
+  box-sizing: border-box;
+  position: relative;
   .front__image {
     width: 100%;
+  }
+  .front_title{
+    position: absolute;
+    bottom: 2rem;
+  }
+  .front_country{
+    position: absolute;
+    bottom: 1rem;
   }
 }
