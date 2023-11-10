@@ -154,7 +154,9 @@ export const Profile = () => {
   };
 
   return (
+    
     <Box className={styles.container} sx={{ color: "text.primary" }}>
+
       <Box className={styles.profile} sx={{ background: "background.paper" }}>
         {user123?.backgroundBase64 ?(
           <img
