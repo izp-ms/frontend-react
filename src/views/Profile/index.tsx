@@ -8,9 +8,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import FlagIcon from "@mui/icons-material/Flag";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import CakeIcon from "@mui/icons-material/Cake";
-import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, Box, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -25,15 +24,21 @@ import background from '../../assets/png/default-background.png';
 import profile from '../../assets/png/default-profile.png';
 import BoxM from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
 import { UserData } from "../../models/user";
-import { MyPostcards } from "../Postcard/components/MyPostcards";
 import { useGetFavoritePostcardsQuery, useGetPostcardsQuery } from "../../services/postcard.service";
 import { PostcardCard } from "../../components/PostcardCard";
 import ImageBlob from "../../components/Base64Converter";
-import { getTokenFromSessionStorage } from "../../hooks/useToken";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CountrySelect from "../../components/TextFieldCountry";
+import FavoritePostcards from "../../components/FavoritePostcard";
+
+
 export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
@@ -45,7 +50,7 @@ export const Profile = () => {
   const [user123, setUser123] = useState<UserData|undefined>(undefined);
   
   useEffect(() => {
-    console.log(getTokenFromSessionStorage());
+    //console.log(getTokenFromSessionStorage());
     // if (!userData) {
     //   return;
     // }
@@ -60,15 +65,30 @@ export const Profile = () => {
     "Something went wrong"
   );
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const style = {
+
+  const [isOpenModalFavorite, setIsOpenModalFavorite] = useState(false)
+  const handleOpenFavorite = () => setIsOpenModalFavorite(true);
+  const handleCloseFavorite = () => setIsOpenModalFavorite(false);
+  const [openProfile, setOpenProfile] = React.useState(false);
+  const handleOpenProfile = () => setOpenProfile(true);
+  const handleCloseProfile = () => setOpenProfile(false);
+  const style1 = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  const style2 = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 1000,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -135,21 +155,18 @@ export const Profile = () => {
 
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
-      <Box className={styles.profile} sx={{ background: "background.paper" }}
-      onClick={() => {console.log(getTokenFromSessionStorage())}}
-      >
-        <div onClick={() => {refetch()}} >cos dla ciebie</div>
+      <Box className={styles.profile} sx={{ background: "background.paper" }}>
         {user123?.backgroundBase64 ?(
           <img
           src={`data:image/jpeg;base64,${user123?.backgroundBase64}`}
           alt="background"
-          className={styles.background_image}
+          className={`${styles.background_image} ${styles.no_draggable}`}
           />
         ):(
           <img
           src={background}
           alt="background"
-          className={styles.background_image}
+          className={`${styles.background_image} ${styles.no_draggable}`}
           />
         )}
         <div className={styles.avatar}>
@@ -170,32 +187,28 @@ export const Profile = () => {
           </Box>
           <div>
             <Modal
-              open={open}
-              onClose={handleClose}
+              open={openProfile}
+              onClose={handleCloseProfile}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <BoxM sx={style}>
-                {/* <div className={styles.container}>
-                  {imgs ?(
-                    <img src={imgs} className={styles.img} />
-                  ):(
-                    <div  className={styles.img} />
-                  )}
-                  <label className={styles.custom_file_upload}>
-                    <input type="file" accept="image/png, image/jpeg" onChange={handleChange} />
-                    Pick photo
-                  </label> */}
+              <BoxM sx={style1} 
+              className={styles.pop_up}>
+
+                <span className={styles.close} onClick={() =>{
+                  setOpenProfile(false);
+                }}>
+                    <CloseIcon />
+                </span>
 
 
-
-
-              <ImageBlob/>
-              <ImageBlob/>
-                <div className={styles.fullName}>
-                <span className={styles.firstname}>Firstname</span>
+                {/* <ImageBlob/>
+                <ImageBlob/> */}
+                
+                
                   <TextField
                     className={styles.form_input}
+                    label="Firstname"
                     variant="outlined"
                     value={values.firstName}
                     error={Boolean(errors.firstName && touched.firstName)}
@@ -203,6 +216,7 @@ export const Profile = () => {
                   />
                   <TextField
                     className={styles.form_input}
+                    label="Lastname"
                     variant="outlined"
                     value={values.lastName}
                     error={Boolean(errors.lastName && touched.lastName)}
@@ -210,13 +224,17 @@ export const Profile = () => {
                   />
                   <TextField
                     className={styles.form_input}
+                    label="Country"
                     variant="outlined"
                     value={values.country}
                     error={Boolean(errors.country && touched.country)}
                     onChange={(e) => setFieldValue("country", e.target.value)}
                   />
+
+                  {/* <CountrySelect/> */}
                   <TextField
                     className={styles.form_input}
+                    label="City"
                     variant="outlined"
                     value={values.city}
                     error={Boolean(errors.city && touched.city)}
@@ -225,27 +243,31 @@ export const Profile = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       className={styles.form_input}
+                      label="Date of birth"
                       value={new Date(values.birthDate ?? 0) ?? new Date()}
                       onChange={(e) => e && setFieldValue("birthDate", e)}
                       format="dd.MM.yyyy"
                     />
                   </LocalizationProvider>
-                </div>
+                
                 <span className={styles.update} onClick={() =>{
                   handleUpdateUser();
-                  setOpen(false);
+                  setOpenProfile(false);
                   favorite();
                 }}>
-                  <Button variant="contained">
+                  <Button 
+                  variant="contained"
+                  className={styles.btn}
+                  >
                     <CheckIcon />
-                    Update profile
+                    Save
                   </Button>
                 </span>
               </BoxM>
             </Modal>
             <span
               className={styles.edit_profile}
-              onClick={handleOpen}
+              onClick={handleOpenProfile}
             >
               <EditIcon />
               <span>Edit profile</span>
@@ -262,7 +284,7 @@ export const Profile = () => {
           </div>
 
           <div className={styles.info}>
-            <span className={styles.info_name}>
+            <span className={styles.info_names}>
               
                 <>
                   {user123?.firstName ?? "-"} {user123?.lastName ?? "-"}
@@ -272,44 +294,38 @@ export const Profile = () => {
           </div>
         </div>
 
-        <div className={styles.postcards_info}>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Score</span>
-            <span className={styles.info_value}>
-              {user123?.postcardsReceived ?? "-"}
-            </span>
-          </div>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Followers</span>
-            <span className={styles.info_value}>
-              {user123?.postcardsSent ?? "-"}
-            </span>
-          </div>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Following</span>
-            <span className={styles.info_value}>{user123?.score ?? "-"}</span>
-          </div>
-        </div>
-        <div className="questions_content">
-          <button type="button" className="questions_content_expandable">
-            <KeyboardArrowDownIcon/>
-            <h2 className="questions_content_expandable__h2">About me</h2>
-          </button>
-          <div className="questions_content_text">
-          <div className={styles.bio}>
-            <div className={styles.country}>
-              <FlagIcon />
+        
+        <div
+          className={styles.accordion_container}>
+        <Accordion
+          className={styles.accordion}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            
+          >
+            <Typography
+              className={styles.about_me}
+              >About me</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+
+            <div className={styles.bio}>
+              <div className={styles.country}>
+                <FlagIcon />
               
                 <span>{user123?.country ?? "-"}</span>
               
-            </div>
-            <div className={styles.city}>
+              </div>
+              <div className={styles.city}>
               <LocationCityIcon />
               
                 <span>{user123?.city ?? "-"}</span>
               
-            </div>
-            <div className={styles.birth_date}>
+              </div>
+              <div className={styles.birth_date}>
               <CakeIcon />
               
                 <span>
@@ -317,27 +333,67 @@ export const Profile = () => {
                     ? format(new Date(user123.birthDate), "dd.MM.yyyy")
                     : "-"}
                 </span>
+              </div>
             </div>
+            <Typography>
+            {user123?.description ?? "-"}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+        </div>
+        <div className={styles.postcards_info}>
+          <div className={styles.info}>
+            <span className={styles.info_name}>Received</span>
+            <span className={styles.info_value}>
+              {user123?.postcardsReceived ?? "-"}
+            </span>
           </div>
-            <span className="questions_content_text__p">{user123?.description ?? "-"}</span>
+          <div className={styles.info}>
+            <span className={styles.info_name}>Sent</span>
+            <span className={styles.info_value}>
+              {user123?.postcardsSent ?? "-"}
+            </span>
+          </div>
+          <div className={styles.info}>
+            <span className={styles.info_name}>Score</span>
+            <span className={styles.info_value}>{user123?.score ?? "-"}</span>
           </div>
         </div>
       </Box>
 
       <Box className={styles.favorites}>
+      <span
+        className={styles.edit_favorite}
+        onClick={handleOpenFavorite}
+      >
+        <EditIcon />
+        <span>Edit favorite</span>
+      </span>
+      
+      <Modal
+        open={isOpenModalFavorite}
+        onClose={handleCloseFavorite}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <BoxM sx={style2}>
+          <span className={styles.close} onClick={() =>{
+              setIsOpenModalFavorite(false);
+          }}>
+              <CloseIcon />
+          </span>
+          <FavoritePostcards/>
+        </BoxM>
+      </Modal>
 
+            
       {
         favoritePostcards?.map((postcard) => (
           <div className={styles.wrapper}><PostcardCard postcard={postcard} /></div>
         ))
       }
       </Box>
-      
-      
-
-
-
-
+     
       <Toast
         toastStatus={toastStatus}
         successMessage={toastSuccessMessage}

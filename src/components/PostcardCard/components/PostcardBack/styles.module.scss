@@ -1,0 +1,49 @@
+.back {
+  width: 100%;
+  white-space: wrap;
+  box-sizing: border-box;
+  position: relative;
+  
+  
+  .back_title{
+    text-align: center;
+    padding-top: 1rem;
+  }
+  .back_date{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .back_line_1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    border:solid 1px black;
+  }
+  .back_line_2,.back_line_3{
+    position: absolute;
+    width: 2rem;
+    height: 38%;
+    border:solid 1px black;
+    border-top: 0;
+    border-bottom: 0;
+  }
+  .back_line_2{
+    bottom: 1rem;
+    left: 1rem;
+  }
+  .back_line_3{
+    bottom: 1rem;
+    left: 4.8rem;
+  }
+  .back_line_4{
+    position: absolute;
+    border:dashed 1px black;
+    width: 3rem;
+    height: 4rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
+}

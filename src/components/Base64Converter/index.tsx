@@ -7,7 +7,6 @@ function ImageBlob(){
   const [imgs, setImgs] = useState<string | undefined>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log(e.target.files);
     const data = new FileReader();
     data.addEventListener("load", () => {
       setImgs(data.result as string);
@@ -15,7 +14,7 @@ function ImageBlob(){
     data.readAsDataURL(e.target.files![0]);
   };
  
-  console.log(imgs);
+  
   
 return(
     

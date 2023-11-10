@@ -17,23 +17,23 @@ export const PostcardCard = (props: Props) => {
   return (
     <div className={styles.transition}>
       <CSSTransition in={showReverse} timeout={500} classNames="flip">
-        <div
-          className={styles.card}
-          onClick={() => setShowReverse((prev) => !prev)}
-        >
-          <div className={styles.card_front}>
-            <PostcardBack postcard={postcard} />
+          <div
+            className={styles.card}
+            onClick={() => setShowReverse((prev) => !prev)}
+          >
+            <div className={styles.card_front}>
+              <PostcardBack postcard={postcard} />
+            </div>
+            <div className={styles.card_back}>
+              <PostcardFront postcard={postcard} />
+            </div>
+            {/* <div className={styles.card_back}>
+              <PostcardBack postcard={postcard} />
+            </div>
+            <div className={styles.card_front}>
+              <PostcardFront postcard={postcard} />
+            </div> */}
           </div>
-          <div className={styles.card_back}>
-            <PostcardFront postcard={postcard} />
-          </div>
-          {/* <div className={styles.card_back}>
-            <PostcardBack postcard={postcard} />
-          </div>
-          <div className={styles.card_front}>
-            <PostcardFront postcard={postcard} />
-          </div> */}
-        </div>
       </CSSTransition>
     </div>
   );

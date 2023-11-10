@@ -7,7 +7,14 @@
   align-items: center;
   justify-content: center;
 }
-
+.no_draggable {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 .profile {
   display: flex;
   flex-direction: column;
@@ -31,7 +38,6 @@
 }
 
 .avatar {
-  //border: solid 1px green;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -47,7 +53,6 @@
     position: absolute;
     justify-content: center;
     align-items: center;
-    //border: solid 1px green;
     background: #2F2F2F;//#C4CDCD #2F2F2F #E3E6E7" : "#2F2F2F
     border-radius: 50%;
   }
@@ -63,36 +68,13 @@
     align-items: flex-start;
     position: absolute;
     right: 10px;
-    &:hover {
-      cursor: pointer;
-    }
-
-    .cancel {
-      color: red;
-      display: flex;
-      align-items: center;
-      margin-right: 1rem;
-
       &:hover {
+        cursor: pointer;
         text-decoration: underline;
       }
-    }
-
-    .update {
-      color: green;
-      display: flex;
-      align-items: center;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 }
-.form_input{
-  margin: 1rem 2rem;
-  border: solid 1px red;
-}
+
 .postcards_info, .profile_info {
   display: flex;
   flex-direction: row;
@@ -129,37 +111,108 @@
     font-size: 1.5rem;
     font-weight: bold;
   }
-
+  .info_names {
+    font-size: 1.5rem;
+  }
   .info_value {
     font-size: 1.2rem;
+    @include H_Huge;
   }
 }
+.edit_favorite{
+  display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+  }
 
 .favorites{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  position: relative;
   width: 80%;
   height: 100%;
   padding-bottom: 2rem;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
   flex-wrap: wrap;
   border-radius: 20px;
+  padding-top: 3rem;
 }
 
 .wrapper{
   flex-grow: 1;
   width: 33%;
-  //border: 1px solid red;
   display: flex;
   justify-content: center;
   padding: 2rem 3rem;
 }
 .form_input{
+  padding: 0;
+  margin:0.7rem;
+  border: none;  
+  width: 100%;
+  @include H_Medium;
+}
+.close{
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+.btn{
+  width: 100%;
+  //border: solid red 1px;
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  @include H_Medium;
+}
+.pop_up{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.accordion_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.accordion{
+  width: auto;
+  max-width: 600px;
 
 }
-
+.about_me{
+  @include H_Big;
+}
+.bio{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  .country, .city, .birth_date {
+    @include H_Medium;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 700;
+  }
+}
+.update{
+  width: 80%;
+}
 @media screen and (max-width: $mobile) {
   .container {
     padding: 5rem 1rem 1rem 1rem;
