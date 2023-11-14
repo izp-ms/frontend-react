@@ -1,4 +1,4 @@
-import { Box, Button, TablePagination } from "@mui/material";
+import { Box, Button, TablePagination, dividerClasses } from "@mui/material";
 import { useTypedSelector } from "../../store";
 import styles from "./styles.module.scss";
 import { useGetPostcardsQuery } from "../../services/postcard.service";
@@ -7,40 +7,9 @@ import { useEffect, useState } from "react";
 import { PostcardCard } from "../../components/PostcardCard";
 import { Postcard } from "../../models/postcard";
 
-
-// const [array, setArrayNumber] = useState[1,2,3,4];
-
-// onChange(event){
-//   var newArr = this.state.arr;
-//   this.setState(previousState => ({
-//     myArray: [...previousState.myArray, 'new value']
-// }));
-// }
-
-
-// function addFavorite(postcard: Postcard, index: number){
-//       var arr = array.length;
-// }
-
-// var AppHeader = React.createClass({ 
-//   getInitialState : function() {
-//      return { showMe : false };
-//   },
-//   onClick : function() {
-//      this.setState({ showMe : true} );
-//   },
-//   render : function() {
-//       if(this.state.showMe) { 
-//           return (<div> one div </div>);
-//       } else { 
-//           return (<a onClick={this.onClick}> press me </a>);
-//       } 
-//   }
-// })
-
-
-
-
+interface TableFav {
+  numbers: Number;
+}
 
 function FavoritePostcards(){
 
@@ -49,17 +18,18 @@ function FavoritePostcards(){
   const favoritePostcardsArray = [
     {
       number: 1,
-    },
-    {
-      number: 2,
-    },
-    {
-      number: 3,
+      favIndex: 0,
+      postcardId: 0,
     },
   ];
   const [favoritePostcards, setfavoritePostcards] = useState(favoritePostcardsArray);
   
-  const handleAddFavoritePostcard = () => {
+
+
+
+  
+  
+  const handleAddFavoritePostcard = (index: number, postcardId: number) => {
     if(favoritePostcards.length >= 6) 
       return alert("You can add only 6 Postcards");
     else{
@@ -67,24 +37,36 @@ function FavoritePostcards(){
         ...prevfavoritePostcards,
         {
             number: favoritePostcards.length +1,
-            
+            favIndex: index,
+            postcardId: postcardId,
         },
     ]);
   };
   };
   
-    const handleDeleteFavoritePostcard = (number: number) => {
 
-      setfavoritePostcards(favoritePostcards.filter(item => item.number !== number));
-    };
-    
+  const handleDeleteFavoritePostcard = (number: number) => {
 
-
-
-
+    setfavoritePostcards(favoritePostcards.filter(item => {return (item.favIndex) !== number}));
+    // let checkNumber = 0;
+    // favoritePostcards.forEach((postcard) => {
+      
+    //   if(postcard.number !== checkNumber+1){
+    //     //console.log("postcard.number: " + postcard.number);
+    //     postcard.number = postcard.number - 1;
+    //     //console.log("postcard.number after change: " + postcard.number);
+    //   }
+    //   checkNumber = postcard.number;
+    // });
+    // favoritePostcards.forEach((postcard) => {
+    //   console.log("postcard.number: " + postcard.number + postcard.favIndex);
+      
+    // });
+    // console.log("--------------------------------------");
+  };
+  
 
   const user = useTypedSelector((state) => state.auth.user);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
@@ -92,7 +74,20 @@ function FavoritePostcards(){
   const { data: paginatedData, refetch } = useGetPostcardsQuery({
     searchParams: searchParams.toString(),
   });
-
+  
+  const [isAddedAsFavorite, setIsAddedAsFavorite] = useState<boolean[]>(new Array(paginatedData?.content?.length || 0).fill(false));
+  const addButtonChange = (index: number) => {
+    if(favoritePostcards.length < 6) 
+    setIsAddedAsFavorite(prevIsAddedAsFavorite => 
+      prevIsAddedAsFavorite.map((item, i) => i === index ? true : item)
+    );
+  };
+  const deleteButtonChange = (index: number) => {
+    
+    setIsAddedAsFavorite(prevIsAddedAsFavorite => 
+      prevIsAddedAsFavorite.map((item, i) => i === index ? false : item)
+    );
+  };  
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -118,62 +113,79 @@ function FavoritePostcards(){
     setSearchParams(searchParams);
   }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
 
- 
-
-
-  
-    
-  
-return(
-  <Box className={styles.container} sx={{ color: "text.primary" }}>
-  <div className={styles.postcard}>
-  <main>
+  return(
+    <Box className={styles.container} sx={{ color: "text.primary" }}>
+      <div className={styles.postcard}>
+      <ul>
+      
+        {isAddedAsFavorite.map((item, x) => {
+          return <span key={x}>{item.toString()} </span>;
+        })}
+      
+      </ul>
+        <main>
             <ul>
-                // Mapping over array of Postcards
                 {favoritePostcards.map((favoritePostcard, index) => (
-                    // Setting "index" as key because name and age can be repeated, It will be better if you assign uniqe id as key
                     <li key={index}>
-                        <span>number: {favoritePostcard.number}</span>
+                        <span>number: {favoritePostcard.number} </span>
+                        <span>index: {favoritePostcard.favIndex} </span>
+                        <span>postcard id: {favoritePostcard.postcardId}</span>
                         
-                    </li>
+                  </li>
                 ))}
-                <button onClick={handleAddFavoritePostcard}>Add Postcard</button>
-                <button onClick={() =>handleDeleteFavoritePostcard(favoritePostcards.length)}>Delete Postcard</button>
+                
             </ul>
         </main>
       <div>
         <div className={styles.postcard_list}>
-          {paginatedData?.content?.map((postcard: Postcard, index) => (
+          {paginatedData?.content?.map((postcard: Postcard, postcardIndex: number) => (
+            
             <div>
-               {/* <div className={styles.favorite_number}>{array.[2]}</div> */}
-            <PostcardCard postcard={postcard} />
-            <span className={styles.update} onClick={() =>{
-                 //addFavorite(postcard, index);
-                // favorite();
-            }}>
-              <Button 
-              variant="contained"
-              className={styles.btn}
-              >
-                Add
-              </Button>
-            </span>
+              <div className={styles.favorite_number}>{postcard.id}
+              </div>
+              <PostcardCard postcard={postcard} />
+              <span className={styles.update}>
+              
+                <div>
+                  {isAddedAsFavorite[postcardIndex+(pageSize*(pageNumber-1))] ? (
+                    <Button variant="contained"
+                      className={styles.btn}
+                      onClick={() => {
+                      handleDeleteFavoritePostcard(postcardIndex+1);
+                      deleteButtonChange(postcardIndex+(pageSize*(pageNumber-1)));
+                      favoritePostcards.forEach((postcard) => {
+                          console.log("postcard.number: " + postcard.number + " " + postcard.favIndex);
+                          
+                        });
+                    }}>Delete Postcard</Button>
+                    
+                  ) : (
+                    <Button variant="contained"
+                      className={styles.btn}
+                      onClick={() => {
+                      handleAddFavoritePostcard(postcardIndex+1, postcard.id);
+                      addButtonChange(postcardIndex+(pageSize*(pageNumber-1)));
+                    }}>Add Postcard {pageNumber} {pageSize}</Button>
+                  )}
+                </div>
+
+              </span>
             </div>
           ))}
         </div>
       </div>
     </div>
-  <TablePagination
-    className={styles.pagination}
-    component="div"
-    count={paginatedData?.totalCount ?? 0}
-    page={pageNumber - 1}
-    onPageChange={handleChangePage}
-    rowsPerPage={pageSize}
-    onRowsPerPageChange={handleChangeRowsPerPage}
-    rowsPerPageOptions={[2, 3, 6]}
-  />
-</Box>
+    <TablePagination
+      className={styles.pagination}
+      component="div"
+      count={paginatedData?.totalCount ?? 0}
+      page={pageNumber - 1}
+      onPageChange={handleChangePage}
+      rowsPerPage={pageSize}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+      rowsPerPageOptions={[2, 3, 6]}
+    />
+  </Box>
   );
 };
 export default FavoritePostcards;
