@@ -20,9 +20,6 @@ export const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getUsers: builder.query<{ hello: string }, void>({
-      query: () => "/api/User",
-    }),
     login: builder.mutation<LoginResponse, User>({
       query: (body) => ({
         url: "/api/User/login",
@@ -39,7 +36,7 @@ export const userApi = createApi({
     }),
     getUserData: builder.query<UserData, string>({
       query: (id: string) => ({
-        url: `/api/User?userId=${id}`,
+        url: `/api/User/${id}`,
         method: "GET",
       }),
     }),
@@ -54,7 +51,6 @@ export const userApi = createApi({
 });
 
 export const {
-  useGetUsersQuery,
   useLoginMutation,
   useRegisterMutation,
   useGetUserDataQuery,

@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
 import { getTokenFromSessionStorage } from "../hooks/useToken";
 import { Pagination } from "../models/pagination";
-import { Postcard} from "../models/postcard";
-import { PostcardFilter,} from "../models/filters";
+import { Postcard } from "../models/postcard";
+import { PostcardFilter } from "../models/filters";
 
 const queryBuilder = (postcardFilter: PostcardFilter) => {
   let queryUrl = "";
@@ -35,7 +35,7 @@ export const postcardApi = createApi({
       },
     }),
 
-    getFavoritePostcards: builder.query<Postcard[], string>({
+    getFavouritePostcards: builder.query<Postcard[], string>({
       query: (id: string) => ({
         url: `api/FavouritePostcard?userId=${id}`,
         method: "GET",
@@ -49,9 +49,8 @@ export const postcardApi = createApi({
     //     body,
     //   }),
     // }),
-
   }),
 });
 
-export const { useGetPostcardsQuery, useGetFavoritePostcardsQuery,
-} = postcardApi;
+export const { useGetPostcardsQuery, useGetFavouritePostcardsQuery } =
+  postcardApi;
