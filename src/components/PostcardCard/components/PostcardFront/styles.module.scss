@@ -1,8 +1,25 @@
 .front {
   width: 100%;
   white-space: wrap;
-
+  box-sizing: border-box;
+  position: relative;
+  .no_draggable {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
   .front__image {
     width: 100%;
+  }
+  .front_title{
+    position: absolute;
+    bottom: 2rem;
+  }
+  .front_country_city{
+    position: absolute;
+    bottom: 1rem;
   }
 }

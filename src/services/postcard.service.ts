@@ -34,7 +34,23 @@ export const postcardApi = createApi({
         };
       },
     }),
+
+    getFavouritePostcards: builder.query<Postcard[], string>({
+      query: (id: string) => ({
+        url: `api/FavouritePostcard?userId=${id}`,
+        method: "GET",
+      }),
+    }),
+
+    // updateFavoritePostcards: builder.mutation<FavoritePostcardUpdate, FavoritePostcardUpdate>({
+    //   query: (body) => ({
+    //     url: "api/FavouritePostcard",
+    //     method: "PUT",
+    //     body,
+    //   }),
+    // }),
   }),
 });
 
-export const { useGetPostcardsQuery } = postcardApi;
+export const { useGetPostcardsQuery, useGetFavouritePostcardsQuery } =
+  postcardApi;

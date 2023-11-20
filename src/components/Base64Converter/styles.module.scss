@@ -1,0 +1,42 @@
+@import '../../styles/styles.scss';
+
+input[type="file"] {
+  display: none;
+}
+.container{
+  //border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include H_Small;
+  
+  
+}
+.custom_file_upload {
+  
+  border: none;
+  border-radius: 20px;
+  display: inline-block;
+  padding: 0.7rem 1rem;
+  
+  background-color: $primary-100;
+  cursor: pointer;
+}
+
+.img{
+  position: relative;
+  border-radius: 50%;
+  border: none;
+  background-color: #1C1C1C;
+  height:200px; 
+  width:200px; 
+  margin: 1rem 2rem;
+}
+
+.plus{
+  border: solid red 1px;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

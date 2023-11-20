@@ -1,0 +1,43 @@
+@import '../../styles/styles.scss';
+
+.container {
+  padding: 0rem;
+  display: flex;
+  flex-direction: column;
+}
+.update{
+  margin: 1em 0rem;
+}
+.btn{
+  width: 100%;
+   margin: 1em 0rem;
+ }
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  margin: 0;
+}
+
+.postcard {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.postcard_list {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

@@ -8,8 +8,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import FlagIcon from "@mui/icons-material/Flag";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import CakeIcon from "@mui/icons-material/Cake";
-import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { Avatar, Box, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -17,9 +17,26 @@ import styles from "./styles.module.scss";
 import { format } from "date-fns";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toast, ToastStatus } from "../../components/Toast";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import background from "../../assets/png/default-background.png";
+import profile from "../../assets/png/default-profile.png";
+import BoxM from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import * as React from "react";
+import { UserData } from "../../models/user";
+import { useGetFavouritePostcardsQuery } from "../../services/postcard.service";
+import { PostcardCard } from "../../components/PostcardCard";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CountrySelect from "../../components/TextFieldCountry";
+import FavouritePostcards from "../../components/FavoritePostcard";
+import Base64Converter from "../../components/Base64Converter";
 
 export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -28,7 +45,11 @@ export const Profile = () => {
 
   const [updateUserData] = useUpdateUserDataMutation();
 
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [editedUser, setEditedUser] = useState<UserData | undefined>(undefined);
+
+  useEffect(() => {
+    setEditedUser(userData);
+  }, [editedUser, userData, refetch]);
 
   const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
   const [toastSuccessMessage] = useState<string>("User updated successfully");
@@ -36,17 +57,49 @@ export const Profile = () => {
     "Something went wrong"
   );
 
+  const [isOpenModalFavourite, setIsOpenModalFavourite] = useState(false);
+  const handleOpenFavourite = () => setIsOpenModalFavourite(true);
+  const handleCloseFavourite = () => setIsOpenModalFavourite(false);
+  const [openProfile, setOpenProfile] = React.useState(false);
+  const handleOpenProfile = () => setOpenProfile(true);
+  const handleCloseProfile = () => setOpenProfile(false);
+  const boxMStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+  const favouriteStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 1000,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const { data: favouritePostcards, refetch: favouriteRefetch } =
+    useGetFavouritePostcardsQuery(user?.id ?? "0");
+
   const initialValue = {
     id: user?.id ?? "0",
-    firstName: userData?.firstName,
-    lastName: userData?.lastName,
-    nickName: userData?.nickName,
-    country: userData?.country,
-    city: userData?.city,
-    birthDate: userData?.birthDate,
-    avatarBase64: userData?.avatarBase64,
-    backgroundBase64: userData?.backgroundBase64,
-    description: userData?.description,
+    firstName: editedUser?.firstName,
+    lastName: editedUser?.lastName,
+    nickName: editedUser?.nickName,
+    country: editedUser?.country,
+    city: editedUser?.city,
+    birthDate: editedUser?.birthDate,
+    avatarBase64: editedUser?.avatarBase64,
+    backgroundBase64: editedUser?.backgroundBase64,
+    description: editedUser?.description,
   };
 
   const userSchema = Yup.object().shape({
@@ -63,9 +116,11 @@ export const Profile = () => {
   const { values, errors, touched, setFieldValue, submitForm } = useFormik({
     initialValues: initialValue,
     validationSchema: userSchema,
+
     onSubmit: async (values) => {
-      updateUserData(values)
+      await updateUserData(values)
         .then((response: any) => {
+          console.log(response);
           if (response.error) {
             setToastStatus("error");
             setToastErrorMessage(
@@ -77,6 +132,7 @@ export const Profile = () => {
           refetch();
         })
         .catch((e: { message: any }) => {
+          console.log(e);
           setToastStatus("error");
           setToastErrorMessage(e.message ?? "Something went wrong");
         });
@@ -88,145 +144,237 @@ export const Profile = () => {
     submitForm();
   };
 
+  const handleSetCountry = (country: string) => {
+    setFieldValue("country", country);
+  };
+
+  const handleSetAvatar = (avatar: string) => {
+    setFieldValue("avatarBase64", avatar);
+  };
+
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
       <Box className={styles.profile} sx={{ background: "background.paper" }}>
-        <img
-          src={`data:image/jpeg;base64,${userData?.backgroundBase64}`}
-          alt="background"
-          className={styles.background_image}
-        />
-        <div className={styles.avatar}>
-          <Avatar
-            className={styles.avatar_image}
-            alt="Avatar"
-            src={`data:image/jpeg;base64,${userData?.avatarBase64}`}
+        {editedUser?.backgroundBase64 ? (
+          <img
+            src={`data:image/jpeg;base64${editedUser?.backgroundBase64}`}
+            alt="background"
+            className={`${styles.background_image} ${styles.no_draggable}`}
           />
-          <div>
-            {!isEdit ? (
-              <span
-                className={styles.edit_profile}
-                onClick={() => setIsEdit(true)}
-              >
-                <EditIcon />
-                <span>Edit profile</span>
-              </span>
+        ) : (
+          <img
+            src={background}
+            alt="background"
+            className={`${styles.background_image} ${styles.no_draggable}`}
+          />
+        )}
+        <div className={styles.avatar}>
+          <Box
+            className={styles.avatar_back}
+            sx={{ background: "background.paper" }}
+          >
+            {editedUser?.avatarBase64 ? (
+              <Avatar
+                className={styles.avatar_image}
+                alt="Avatar"
+                src={`data:image/jpeg;base64${editedUser?.avatarBase64}`}
+              />
             ) : (
-              <span
-                className={styles.edit_profile}
-                onClick={() => setIsEdit(false)}
-              >
-                <span className={styles.cancel}>
-                  <ClearIcon />
-                  Cancel
-                </span>
-                <span className={styles.update} onClick={handleUpdateUser}>
-                  <CheckIcon />
-                  Update profile
-                </span>
-              </span>
+              <Avatar
+                className={styles.avatar_image}
+                alt="Avatar"
+                src={profile}
+              />
             )}
-          </div>
-        </div>
+          </Box>
+          <div>
+            <Modal
+              open={openProfile}
+              onClose={handleCloseProfile}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <BoxM sx={boxMStyle} className={styles.pop_up}>
+                <span
+                  className={styles.close}
+                  onClick={() => {
+                    setOpenProfile(false);
+                  }}
+                >
+                  <CloseIcon />
+                </span>
 
-        <div className={styles.profile_info}>
-          <div className={styles.info}>
-            <span className={styles.info_name}>
-              {!isEdit ? (
-                <>
-                  {userData?.firstName ?? "-"} {userData?.lastName ?? "-"}
-                </>
-              ) : (
-                <div className={styles.fullName}>
-                  <TextField
-                    variant="outlined"
-                    value={values.firstName}
-                    error={Boolean(errors.firstName && touched.firstName)}
-                    onChange={(e) => setFieldValue("firstName", e.target.value)}
-                  />
-                  <TextField
-                    variant="outlined"
-                    value={values.lastName}
-                    error={Boolean(errors.lastName && touched.lastName)}
-                    onChange={(e) => setFieldValue("lastName", e.target.value)}
-                  />
-                </div>
-              )}
-            </span>
-          </div>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Nickname:</span>
-            <span className={styles.info_value}>
-              {userData?.nickName ?? "-"}
-            </span>
-          </div>
-          <div className={styles.bio}>
-            <div className={styles.country}>
-              <FlagIcon />
-              {!isEdit ? (
-                <span>{userData?.country ?? "-"}</span>
-              ) : (
-                <TextField
-                  variant="outlined"
-                  value={values.country}
-                  error={Boolean(errors.country && touched.country)}
-                  onChange={(e) => setFieldValue("country", e.target.value)}
+                <Base64Converter
+                  image={values.avatarBase64}
+                  setImage={handleSetAvatar}
                 />
-              )}
-            </div>
-            <div className={styles.city}>
-              <LocationCityIcon />
-              {!isEdit ? (
-                <span>{userData?.city ?? "-"}</span>
-              ) : (
+
                 <TextField
+                  className={styles.form_input}
+                  label="Firstname"
+                  variant="outlined"
+                  value={values.firstName}
+                  error={Boolean(errors.firstName && touched.firstName)}
+                  onChange={(e) => setFieldValue("firstName", e.target.value)}
+                />
+                <TextField
+                  className={styles.form_input}
+                  label="Lastname"
+                  variant="outlined"
+                  value={values.lastName}
+                  error={Boolean(errors.lastName && touched.lastName)}
+                  onChange={(e) => setFieldValue("lastName", e.target.value)}
+                />
+                <CountrySelect
+                  country={values.country}
+                  handleSetCountry={handleSetCountry}
+                />
+                <TextField
+                  className={styles.form_input}
+                  label="City"
                   variant="outlined"
                   value={values.city}
                   error={Boolean(errors.city && touched.city)}
                   onChange={(e) => setFieldValue("city", e.target.value)}
                 />
-              )}
-            </div>
-            <div className={styles.birth_date}>
-              <CakeIcon />
-              {!isEdit ? (
-                <span>
-                  {userData?.birthDate
-                    ? format(new Date(userData.birthDate), "dd.MM.yyyy")
-                    : "-"}
-                </span>
-              ) : (
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
+                    className={styles.form_input}
+                    label="Date of birth"
                     value={new Date(values.birthDate ?? 0) ?? new Date()}
                     onChange={(e) => e && setFieldValue("birthDate", e)}
                     format="dd.MM.yyyy"
                   />
                 </LocalizationProvider>
-              )}
-            </div>
+
+                <span
+                  className={styles.update}
+                  onClick={() => {
+                    handleUpdateUser();
+                    setOpenProfile(false);
+                    favouriteRefetch();
+                  }}
+                >
+                  <Button variant="contained" className={styles.btn}>
+                    <CheckIcon />
+                    Save
+                  </Button>
+                </span>
+              </BoxM>
+            </Modal>
+            <span className={styles.edit_profile} onClick={handleOpenProfile}>
+              <EditIcon />
+              <span>Edit profile</span>
+            </span>
           </div>
         </div>
 
+        <div className={styles.profile_info}>
+          <div className={styles.info}>
+            {/* <span className={styles.info_name}>Nickname:</span> */}
+            <span className={styles.info_value}>
+              {editedUser?.nickName ?? "-"}
+            </span>
+          </div>
+
+          <div className={styles.info}>
+            <span className={styles.info_names}>
+              <>
+                {editedUser?.firstName ?? "-"} {editedUser?.lastName ?? "-"}
+              </>
+            </span>
+          </div>
+        </div>
+
+        <div className={styles.accordion_container}>
+          <Accordion className={styles.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={styles.about_me}>About me</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className={styles.bio}>
+                <div className={styles.country}>
+                  <FlagIcon />
+
+                  <span>{editedUser?.country ?? "-"}</span>
+                </div>
+                <div className={styles.city}>
+                  <LocationCityIcon />
+
+                  <span>{editedUser?.city ?? "-"}</span>
+                </div>
+                <div className={styles.birth_date}>
+                  <CakeIcon />
+
+                  <span>
+                    {editedUser?.birthDate
+                      ? format(new Date(editedUser.birthDate), "dd.MM.yyyy")
+                      : "-"}
+                  </span>
+                </div>
+              </div>
+              <Typography>{editedUser?.description ?? "-"}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        </div>
         <div className={styles.postcards_info}>
           <div className={styles.info}>
-            <span className={styles.info_name}>Postcards received</span>
+            <span className={styles.info_name}>Received</span>
             <span className={styles.info_value}>
-              {userData?.postcardsReceived ?? "-"}
+              {editedUser?.postcardsReceived ?? "-"}
             </span>
           </div>
           <div className={styles.info}>
-            <span className={styles.info_name}>Postcards sent</span>
+            <span className={styles.info_name}>Sent</span>
             <span className={styles.info_value}>
-              {userData?.postcardsSent ?? "-"}
+              {editedUser?.postcardsSent ?? "-"}
             </span>
           </div>
           <div className={styles.info}>
-            <span className={styles.info_name}>Total score</span>
-            <span className={styles.info_value}>{userData?.score ?? "-"}</span>
+            <span className={styles.info_name}>Score</span>
+            <span className={styles.info_value}>
+              {editedUser?.score ?? "-"}
+            </span>
           </div>
         </div>
       </Box>
+
+      <Box className={styles.favourites}>
+        <span className={styles.edit_favourite} onClick={handleOpenFavourite}>
+          <EditIcon />
+          <span>Edit favourite</span>
+        </span>
+
+        <Modal
+          open={isOpenModalFavourite}
+          onClose={handleCloseFavourite}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <BoxM sx={favouriteStyle}>
+            <span
+              className={styles.close}
+              onClick={() => {
+                setIsOpenModalFavourite(false);
+              }}
+            >
+              <CloseIcon />
+            </span>
+            <FavouritePostcards />
+          </BoxM>
+        </Modal>
+
+        {favouritePostcards?.map((postcard) => (
+          <div className={styles.wrapper}>
+            <PostcardCard postcard={postcard} />
+          </div>
+        ))}
+      </Box>
+
       <Toast
         toastStatus={toastStatus}
         successMessage={toastSuccessMessage}
