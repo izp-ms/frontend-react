@@ -8,19 +8,14 @@ export type PostcardTab =
 
 interface Props {
   currentTab: PostcardTab;
-  setTabName: React.Dispatch<React.SetStateAction<PostcardTab>>;
+  handleChangeTab: (
+    _event: React.SyntheticEvent,
+    newTab: PostcardTab
+  ) => void;
 }
 
 export const PostcardTabs = (props: Props) => {
-  const { currentTab, setTabName } = props;
-
-  const handleChangeTab = (
-    _event: React.SyntheticEvent,
-    newTab: PostcardTab
-  ) => {
-    setTabName(newTab);
-  };
-
+  const { currentTab, handleChangeTab } = props;
   return (
     <Tabs value={currentTab} onChange={handleChangeTab}>
       <Tab value="postcards-to-send" label="Postcards to send" />

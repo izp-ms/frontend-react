@@ -7,12 +7,11 @@ interface Props {
   postcards: Postcard[];
 }
 
-export const MyPostcards = (props: Props) => {
+export const PostcardsComponent = (props: Props) => {
   const { postcards } = props;
 
   return (
-    <div className={styles.postcard}>
-      <div>My Postcards</div>
+    
       <div>
         <div className={styles.postcard_list}>
           {postcards.map((postcard: Postcard) => (
@@ -20,6 +19,5 @@ export const MyPostcards = (props: Props) => {
           ))}
         </div>
       </div>
-    </div>
   );
 };
