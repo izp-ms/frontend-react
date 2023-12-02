@@ -1,11 +1,29 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
+import { getTokenFromSessionStorage } from "../hooks/useToken";
+import { Pagination } from "../models/pagination";
 import { Coordinates } from "../models/coordinates";
 import { PostcardData } from "../models/postcard-data";
+import { PostcardDataFilter } from "../models/filters";
 
+const queryBuilder = (postcardDataFilter: PostcardDataFilter) => {
+  let queryUrl = "";
+
+  const params = new URLSearchParams(postcardDataFilter.searchParams);
+
+  queryUrl = params.toString();
+
+  return queryUrl;
+};
 export const postcardDataApi = createApi({
   reducerPath: "postcardDataApi",
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API_URL,
+    prepareHeaders: (header) => {
+      header.set("Authorization", `Bearer ${getTokenFromSessionStorage()}`);
+      return header;
+    },
+  }),
   endpoints: (builder) => ({
     postCoordinates: builder.mutation<Coordinates, PostcardData>({
       query: (body) => ({
@@ -14,7 +32,16 @@ export const postcardDataApi = createApi({
         body,
       }),
     }),
+    getPostcardsData: builder.query<Pagination<PostcardData>, PostcardDataFilter>({
+      query: (postcardDataFilter) => {
+        const queryUrl = queryBuilder(postcardDataFilter);
+        return {
+          url: `/api/PostcardData?${queryUrl}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { usePostCoordinatesMutation } = postcardDataApi;
+export const { usePostCoordinatesMutation, useGetPostcardsDataQuery } = postcardDataApi;

@@ -44,6 +44,10 @@ export interface PostcardWithImage {
   collectRangeInMeters: number;
 }
 
+export interface PostcardCollection {
+  userId: number;
+  postcardDataIds: number[];
+}
 
 export interface PaginationResponse {
   pageNumber: number;
