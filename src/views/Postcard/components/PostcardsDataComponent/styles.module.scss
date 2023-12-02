@@ -1,0 +1,43 @@
+.postcard {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.postcard_list {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card {
+  aspect-ratio: 3 / 4;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border:white 10px solid;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
+  user-select: none;
+  cursor: pointer;
+  height: auto;
+  width: 200px;
+  perspective: 1000px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.front__image1 {
+  width: 100%;
+  filter: grayscale(100%);
+}
+
+.front__image2 {
+  width: 100%;
+}
+
+.title {
+  width: 50px;
+  white-space: wrap;
+}

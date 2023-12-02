@@ -59,5 +59,8 @@ export const postcardApi = createApi({
   }),
 });
 
-export const { useGetPostcardsQuery, useGetFavouritePostcardsQuery, useGetPostcardCollectionQuery } =
-  postcardApi;
+export const {
+  useGetPostcardsQuery,
+  useGetFavouritePostcardsQuery,
+  useGetPostcardCollectionQuery,
+} = postcardApi;

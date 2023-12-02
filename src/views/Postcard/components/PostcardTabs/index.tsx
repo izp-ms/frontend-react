@@ -8,10 +8,7 @@ export type PostcardTab =
 
 interface Props {
   currentTab: PostcardTab;
-  handleChangeTab: (
-    _event: React.SyntheticEvent,
-    newTab: PostcardTab
-  ) => void;
+  handleChangeTab: (_event: React.SyntheticEvent, newTab: PostcardTab) => void;
 }
 
 export const PostcardTabs = (props: Props) => {

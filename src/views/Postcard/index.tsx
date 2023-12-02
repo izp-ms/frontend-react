@@ -9,7 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import { SetStateAction, useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
-import { Input } from '@mui/material';
+import { Input } from "@mui/material";
 
 export const PostcardsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -17,19 +17,25 @@ export const PostcardsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
-  
-  
-  const { data: paginatedData, refetch: postcardsRefetch } = useGetPostcardsQuery({
-    searchParams: searchParams.toString(),
-  }, { skip: !user?.id, refetchOnMountOrArgChange: true});
 
-  const { data: paginatedData2, refetch: postcardsDataRefetch } = useGetPostcardsDataQuery({
-    searchParams: searchParams.toString(),
-  }, { skip: !user?.id, refetchOnMountOrArgChange: true});
+  const { data: paginatedData, refetch: postcardsRefetch } =
+    useGetPostcardsQuery(
+      {
+        searchParams: searchParams.toString(),
+      },
+      { skip: !user?.id, refetchOnMountOrArgChange: true }
+    );
 
-  const [counter, setCounter] = useState<number>(paginatedData?.totalCount ?? 0);
+  const { data: paginatedData2, refetch: postcardsDataRefetch } =
+    useGetPostcardsDataQuery(
+      {
+        searchParams: searchParams.toString(),
+      },
+      { skip: !user?.id, refetchOnMountOrArgChange: true }
+    );
+
   const [tabName, setTabName] = useState<PostcardTab>("my-postcards");
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -54,12 +60,9 @@ export const PostcardsPage = () => {
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("PageNumber", pageNumber.toString());
     searchParams.set("PageSize", pageSize.toString());
-    searchParams.set("IsSent","true");
+    searchParams.set("IsSent", "true");
     setSearchParams(searchParams);
-    
   }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
-
-  
 
   const handleChangeTab = (
     _event: React.SyntheticEvent,
@@ -67,62 +70,67 @@ export const PostcardsPage = () => {
   ) => {
     setTabName(newTab);
     setPageNumber(1);
-    if(newTab === "postcards-to-send") {
+    if (newTab === "postcards-to-send") {
       searchParams.set("UserId", user?.id ?? "0");
-      searchParams.set("IsSent","false");
-      setCounter(paginatedData?.totalCount ?? 0);
-    } else if(newTab === "my-postcards") {
+      searchParams.set("IsSent", "false");
+    } else if (newTab === "my-postcards") {
       searchParams.set("UserId", user?.id ?? "0");
-      searchParams.set("IsSent","true");
-      setCounter(paginatedData?.totalCount ?? 0);
-    } else if(newTab === "my-collection") {
+      searchParams.set("IsSent", "true");
+    } else if (newTab === "my-collection") {
       searchParams.delete("UserId");
       searchParams.delete("IsSent");
-      setCounter(paginatedData2?.totalCount ?? 0);
-    } else if(newTab === "all-postcards") {
+    } else if (newTab === "all-postcards") {
       searchParams.delete("UserId");
       searchParams.delete("IsSent");
-      setCounter(paginatedData2?.totalCount ?? 0);
     }
     //setSearchParams(searchParams);
   };
-  const handleChangeSearch = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleChangeSearch = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setSearchInput(event.target.value);
   };
   const handleClickSearch = () => {
-    //console.log('handleClick 👉️', searchInput);
-    if(searchInput === '') {
+    if (searchInput === "") {
       searchParams.delete("Search");
-      //setSearchParams(searchParams);
-    } else{
+    } else {
       searchParams.set("Search", searchInput);
-      //setSearchParams(searchParams);
-  }
-    
+    }
   };
 
   const renderPostcardContent = () => {
     switch (tabName) {
       case "postcards-to-send":
-        return <div>
-          <div>Postcards To Send </div>
-          <PostcardsComponent postcards={paginatedData?.content ?? []} />
-          </div>;
+        return (
+          <div>
+            <div>Postcards To Send </div>
+            <PostcardsComponent postcards={paginatedData?.content ?? []} />
+          </div>
+        );
       case "my-postcards":
-        return <div>
-          <div>My Postcard</div>
-          <PostcardsComponent postcards={paginatedData?.content ?? []} />
-          </div>;
+        return (
+          <div>
+            <div>My Postcard</div>
+            <PostcardsComponent postcards={paginatedData?.content ?? []} />
+          </div>
+        );
       case "my-collection":
-        return <div>
-          <div>My Collection</div>
-          <PostcardsDataComponent postcards={paginatedData2?.content ?? []} user={user?.id ?? "0"} />
-          </div>;
+        return (
+          <div>
+            <div>My Collection</div>
+            <PostcardsDataComponent
+              postcards={paginatedData2?.content ?? []}
+              user={user?.id ?? "0"}
+            />
+          </div>
+        );
       case "all-postcards":
-        return <div>
-          <div>All Postcards</div>
-          <PostcardsDataComponent postcards={paginatedData2?.content ?? []} />
-          </div>;
+        return (
+          <div>
+            <div>All Postcards</div>
+            <PostcardsDataComponent postcards={paginatedData2?.content ?? []} />
+          </div>
+        );
     }
   };
 
@@ -132,11 +140,15 @@ export const PostcardsPage = () => {
         <PostcardTabs currentTab={tabName} handleChangeTab={handleChangeTab} />
       </div>
       <HorizontalDivider />
-      
+
       <div>filters</div>
       <div>
-        Search: 
-        <Input  placeholder="Enter phrase" onChange={handleChangeSearch} value={searchInput}/>
+        Search:
+        <Input
+          placeholder="Enter phrase"
+          onChange={handleChangeSearch}
+          value={searchInput}
+        />
         <span
           className={styles.update}
           onClick={() => {
@@ -150,11 +162,11 @@ export const PostcardsPage = () => {
           </Button>
         </span>
       </div>
-      
+
       <div className={styles.postcard}>
-      
-      <div>{renderPostcardContent()}</div>
+        <div>{renderPostcardContent()}</div>
       </div>
+
       <TablePagination
         className={styles.pagination}
         component="div"
