@@ -6,6 +6,7 @@ import auth from "./auth.slice";
 import { apiReducers } from "../services";
 import { postcardApi } from "../services/postcard.service";
 import { postcardDataApi } from "../services/postcard-data.service";
+import { friendApi } from "../services/friend.service";
 
 const storeReducers = {
   auth,
@@ -19,7 +20,12 @@ export const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, postcardApi.middleware, postcardDataApi.middleware),
+    getDefaultMiddleware().concat(
+      userApi.middleware,
+      postcardApi.middleware,
+      postcardDataApi.middleware,
+      friendApi.middleware
+    ),
 });
 
 setupListeners(store.dispatch);
