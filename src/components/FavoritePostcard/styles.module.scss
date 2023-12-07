@@ -1,18 +1,21 @@
-@import '../../styles/styles.scss';
+@import "../../styles/styles.scss";
 
 .container {
   padding: 0rem;
   display: flex;
   flex-direction: column;
 }
-.update{
+.update {
   margin: 1em 0rem;
 }
-.btn{
+.btn {
   width: 100%;
-   margin: 1em 0rem;
- }
-
+  margin: 1em 0rem;
+}
+.save {
+  width: 20%;
+  height: 50px;
+}
 .tabs {
   display: flex;
   flex-direction: row;
@@ -26,6 +29,9 @@
   justify-content: end;
   align-items: center;
   margin: 0;
+  width: 400px;
+  margin-right: 0%;
+  margin-left: auto;
 }
 
 .postcard {
@@ -40,4 +46,25 @@
   align-items: center;
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.container_button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.indicator {
+  @include H_Huge;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  background-color: $dark;
+  border-radius: 50%;
+  color: white;
+  top: -170px;
 }

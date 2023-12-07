@@ -10,6 +10,8 @@ import { SetStateAction, useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
 import { Input } from "@mui/material";
+import CountrySelect from "../../components/TextFieldCountry";
+import { Filters } from "./components/Filters";
 
 export const PostcardsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -18,7 +20,7 @@ export const PostcardsPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const { data: paginatedData, refetch: postcardsRefetch } =
+  const { data: paginatedDataForPostcards, refetch: postcardsRefetch } =
     useGetPostcardsQuery(
       {
         searchParams: searchParams.toString(),
@@ -26,7 +28,7 @@ export const PostcardsPage = () => {
       { skip: !user?.id, refetchOnMountOrArgChange: true }
     );
 
-  const { data: paginatedData2, refetch: postcardsDataRefetch } =
+  const { data: paginatedDataForPostcardsData, refetch: postcardsDataRefetch } =
     useGetPostcardsDataQuery(
       {
         searchParams: searchParams.toString(),
@@ -35,7 +37,8 @@ export const PostcardsPage = () => {
     );
 
   const [tabName, setTabName] = useState<PostcardTab>("my-postcards");
-  const [searchInput, setSearchInput] = useState("");
+
+  const [paginatedDataCount, setpaginatedDataCount] = useState<number>(0);
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -57,12 +60,43 @@ export const PostcardsPage = () => {
   };
 
   useEffect(() => {
-    searchParams.set("UserId", user?.id ?? "0");
+    if (!user?.id) {
+      return;
+    }
     searchParams.set("PageNumber", pageNumber.toString());
     searchParams.set("PageSize", pageSize.toString());
+    setSearchParams(searchParams);
+    console.log(user?.id);
+    if (tabName === "postcards-to-send" || tabName === "my-postcards") {
+      setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
+    } else {
+      setpaginatedDataCount(paginatedDataForPostcardsData?.totalCount ?? 0);
+    }
+  }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
+
+  useEffect(() => {
+    if (
+      paginatedDataForPostcards?.totalCount !== 0 &&
+      paginatedDataCount !== undefined
+    ) {
+      setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
+    }
+  }, [paginatedDataForPostcards]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      return;
+    }
+    console.log("------------user---------------");
+    console.log(paginatedDataForPostcards?.totalCount);
+    setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
+    searchParams.set("PageNumber", pageNumber.toString());
+    searchParams.set("PageSize", pageSize.toString());
+    searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("IsSent", "true");
     setSearchParams(searchParams);
-  }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
+    console.log(user?.id);
+  }, [user?.id]);
 
   const handleChangeTab = (
     _event: React.SyntheticEvent,
@@ -83,19 +117,8 @@ export const PostcardsPage = () => {
       searchParams.delete("UserId");
       searchParams.delete("IsSent");
     }
-    //setSearchParams(searchParams);
-  };
-  const handleChangeSearch = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setSearchInput(event.target.value);
-  };
-  const handleClickSearch = () => {
-    if (searchInput === "") {
-      searchParams.delete("Search");
-    } else {
-      searchParams.set("Search", searchInput);
-    }
+    searchParams.delete("Search");
+    setSearchParams(searchParams);
   };
 
   const renderPostcardContent = () => {
@@ -103,23 +126,24 @@ export const PostcardsPage = () => {
       case "postcards-to-send":
         return (
           <div>
-            <div>Postcards To Send </div>
-            <PostcardsComponent postcards={paginatedData?.content ?? []} />
+            <PostcardsComponent
+              postcards={paginatedDataForPostcards?.content ?? []}
+            />
           </div>
         );
       case "my-postcards":
         return (
           <div>
-            <div>My Postcard</div>
-            <PostcardsComponent postcards={paginatedData?.content ?? []} />
+            <PostcardsComponent
+              postcards={paginatedDataForPostcards?.content ?? []}
+            />
           </div>
         );
       case "my-collection":
         return (
           <div>
-            <div>My Collection</div>
             <PostcardsDataComponent
-              postcards={paginatedData2?.content ?? []}
+              postcards={paginatedDataForPostcardsData?.content ?? []}
               user={user?.id ?? "0"}
             />
           </div>
@@ -127,8 +151,9 @@ export const PostcardsPage = () => {
       case "all-postcards":
         return (
           <div>
-            <div>All Postcards</div>
-            <PostcardsDataComponent postcards={paginatedData2?.content ?? []} />
+            <PostcardsDataComponent
+              postcards={paginatedDataForPostcardsData?.content ?? []}
+            />
           </div>
         );
     }
@@ -141,26 +166,14 @@ export const PostcardsPage = () => {
       </div>
       <HorizontalDivider />
 
-      <div>filters</div>
+      <div>Filters:</div>
+
       <div>
-        Search:
-        <Input
-          placeholder="Enter phrase"
-          onChange={handleChangeSearch}
-          value={searchInput}
-        />
-        <span
-          className={styles.update}
-          onClick={() => {
-            postcardsRefetch();
-            postcardsDataRefetch();
-            handleClickSearch();
-          }}
-        >
-          <Button variant="contained" className={styles.btn}>
-            Search
-          </Button>
-        </span>
+        {tabName === "my-postcards" || tabName === "postcards-to-send" ? (
+          <Filters viewType="postcard" />
+        ) : (
+          <Filters viewType="postcardData" />
+        )}
       </div>
 
       <div className={styles.postcard}>
@@ -170,12 +183,12 @@ export const PostcardsPage = () => {
       <TablePagination
         className={styles.pagination}
         component="div"
-        count={paginatedData2?.totalCount ?? 0}
+        count={paginatedDataCount}
         page={pageNumber - 1}
         onPageChange={handleChangePage}
         rowsPerPage={pageSize}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[2, 3, 10, 25, 50]}
+        rowsPerPageOptions={[10, 25, 50, 100]}
       />
     </Box>
   );

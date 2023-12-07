@@ -1,4 +1,4 @@
-@import '../../styles/styles.scss';
+@import "../../styles/styles.scss";
 
 .transition {
   height: auto;
@@ -11,7 +11,7 @@
   transform-style: preserve-3d;
   position: relative;
   border-radius: 5px;
-  border:white 10px solid;
+  border: white 10px solid;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
   cursor: pointer;
@@ -29,21 +29,21 @@
   justify-content: center;
   font-family: Montserrat;
   font-weight: 800;
-  
+
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-  overflow: hidden; 
+  overflow: hidden;
   @include H_Small;
 }
 
 .card_front {
   color: black;
   background-color: #fcf5ef;
-  
+  transform: rotateY(180deg); // rotate the card to show the back
 }
 
 .card_back {
   color: white;
   background-color: #fcf5ef;
-  transform: rotateY(180deg);
+
   align-items: center;
 }

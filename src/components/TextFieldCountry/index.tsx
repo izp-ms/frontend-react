@@ -18,6 +18,7 @@ function CountrySelect(props: Props) {
       sx={{ width: "100%" }}
       options={countries}
       autoHighlight
+      disableClearable
       getOptionLabel={(option) => option.label}
       renderOption={(props, option) => (
         <Box
@@ -513,7 +514,6 @@ const countries: readonly CountryType[] = [
   {
     code: "JP",
     label: "Japan",
-    suggested: true,
   },
   {
     code: "KE",

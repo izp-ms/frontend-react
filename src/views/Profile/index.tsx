@@ -88,6 +88,7 @@ export const Profile = () => {
 
   const { data: favouritePostcards, refetch: favouriteRefetch } =
     useGetFavouritePostcardsQuery(user?.id ?? "0");
+
   const initialValue = {
     id: user?.id ?? "0",
     firstName: editedUser?.firstName,

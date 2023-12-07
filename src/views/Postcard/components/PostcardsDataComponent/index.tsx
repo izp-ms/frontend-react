@@ -20,40 +20,46 @@ export const PostcardsDataComponent = (props: Props) => {
 
   return (
     <div>
-      <div className={styles.postcard_list}>
-        {postcards.map((postcard: PostcardData) => (
-          <div>
-            <div className={styles.card}>
-              {user !== undefined ? (
-                <>
-                  {postcardCollection?.postcardDataIds.map((number: any) =>
-                    number === postcard.id ? (
-                      <img
-                        className={`${styles.front__image2} ${styles.no_draggable}`}
-                        src={postcard.imageBase64}
-                        alt="postcardData"
-                      />
-                    ) : (
-                      <img
-                        className={`${styles.front__image1} ${styles.no_draggable}`}
-                        src={postcard.imageBase64}
-                        alt="postcardData"
-                      />
-                    )
-                  )}
-                </>
-              ) : (
-                <img
-                  className={`${styles.front__image2} ${styles.no_draggable}`}
-                  src={postcard.imageBase64}
-                  alt="postcardData"
-                />
-              )}
+      {postcards.length ? (
+        <div className={styles.postcard_list}>
+          {postcards.map((postcard: PostcardData) => (
+            <div>
+              <div className={styles.card}>
+                {user !== undefined ? (
+                  <>
+                    {postcardCollection?.postcardDataIds.map((number: any) =>
+                      number === postcard.id ? (
+                        <img
+                          className={`${styles.front__image2} ${styles.no_draggable}`}
+                          src={postcard.imageBase64}
+                          alt="postcardData"
+                        />
+                      ) : (
+                        <img
+                          className={`${styles.front__image1} ${styles.no_draggable}`}
+                          src={postcard.imageBase64}
+                          alt="postcardData"
+                        />
+                      )
+                    )}
+                  </>
+                ) : (
+                  <img
+                    className={`${styles.front__image2} ${styles.no_draggable}`}
+                    src={postcard.imageBase64}
+                    alt="postcardData"
+                  />
+                )}
+              </div>
+              <div className={styles.title}>{postcard.title}</div>
             </div>
-            <div className={styles.title}>{postcard.title}</div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : ( 
+        <div className={styles.wrap}>
+          <span className={styles.wrap_alert}>Unfortunately,We couldn't find any postcards :(</span>
+        </div>
+      )}
     </div>
   );
 };
