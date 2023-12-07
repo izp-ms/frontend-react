@@ -5,3 +5,7 @@ export interface PostcardFilter {
 export interface PostcardDataFilter {
   searchParams: string;
 }
+
+export interface FriendFilter {
+  searchParams: string;
+}
