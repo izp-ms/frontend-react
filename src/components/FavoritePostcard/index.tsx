@@ -8,9 +8,21 @@ import { PostcardCard } from "../../components/PostcardCard";
 import { Postcard } from "../../models/postcard";
 
 function FavouritePostcards() {
+  const user = useTypedSelector((state) => state.auth.user);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(6);
+
+  const { data: paginatedData, refetch } = useGetPostcardsQuery({
+    searchParams: searchParams.toString(),
+  });
+  const [isAddedAsFavorite, setIsAddedAsFavorite] = useState<boolean[]>(
+    new Array(1).fill(false)
+  );
+
   const favoritePostcardsArray = [
     {
-      number: 1,
+      number: 0,
       favIndex: 0,
       postcardId: 0,
     },
@@ -20,13 +32,13 @@ function FavouritePostcards() {
   );
 
   const handleAddFavoritePostcard = (index: number, postcardId: number) => {
-    if (favoritePostcards.length >= 6)
+    if (favoritePostcards.length >= 7)
       return alert("You can add only 6 Postcards");
     else {
       setFavoritePostcards((prevfavoritePostcards) => [
         ...prevfavoritePostcards,
         {
-          number: favoritePostcards.length + 1,
+          number: favoritePostcards.length,
           favIndex: index,
           postcardId: postcardId,
         },
@@ -35,42 +47,24 @@ function FavouritePostcards() {
   };
 
   const handleDeleteFavoritePostcard = (number: number) => {
+    let checkNumber = false;
+    favoritePostcards.forEach((postcard) => {
+      if (postcard.favIndex === number) {
+        checkNumber = true;
+      } else if (checkNumber) {
+        postcard.number = postcard.number - 1;
+      }
+    });
+
     setFavoritePostcards(
       favoritePostcards.filter((item) => {
         return item.favIndex !== number;
       })
     );
-    // let checkNumber = 0;
-    // favoritePostcards.forEach((postcard) => {
-
-    //   if(postcard.number !== checkNumber+1){
-    //     //console.log("postcard.number: " + postcard.number);
-    //     postcard.number = postcard.number - 1;
-    //     //console.log("postcard.number after change: " + postcard.number);
-    //   }
-    //   checkNumber = postcard.number;
-    // });
-    // favoritePostcards.forEach((postcard) => {
-    //   console.log("postcard.number: " + postcard.number + postcard.favIndex);
-
-    // });
-    // console.log("--------------------------------------");
   };
 
-  const user = useTypedSelector((state) => state.auth.user);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [pageNumber, setPageNumber] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(6);
-
-  const { data: paginatedData, refetch } = useGetPostcardsQuery({
-    searchParams: searchParams.toString(),
-  });
-
-  const [isAddedAsFavorite, setIsAddedAsFavorite] = useState<boolean[]>(
-    new Array(paginatedData?.content?.length || 0).fill(false)
-  );
   const addButtonChange = (index: number) => {
-    if (favoritePostcards.length < 6)
+    if (favoritePostcards.length < 7)
       setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
         prevIsAddedAsFavorite.map((item, i) => (i === index ? true : item))
       );
@@ -96,12 +90,17 @@ function FavouritePostcards() {
     setPageNumber(1);
     refetch();
   };
+  useEffect(() => {
+    setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
+  }, [paginatedData]);
 
   useEffect(() => {
+    if (!user?.id) {
+      return;
+    }
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("PageSize", pageSize.toString());
     searchParams.set("PageNumber", pageNumber.toString());
-
     setSearchParams(searchParams);
   }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
 
@@ -129,40 +128,64 @@ function FavouritePostcards() {
             {paginatedData?.content?.map(
               (postcard: Postcard, postcardIndex: number) => (
                 <div>
-                  <div className={styles.favorite_number}>{postcard.id}</div>
+                  {/* <div className={styles.favorite_number}>
+                    {postcardIndex + 1}
+                    {"---"}
+                    {postcard.id}
+                  </div> */}
                   <PostcardCard postcard={postcard} />
                   <span className={styles.update}>
-                    <div>
+                    <div className={styles.container_button}>
                       {isAddedAsFavorite[
                         postcardIndex + pageSize * (pageNumber - 1)
                       ] ? (
-                        <Button
-                          variant="contained"
-                          className={styles.btn}
-                          onClick={() => {
-                            handleDeleteFavoritePostcard(postcardIndex + 1);
-                            deleteButtonChange(
-                              postcardIndex + pageSize * (pageNumber - 1)
-                            );
-                            favoritePostcards.forEach((postcard) => {
-                              console.log(
-                                "postcard.number: " +
-                                  postcard.number +
-                                  " " +
-                                  postcard.favIndex
+                        <>
+                          <div className={styles.indicator}>
+                            {favoritePostcards.map(
+                              (favoritePostcard, index) => (
+                                <>
+                                  {favoritePostcard.favIndex ===
+                                  postcardIndex +
+                                    1 +
+                                    pageSize * (pageNumber - 1) ? (
+                                    <>{favoritePostcard.number}</>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </>
+                              )
+                            )}
+                          </div>
+                          <Button
+                            variant="contained"
+                            className={styles.btn}
+                            onClick={() => {
+                              handleDeleteFavoritePostcard(
+                                postcardIndex + 1 + pageSize * (pageNumber - 1)
                               );
-                            });
-                          }}
-                        >
-                          Delete Postcard
-                        </Button>
+                              deleteButtonChange(
+                                postcardIndex + pageSize * (pageNumber - 1)
+                              );
+                              favoritePostcards.forEach((postcard) => {
+                                console.log(
+                                  "postcard.number: " +
+                                    postcard.number +
+                                    " " +
+                                    postcard.favIndex
+                                );
+                              });
+                            }}
+                          >
+                            Delete Postcard
+                          </Button>
+                        </>
                       ) : (
                         <Button
                           variant="contained"
                           className={styles.btn}
                           onClick={() => {
                             handleAddFavoritePostcard(
-                              postcardIndex + 1,
+                              postcardIndex + 1 + pageSize * (pageNumber - 1),
                               postcard.id
                             );
                             addButtonChange(
@@ -170,7 +193,7 @@ function FavouritePostcards() {
                             );
                           }}
                         >
-                          Add Postcard {pageNumber} {pageSize}
+                          Add Postcard
                         </Button>
                       )}
                     </div>
@@ -181,16 +204,27 @@ function FavouritePostcards() {
           </div>
         </div>
       </div>
-      <TablePagination
-        className={styles.pagination}
-        component="div"
-        count={paginatedData?.totalCount ?? 0}
-        page={pageNumber - 1}
-        onPageChange={handleChangePage}
-        rowsPerPage={pageSize}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[2, 3, 6]}
-      />
+      <div className={styles.tabs}>
+        <Button
+          variant="contained"
+          className={styles.save}
+          onClick={() => {
+            console.log(favoritePostcards);
+          }}
+        >
+          Save
+        </Button>
+        <TablePagination
+          className={styles.pagination}
+          component="div"
+          count={paginatedData?.totalCount ?? 0}
+          page={pageNumber - 1}
+          onPageChange={handleChangePage}
+          rowsPerPage={pageSize}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[2, 3, 6]}
+        />
+      </div>
     </Box>
   );
 }

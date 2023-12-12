@@ -1,4 +1,4 @@
-@import '../../styles/styles.scss';
+@import "../../styles/styles.scss";
 
 .container {
   padding: 5rem 0rem;
@@ -40,7 +40,7 @@
   transform-style: preserve-3d;
   box-sizing: border-box;
   border-radius: 5px;
-  border:white 10px solid;
+  border: white 10px solid;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
   cursor: pointer;
@@ -56,4 +56,8 @@
 }
 .front__image2 {
   width: 100%;
+}
+.country {
+  width: 300px;
+  //white-space: wrap;
 }
