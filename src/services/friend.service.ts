@@ -52,6 +52,15 @@ export const friendApi = createApi({
         };
       },
     }),
+    getIsFollowing: builder.query<boolean, number>({
+      query: (id) => ({
+        url: `/api/UserFriends/isFollowing/${id}`,
+        method: "GET",
+      }),
+
+      // post
+      //delete
+    }),
   }),
 });
 
@@ -59,4 +68,5 @@ export const {
   useGetFriendsQuery,
   useGetFollowersQuery,
   useGetFollowingQuery,
+  useGetIsFollowingQuery,
 } = friendApi;

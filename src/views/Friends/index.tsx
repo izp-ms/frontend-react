@@ -7,14 +7,15 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import { useTypedSelector } from "../../store";
+import { useTypedDispatch, useTypedSelector } from "../../store";
 import styles from "./styles.module.scss";
 import {
   useGetFollowersQuery,
   useGetFollowingQuery,
   useGetFriendsQuery,
 } from "../../services/friend.service";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { setFriendId } from "../../store/friends.slice";
 
 export const FriendsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -89,6 +90,9 @@ export const FriendsPage = () => {
     user?.id,
   ]);
 
+  const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
+
   return (
     <Box
       className={styles.container}
@@ -103,7 +107,15 @@ export const FriendsPage = () => {
       {currentTab === 0 && (
         <div>
           {friendsData?.content.map((friend) => (
-            <div key={friend.id} className={styles.friendCard}>
+            <div
+              key={friend.id}
+              className={styles.friendCard}
+              onClick={() => {
+                console.log(friend.id);
+                dispatch(setFriendId(friend.id));
+                navigate(`/friends/${friend.id}`);
+              }}
+            >
               <Avatar src={friend.avatarBase64} alt={friend.nickName} />
               <Typography variant="h6">{friend.nickName}</Typography>
               <Typography>{friend.email}</Typography>

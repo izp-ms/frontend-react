@@ -15,6 +15,7 @@ import { setUser } from "./store/auth.slice";
 import { PostcardsPage } from "./views/Postcard";
 import { useSettingsContext } from "./context/settings-context";
 import { FriendsPage } from "./views/Friends";
+import { FriendDetailPage } from "./views/FriendDetailPage";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -151,6 +152,14 @@ export const App = () => {
                   element={
                     <ProtectedRoute>
                       <FriendsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/friends/:id"
+                  element={
+                    <ProtectedRoute>
+                      <FriendDetailPage />
                     </ProtectedRoute>
                   }
                 />
