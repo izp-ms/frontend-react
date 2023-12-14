@@ -1,7 +1,10 @@
 import { Box, Button, TablePagination } from "@mui/material";
 import { useTypedSelector } from "../../store";
 import styles from "./styles.module.scss";
-import { useGetPostcardsQuery } from "../../services/postcard.service";
+import {
+  useGetPostcardsQuery,
+  useUpdateFavoritePostcardsMutation,
+} from "../../services/postcard.service";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PostcardCard } from "../../components/PostcardCard";
@@ -12,7 +15,7 @@ function FavouritePostcards() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
-
+  const [updateFavoritePostcards] = useUpdateFavoritePostcardsMutation();
   const { data: paginatedData, refetch } = useGetPostcardsQuery({
     searchParams: searchParams.toString(),
   });
@@ -30,6 +33,26 @@ function FavouritePostcards() {
   const [favoritePostcards, setFavoritePostcards] = useState(
     favoritePostcardsArray
   );
+
+  const onSubmit = () => {
+    const reducedPostcard = favoritePostcards.map((postcard) => {
+      return {
+        postcardId: postcard.postcardId,
+        orderId: postcard.number,
+      };
+    });
+
+    reducedPostcard.splice(0, 1);
+
+    const toSend = {
+      userId: user?.id ?? "0",
+      postcardIdsWithOrders: reducedPostcard,
+    };
+
+    console.log(toSend);
+
+    updateFavoritePostcards(toSend);
+  };
 
   const handleAddFavoritePostcard = (index: number, postcardId: number) => {
     if (favoritePostcards.length >= 7)
@@ -107,7 +130,7 @@ function FavouritePostcards() {
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
       <div className={styles.postcard}>
-        <ul>
+        {/* <ul>
           {isAddedAsFavorite.map((item, x) => {
             return <span key={x}>{item.toString()} </span>;
           })}
@@ -122,7 +145,7 @@ function FavouritePostcards() {
               </li>
             ))}
           </ul>
-        </main>
+        </main> */}
         <div>
           <div className={styles.postcard_list}>
             {paginatedData?.content?.map(
@@ -167,12 +190,12 @@ function FavouritePostcards() {
                                 postcardIndex + pageSize * (pageNumber - 1)
                               );
                               favoritePostcards.forEach((postcard) => {
-                                console.log(
-                                  "postcard.number: " +
-                                    postcard.number +
-                                    " " +
-                                    postcard.favIndex
-                                );
+                                // console.log(
+                                //   "postcard.number: " +
+                                //     postcard.number +
+                                //     " " +
+                                //     postcard.favIndex
+                                // );
                               });
                             }}
                           >
@@ -209,11 +232,13 @@ function FavouritePostcards() {
           variant="contained"
           className={styles.save}
           onClick={() => {
-            console.log(favoritePostcards);
+            onSubmit();
+            refetch();
           }}
         >
           Save
         </Button>
+
         <TablePagination
           className={styles.pagination}
           component="div"

@@ -74,3 +74,14 @@ export interface PostcardWithImage {
   latitude: string;
   collectRangeInMeters: number;
 }
+
+
+export interface FavoritePostcards {
+  userId: string;
+  postcardIdsWithOrders: FavoritePostcard[];
+}
+
+export interface FavoritePostcard {
+  postcardId: number;
+  orderId: number;
+}
