@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
 import { getTokenFromSessionStorage } from "../hooks/useToken";
 import { Pagination } from "../models/pagination";
-import { Postcard, PostcardCollection } from "../models/postcard";
+import { FavoritePostcards, Postcard, PostcardCollection } from "../models/postcard";
 import { PostcardFilter } from "../models/filters";
 
 const queryBuilder = (postcardFilter: PostcardFilter) => {
@@ -49,13 +49,15 @@ export const postcardApi = createApi({
       }),
     }),
 
-    // updateFavoritePostcards: builder.mutation<FavoritePostcardUpdate, FavoritePostcardUpdate>({
-    //   query: (body) => ({
-    //     url: "api/FavouritePostcard",
-    //     method: "PUT",
-    //     body,
-    //   }),
-    // }),
+    updateFavoritePostcards: builder.mutation<FavoritePostcards, FavoritePostcards>({
+      query: (body) => ({
+        url: "api/FavouritePostcard",
+        method: "PUT",
+        body,
+      }),
+    }),
+    
+    
   }),
 });
 
@@ -63,4 +65,5 @@ export const {
   useGetPostcardsQuery,
   useGetFavouritePostcardsQuery,
   useGetPostcardCollectionQuery,
+  useUpdateFavoritePostcardsMutation,
 } = postcardApi;

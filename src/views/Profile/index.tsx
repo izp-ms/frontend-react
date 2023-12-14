@@ -37,7 +37,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CountrySelect from "../../components/TextFieldCountry";
 import FavouritePostcards from "../../components/FavoritePostcard";
 import Base64Converter from "../../components/Base64Converter";
-
 export const Profile = () => {
   const user = useTypedSelector((state) => state.auth.user);
 
@@ -60,6 +59,7 @@ export const Profile = () => {
   const [isOpenModalFavourite, setIsOpenModalFavourite] = useState(false);
   const handleOpenFavourite = () => setIsOpenModalFavourite(true);
   const handleCloseFavourite = () => setIsOpenModalFavourite(false);
+
   const [openProfile, setOpenProfile] = React.useState(false);
   const handleOpenProfile = () => setOpenProfile(true);
   const handleCloseProfile = () => setOpenProfile(false);
@@ -246,13 +246,30 @@ export const Profile = () => {
                     format="dd.MM.yyyy"
                   />
                 </LocalizationProvider>
+                {/* <TextareaAutosize
+                  className={styles.form_input_description}
+                  value={values.description}
+                  maxRows={3}
+                  onChange={(e) => setFieldValue("description", e.target.value)}
+                /> */}
 
+                <TextField
+                  className={styles.form_input}
+                  label="Description"
+                  multiline
+                  rows={4}
+                  placeholder="Enter your description"
+                  value={values.description}
+                  error={Boolean(errors.description && touched.description)}
+                  onChange={(e) => setFieldValue("description", e.target.value)}
+                />
                 <span
                   className={styles.update}
                   onClick={() => {
                     handleUpdateUser();
                     setOpenProfile(false);
                     favouriteRefetch();
+                    refetch();
                   }}
                 >
                   <Button variant="contained" className={styles.btn}>
