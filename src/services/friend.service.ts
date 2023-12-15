@@ -4,7 +4,7 @@ import { getTokenFromSessionStorage } from "../hooks/useToken";
 import { UserData } from "../models/user";
 import { FriendFilter } from "../models/filters";
 import { Pagination } from "../models/pagination";
-
+import { FollowFriend, Friend } from "../models/user-friends";
 const queryBuilder = (postcardFilter: FriendFilter) => {
   let queryUrl = "";
 
@@ -57,10 +57,23 @@ export const friendApi = createApi({
         url: `/api/UserFriends/isFollowing/${id}`,
         method: "GET",
       }),
-
+    }),
+    postFollowFriend: builder.mutation<Friend, FollowFriend>({
+        query: (body) => ({
+          url: "/api/UserFriends",
+          method: "POST",
+          body,
+        }),
+      }),
+      deleteFollowFriend: builder.mutation<Friend, FollowFriend>({
+        query: (body) => ({
+          url: "/api/UserFriends",
+          method: "DELETE",
+          body,
+        }),
+      }),
       // post
       //delete
-    }),
   }),
 });
 
@@ -69,4 +82,6 @@ export const {
   useGetFollowersQuery,
   useGetFollowingQuery,
   useGetIsFollowingQuery,
+  usePostFollowFriendMutation,
+  useDeleteFollowFriendMutation,
 } = friendApi;
