@@ -4,10 +4,11 @@ import styles from "./styles.module.scss";
 interface Props {
   image?: string;
   setImage: (image: string) => void;
+  shape?: "avatar" | "background" | "postcard";
 }
 
 function Base64Converter(props: Props) {
-  const { image, setImage } = props;
+  const { image, setImage, shape } = props;
   const [img, setImg] = useState<string | undefined>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,13 +28,55 @@ function Base64Converter(props: Props) {
     }
   };
 
+  const renderShapeType = () => {
+    switch (shape) {
+      case "avatar":
+        return (
+          <>
+            {image ? (
+              <img
+                alt="Converter"
+                src={image}
+                className={`${styles.img_avatar} ${styles.img}`}
+              />
+            ) : (
+              <div className={`${styles.img_avatar} ${styles.img}`} />
+            )}
+          </>
+        );
+      case "background":
+        return (
+          <>
+            {image ? (
+              <img
+                alt="Converter"
+                src={image}
+                className={`${styles.img_background} ${styles.img}`}
+              />
+            ) : (
+              <div className={`${styles.img_background} ${styles.img}`} />
+            )}
+          </>
+        );
+      case "postcard":
+        return (
+          <>
+            {image ? (
+              <img
+                alt="Converter"
+                src={image}
+                className={`${styles.img_postcard} ${styles.img}`}
+              />
+            ) : (
+              <div className={`${styles.img_postcard} ${styles.img}`} />
+            )}
+          </>
+        );
+    }
+  };
   return (
     <div className={styles.container}>
-      {image ? (
-        <img alt="Converter" src={img} className={styles.img} />
-      ) : (
-        <div className={styles.img} />
-      )}
+      <>{renderShapeType()}</>
 
       <label className={styles.custom_file_upload}>
         <input

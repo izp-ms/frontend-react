@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import styles from "./styles.module.scss";
 
 interface Props {
   country?: string;
@@ -14,6 +15,7 @@ function CountrySelect(props: Props) {
 
   return (
     <Autocomplete
+      className={styles.country_select}
       id="country-select"
       sx={{ width: "100%" }}
       options={countries}

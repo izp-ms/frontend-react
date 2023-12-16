@@ -68,7 +68,7 @@ export const Profile = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500,
+    width: 850,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -151,6 +151,9 @@ export const Profile = () => {
   const handleSetAvatar = (avatar: string) => {
     setFieldValue("avatarBase64", avatar);
   };
+  const handleSetBackground = (background: string) => {
+    setFieldValue("backgroundBase64", background);
+  };
 
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
@@ -203,12 +206,18 @@ export const Profile = () => {
                 >
                   <CloseIcon />
                 </span>
-
-                <Base64Converter
-                  image={values.avatarBase64}
-                  setImage={handleSetAvatar}
-                />
-
+                <div className={styles.wrap_images}>
+                  <Base64Converter
+                    image={values.avatarBase64}
+                    setImage={handleSetAvatar}
+                    shape="avatar"
+                  />
+                  <Base64Converter
+                    image={values.backgroundBase64}
+                    setImage={handleSetBackground}
+                    shape="background"
+                  />
+                </div>
                 <TextField
                   className={styles.form_input}
                   label="Firstname"

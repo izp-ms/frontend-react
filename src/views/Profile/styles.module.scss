@@ -38,7 +38,10 @@
   border-radius: 20px 20px 0 0;
   overflow: hidden;
 }
-
+.wrap_images {
+  display: flex;
+  flex-direction: row;
+}
 .avatar {
   display: flex;
   flex-direction: row;
