@@ -27,7 +27,6 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
 import { UserData } from "../../models/user";
-import { useGetFavouritePostcardsQuery } from "../../services/postcard.service";
 import { PostcardCard } from "../../components/PostcardCard";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -56,10 +55,6 @@ export const Profile = () => {
     "Something went wrong"
   );
 
-  const [isOpenModalFavourite, setIsOpenModalFavourite] = useState(false);
-  const handleOpenFavourite = () => setIsOpenModalFavourite(true);
-  const handleCloseFavourite = () => setIsOpenModalFavourite(false);
-
   const [openProfile, setOpenProfile] = React.useState(false);
   const handleOpenProfile = () => setOpenProfile(true);
   const handleCloseProfile = () => setOpenProfile(false);
@@ -74,20 +69,6 @@ export const Profile = () => {
     boxShadow: 24,
     p: 4,
   };
-  const favouriteStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 1000,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const { data: favouritePostcards, refetch: favouriteRefetch } =
-    useGetFavouritePostcardsQuery(user?.id ?? "0");
 
   const initialValue = {
     id: user?.id ?? "0",
@@ -156,257 +137,230 @@ export const Profile = () => {
   };
 
   return (
-    <Box className={styles.container} sx={{ color: "text.primary" }}>
-      <Box className={styles.profile} sx={{ background: "background.paper" }}>
-        {editedUser?.backgroundBase64 ? (
-          <img
-            src={`data:image/jpeg;base64${editedUser?.backgroundBase64}`}
-            alt="background"
-            className={`${styles.background_image} ${styles.no_draggable}`}
-          />
-        ) : (
-          <img
-            src={background}
-            alt="background"
-            className={`${styles.background_image} ${styles.no_draggable}`}
-          />
-        )}
-        <div className={styles.avatar}>
-          <Box
-            className={styles.avatar_back}
-            sx={{ background: "background.paper" }}
-          >
-            {editedUser?.avatarBase64 ? (
-              <Avatar
-                className={styles.avatar_image}
-                alt="Avatar"
-                src={`data:image/jpeg;base64${editedUser?.avatarBase64}`}
-              />
-            ) : (
-              <Avatar
-                className={styles.avatar_image}
-                alt="Avatar"
-                src={profile}
-              />
-            )}
-          </Box>
-          <div>
-            <Modal
-              open={openProfile}
-              onClose={handleCloseProfile}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
+    <Box className={styles.screen}>
+      <Box className={styles.container} sx={{ color: "text.primary" }}>
+        <Box className={styles.profile} sx={{ background: "background.paper" }}>
+          {editedUser?.backgroundBase64 ? (
+            <img
+              src={`data:image/jpeg;base64${editedUser?.backgroundBase64}`}
+              alt="background"
+              className={`${styles.background_image} ${styles.no_draggable}`}
+            />
+          ) : (
+            <img
+              src={background}
+              alt="background"
+              className={`${styles.background_image} ${styles.no_draggable}`}
+            />
+          )}
+          <div className={styles.avatar}>
+            <Box
+              className={styles.avatar_back}
+              sx={{ background: "background.paper" }}
             >
-              <BoxM sx={boxMStyle} className={styles.pop_up}>
-                <span
-                  className={styles.close}
-                  onClick={() => {
-                    setOpenProfile(false);
-                  }}
-                >
-                  <CloseIcon />
-                </span>
-                <div className={styles.wrap_images}>
-                  <Base64Converter
-                    image={values.avatarBase64}
-                    setImage={handleSetAvatar}
-                    shape="avatar"
-                  />
-                  <Base64Converter
-                    image={values.backgroundBase64}
-                    setImage={handleSetBackground}
-                    shape="background"
-                  />
-                </div>
-                <TextField
-                  className={styles.form_input}
-                  label="Firstname"
-                  variant="outlined"
-                  value={values.firstName}
-                  error={Boolean(errors.firstName && touched.firstName)}
-                  onChange={(e) => setFieldValue("firstName", e.target.value)}
+              {editedUser?.avatarBase64 ? (
+                <Avatar
+                  className={styles.avatar_image}
+                  alt="Avatar"
+                  src={`data:image/jpeg;base64${editedUser?.avatarBase64}`}
                 />
-                <TextField
-                  className={styles.form_input}
-                  label="Lastname"
-                  variant="outlined"
-                  value={values.lastName}
-                  error={Boolean(errors.lastName && touched.lastName)}
-                  onChange={(e) => setFieldValue("lastName", e.target.value)}
+              ) : (
+                <Avatar
+                  className={styles.avatar_image}
+                  alt="Avatar"
+                  src={profile}
                 />
-                <CountrySelect
-                  country={values.country}
-                  handleSetCountry={handleSetCountry}
-                />
-                <TextField
-                  className={styles.form_input}
-                  label="City"
-                  variant="outlined"
-                  value={values.city}
-                  error={Boolean(errors.city && touched.city)}
-                  onChange={(e) => setFieldValue("city", e.target.value)}
-                />
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    className={styles.form_input}
-                    label="Date of birth"
-                    value={new Date(values.birthDate ?? 0) ?? new Date()}
-                    onChange={(e) => e && setFieldValue("birthDate", e)}
-                    format="dd.MM.yyyy"
-                  />
-                </LocalizationProvider>
-                {/* <TextareaAutosize
-                  className={styles.form_input_description}
-                  value={values.description}
-                  maxRows={3}
-                  onChange={(e) => setFieldValue("description", e.target.value)}
-                /> */}
-
-                <TextField
-                  className={styles.form_input}
-                  label="Description"
-                  multiline
-                  rows={4}
-                  placeholder="Enter your description"
-                  value={values.description}
-                  error={Boolean(errors.description && touched.description)}
-                  onChange={(e) => setFieldValue("description", e.target.value)}
-                />
-                <span
-                  className={styles.update}
-                  onClick={() => {
-                    handleUpdateUser();
-                    setOpenProfile(false);
-                    favouriteRefetch();
-                    refetch();
-                  }}
-                >
-                  <Button variant="contained" className={styles.btn}>
-                    <CheckIcon />
-                    Save
-                  </Button>
-                </span>
-              </BoxM>
-            </Modal>
-            <span className={styles.edit_profile} onClick={handleOpenProfile}>
-              <EditIcon />
-              <span>Edit profile</span>
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.profile_info}>
-          <div className={styles.info}>
-            {/* <span className={styles.info_name}>Nickname:</span> */}
-            <span className={styles.info_value}>
-              {editedUser?.nickName ?? "-"}
-            </span>
-          </div>
-
-          <div className={styles.info}>
-            <span className={styles.info_names}>
-              <>
-                {editedUser?.firstName ?? "-"} {editedUser?.lastName ?? "-"}
-              </>
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.accordion_container}>
-          <Accordion className={styles.accordion}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className={styles.about_me}>About me</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <div className={styles.bio}>
-                <div className={styles.country}>
-                  <FlagIcon />
-
-                  <span>{editedUser?.country ?? "-"}</span>
-                </div>
-                <div className={styles.city}>
-                  <LocationCityIcon />
-
-                  <span>{editedUser?.city ?? "-"}</span>
-                </div>
-                <div className={styles.birth_date}>
-                  <CakeIcon />
-
-                  <span>
-                    {editedUser?.birthDate
-                      ? format(new Date(editedUser.birthDate), "dd.MM.yyyy")
-                      : "-"}
+              )}
+            </Box>
+            <div>
+              <Modal
+                open={openProfile}
+                onClose={handleCloseProfile}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <BoxM sx={boxMStyle} className={styles.pop_up}>
+                  <span
+                    className={styles.close}
+                    onClick={() => {
+                      setOpenProfile(false);
+                    }}
+                  >
+                    <CloseIcon />
                   </span>
+                  <div className={styles.wrap_images}>
+                    <Base64Converter
+                      image={values.avatarBase64}
+                      setImage={handleSetAvatar}
+                      shape="avatar"
+                    />
+                    <Base64Converter
+                      image={values.backgroundBase64}
+                      setImage={handleSetBackground}
+                      shape="background"
+                    />
+                  </div>
+                  <TextField
+                    className={styles.form_input}
+                    label="Firstname"
+                    variant="outlined"
+                    value={values.firstName}
+                    error={Boolean(errors.firstName && touched.firstName)}
+                    onChange={(e) => setFieldValue("firstName", e.target.value)}
+                  />
+                  <TextField
+                    className={styles.form_input}
+                    label="Lastname"
+                    variant="outlined"
+                    value={values.lastName}
+                    error={Boolean(errors.lastName && touched.lastName)}
+                    onChange={(e) => setFieldValue("lastName", e.target.value)}
+                  />
+                  <CountrySelect
+                    country={values.country}
+                    handleSetCountry={handleSetCountry}
+                  />
+                  <TextField
+                    className={styles.form_input}
+                    label="City"
+                    variant="outlined"
+                    value={values.city}
+                    error={Boolean(errors.city && touched.city)}
+                    onChange={(e) => setFieldValue("city", e.target.value)}
+                  />
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      className={styles.form_input}
+                      label="Date of birth"
+                      value={new Date(values.birthDate ?? 0) ?? new Date()}
+                      onChange={(e) => e && setFieldValue("birthDate", e)}
+                      format="dd.MM.yyyy"
+                    />
+                  </LocalizationProvider>
+                  {/* <TextareaAutosize
+                    className={styles.form_input_description}
+                    value={values.description}
+                    maxRows={3}
+                    onChange={(e) => setFieldValue("description", e.target.value)}
+                  /> */}
+
+                  <TextField
+                    className={styles.form_input}
+                    label="Description"
+                    multiline
+                    rows={4}
+                    placeholder="Enter your description"
+                    value={values.description}
+                    error={Boolean(errors.description && touched.description)}
+                    onChange={(e) =>
+                      setFieldValue("description", e.target.value)
+                    }
+                  />
+                  <span
+                    className={styles.update}
+                    onClick={() => {
+                      handleUpdateUser();
+                      setOpenProfile(false);
+                      refetch();
+                    }}
+                  >
+                    <Button variant="contained" className={styles.btn}>
+                      <CheckIcon />
+                      Save
+                    </Button>
+                  </span>
+                </BoxM>
+              </Modal>
+              <span className={styles.edit_profile} onClick={handleOpenProfile}>
+                <EditIcon />
+                <span>Edit profile</span>
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.profile_info}>
+            <div className={styles.info}>
+              {/* <span className={styles.info_name}>Nickname:</span> */}
+              <span className={styles.info_value}>
+                {editedUser?.nickName ?? "-"}
+              </span>
+            </div>
+
+            <div className={styles.info}>
+              <span className={styles.info_names}>
+                <>
+                  {editedUser?.firstName ?? "-"} {editedUser?.lastName ?? "-"}
+                </>
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.accordion_container}>
+            <Accordion className={styles.accordion}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={styles.about_me}>About me</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className={styles.bio}>
+                  <div className={styles.country}>
+                    <FlagIcon />
+
+                    <span>{editedUser?.country ?? "-"}</span>
+                  </div>
+                  <div className={styles.city}>
+                    <LocationCityIcon />
+
+                    <span>{editedUser?.city ?? "-"}</span>
+                  </div>
+                  <div className={styles.birth_date}>
+                    <CakeIcon />
+
+                    <span>
+                      {editedUser?.birthDate
+                        ? format(new Date(editedUser.birthDate), "dd.MM.yyyy")
+                        : "-"}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <Typography>{editedUser?.description ?? "-"}</Typography>
-            </AccordionDetails>
-          </Accordion>
-        </div>
-        <div className={styles.postcards_info}>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Received</span>
-            <span className={styles.info_value}>
-              {editedUser?.postcardsReceived ?? "-"}
-            </span>
+                <Typography>{editedUser?.description ?? "-"}</Typography>
+              </AccordionDetails>
+            </Accordion>
           </div>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Sent</span>
-            <span className={styles.info_value}>
-              {editedUser?.postcardsSent ?? "-"}
-            </span>
+          <div className={styles.postcards_info}>
+            <div className={styles.info}>
+              <span className={styles.info_name}>Received</span>
+              <span className={styles.info_value}>
+                {editedUser?.postcardsReceived ?? "-"}
+              </span>
+            </div>
+            <div className={styles.info}>
+              <span className={styles.info_name}>Sent</span>
+              <span className={styles.info_value}>
+                {editedUser?.postcardsSent ?? "-"}
+              </span>
+            </div>
+            <div className={styles.info}>
+              <span className={styles.info_name}>Score</span>
+              <span className={styles.info_value}>
+                {editedUser?.score ?? "-"}
+              </span>
+            </div>
           </div>
-          <div className={styles.info}>
-            <span className={styles.info_name}>Score</span>
-            <span className={styles.info_value}>
-              {editedUser?.score ?? "-"}
-            </span>
-          </div>
-        </div>
+        </Box>
+
+        <FavouritePostcards />
+
+        <Toast
+          toastStatus={toastStatus}
+          successMessage={toastSuccessMessage}
+          errorMessage={toastErrorMessage}
+          handleToastClose={() => setToastStatus("none")}
+        />
       </Box>
-
-      <Box className={styles.favourites}>
-        <span className={styles.edit_favourite} onClick={handleOpenFavourite}>
-          <EditIcon />
-          <span>Edit favourite</span>
-        </span>
-
-        <Modal
-          open={isOpenModalFavourite}
-          onClose={handleCloseFavourite}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <BoxM sx={favouriteStyle}>
-            <span
-              className={styles.close}
-              onClick={() => {
-                setIsOpenModalFavourite(false);
-              }}
-            >
-              <CloseIcon />
-            </span>
-            <FavouritePostcards />
-          </BoxM>
-        </Modal>
-
-        {favouritePostcards?.map((postcard) => (
-          <div className={styles.wrapper}>
-            <PostcardCard postcard={postcard} />
-          </div>
-        ))}
-      </Box>
-
-      <Toast
-        toastStatus={toastStatus}
-        successMessage={toastSuccessMessage}
-        errorMessage={toastErrorMessage}
-        handleToastClose={() => setToastStatus("none")}
-      />
     </Box>
   );
 };
