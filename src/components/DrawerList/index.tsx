@@ -10,7 +10,9 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import PagesIcon from "@mui/icons-material/Pages";
 import PeopleIcon from "@mui/icons-material/People";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { useNavigate } from "react-router-dom";
+import { useTypedSelector } from "../../store";
 
 interface Props {
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ interface Props {
 
 export const DrawerList = (props: Props) => {
   const { setIsDrawerOpen } = props;
+  const user = useTypedSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
 
@@ -55,6 +58,17 @@ export const DrawerList = (props: Props) => {
             <ListItemText primary="Friends" />
           </ListItemButton>
         </ListItem>
+
+        {user?.role === "ADMIN" && (
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => navigate("/adminPanel")}>
+              <ListItemIcon>
+                <AdminPanelSettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Admin Panel" />
+            </ListItemButton>
+          </ListItem>
+        )}
       </List>
     </Box>
   );

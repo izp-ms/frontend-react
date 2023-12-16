@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Profile } from "./views/Profile";
-import { About } from "./views/About";
+import { AdminPanel } from "./views/AdminPanel";
 import Login from "./views/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ThemeProvider } from "@emotion/react";
@@ -16,6 +16,7 @@ import { PostcardsPage } from "./views/Postcard";
 import { useSettingsContext } from "./context/settings-context";
 import { FriendsPage } from "./views/Friends";
 import { FriendDetailPage } from "./views/FriendDetailPage";
+import { AdminRoute } from "./components/AdminRoute";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -164,11 +165,11 @@ export const App = () => {
                   }
                 />
                 <Route
-                  path="/about"
+                  path="/adminPanel"
                   element={
-                    <ProtectedRoute>
-                      <About />
-                    </ProtectedRoute>
+                    <AdminRoute>
+                      <AdminPanel />
+                    </AdminRoute>
                   }
                 />
                 <Route

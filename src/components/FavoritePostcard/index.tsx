@@ -1,6 +1,6 @@
 import { Box, Button, Modal, TablePagination } from "@mui/material";
 import BoxM from "@mui/material/Box";
-import { useTypedSelector } from "../../store";
+import { useTypedDispatch, useTypedSelector } from "../../store";
 import styles from "./styles.module.scss";
 import {
   useGetFavouritePostcardsQuery,
@@ -14,10 +14,19 @@ import { Postcard } from "../../models/postcard";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import {
+  addNewFavouritePostcard,
+  removeFavouritePostcard,
+} from "../../store/favouritesPostcards.slice";
 
 function FavouritePostcards() {
   const user = useTypedSelector((state) => state.auth.user);
+  const favouritePostcardsStore = useTypedSelector(
+    (state) => state.favouritesPostcards.favouritesPostcards
+  );
+  const dispatch = useTypedDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
   const [updateFavoritePostcards] = useUpdateFavoritePostcardsMutation();
@@ -104,19 +113,26 @@ function FavouritePostcards() {
       }
     });
 
-    setFavoritePostcards(
-      favoritePostcards.filter((item) => {
-        return item.favIndex !== number;
-      })
-    );
+    dispatch(removeFavouritePostcard(number));
+    // setFavoritePostcards(
+    //   favoritePostcards.filter((item) => {
+    //     return item.favIndex !== number;
+    //   })
+    // );
   };
 
   const addButtonChange = (index: number) => {
-    if (favoritePostcards.length < 7)
-      setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
-        prevIsAddedAsFavorite.map((item, i) => (i === index ? true : item))
-      );
+    if (favoritePostcards.length < 7) {
+      dispatch(addNewFavouritePostcard(index));
+      // setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
+      //   prevIsAddedAsFavorite.map((item, i) => (i === index ? true : item))
+      // );
+    }
   };
+
+  useEffect(() => {
+    console.log(favouritePostcardsStore);
+  }, [favouritePostcardsStore]);
 
   const deleteButtonChange = (index: number) => {
     setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
