@@ -101,6 +101,26 @@ export const App = () => {
               },
             },
           },
+          MuiTabs: {
+            styleOverrides: {
+              root: {
+                "& .MuiTabs-indicator": {
+                  backgroundColor:
+                    colorMode === "LIGHT" ? "#2F2F2F" : "#8DCFDE",
+                },
+              },
+            },
+          },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                color: colorMode === "LIGHT" ? "#2F2F2F" : "#8DCFDE",
+                "&.Mui-selected": {
+                  color: colorMode === "LIGHT" ? "#2F2F2F" : "#8DCFDE",
+                },
+              },
+            },
+          },
         },
       }),
     [colorMode]
