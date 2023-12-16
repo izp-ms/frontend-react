@@ -1,0 +1,8 @@
+@import "../../styles/styles.scss";
+.country_select {
+  padding: 0;
+  margin: 0.7rem;
+  border: none;
+  width: 100%;
+  @include H_Medium;
+}
