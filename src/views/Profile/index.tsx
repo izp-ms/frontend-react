@@ -27,7 +27,6 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
 import { UserData } from "../../models/user";
-import { PostcardCard } from "../../components/PostcardCard";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -101,7 +100,6 @@ export const Profile = () => {
     onSubmit: async (values) => {
       await updateUserData(values)
         .then((response: any) => {
-          console.log(response);
           if (response.error) {
             setToastStatus("error");
             setToastErrorMessage(
@@ -111,9 +109,9 @@ export const Profile = () => {
           }
           setToastStatus("success");
           refetch();
+          setOpenProfile(false);
         })
         .catch((e: { message: any }) => {
-          console.log(e);
           setToastStatus("error");
           setToastErrorMessage(e.message ?? "Something went wrong");
         });
@@ -260,8 +258,6 @@ export const Profile = () => {
                     className={styles.update}
                     onClick={() => {
                       handleUpdateUser();
-                      setOpenProfile(false);
-                      refetch();
                     }}
                   >
                     <Button variant="contained" className={styles.btn}>

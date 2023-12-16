@@ -1,6 +1,27 @@
 @import "../../../../styles/styles.scss";
 
-.country {
-  width: 300px;
-  //white-space: wrap;
+.filters {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: rgb(100, 100, 100);
+
+  .search {
+    span {
+      padding-right: 1rem;
+    }
+  }
+
+  .country {
+    width: 300px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+  }
 }

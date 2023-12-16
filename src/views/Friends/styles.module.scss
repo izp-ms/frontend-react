@@ -2,13 +2,24 @@
   padding: 20px;
 }
 
+.grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  justify-items: center;
+}
+
 .friendCard {
-  border: 1px solid #ddd;
+  border: 5px solid #ddd;
+  border-radius: 15px;
   padding: 10px;
   margin: 10px;
+  width: 300px;
   text-align: center;
   &:hover {
     cursor: pointer;
+    opacity: 0.5;
   }
 }
 

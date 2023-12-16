@@ -4,13 +4,7 @@ import { useGetUserDataQuery } from "../../services/user.service";
 import FlagIcon from "@mui/icons-material/Flag";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import CakeIcon from "@mui/icons-material/Cake";
-import {
-  Avatar,
-  Box,
-  TextField,
-  createTheme,
-  ThemeProvider,
-} from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import styles from "./styles.module.scss";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -32,45 +26,41 @@ import {
   useGetIsFollowingQuery,
   usePostFollowFriendMutation,
 } from "../../services/friend.service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const FriendDetailPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
-  const friendId = useTypedSelector((state) => state.friends.friendId);
+
+  const params = useParams();
+  const [friendId] = useState<string>(params.id ?? "0");
 
   const { data: userData, refetch } = useGetUserDataQuery(
-    friendId ? `${friendId}` : "0"
+    friendId ? friendId : "0"
   );
 
   const [editedUser, setEditedUser] = useState<UserData | undefined>(undefined);
   const [follow] = usePostFollowFriendMutation();
   const [unFollow] = useDeleteFollowFriendMutation();
+
   useEffect(() => {
-    console.log(friendId);
-    console.log(userData);
-  }, [friendId, userData]);
-
-  // is user with provided id is friend
-  // query [HttpGet("IsFollowing/{id}")] zeby sprawdzic czy go followujemy
-
-  // friend detail info - do wyswietlenia
+    console.log(params);
+  }, [params]);
 
   const { data: isFollowing, refetch: refetchIsFollowing } =
-    useGetIsFollowingQuery(friendId ?? 0);
+    useGetIsFollowingQuery(parseInt(friendId) ?? 0);
 
   useEffect(() => {
     setEditedUser(userData);
     refetchIsFollowing();
-  }, [editedUser, userData, refetch]);
+  }, [editedUser, userData, refetch, refetchIsFollowing]);
 
   const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
   const [toastSuccessMessage] = useState<string>("User updated successfully");
-  const [toastErrorMessage, setToastErrorMessage] = useState<string>(
-    "Something went wrong"
-  );
+  const [toastErrorMessage] = useState<string>("Something went wrong");
 
-  const { data: favouritePostcards, refetch: favouriteRefetch } =
-    useGetFavouritePostcardsQuery(user?.id ?? "0");
+  const { data: favouritePostcards } = useGetFavouritePostcardsQuery(
+    user?.id ?? "0"
+  );
 
   const navigate = useNavigate();
 
@@ -202,12 +192,12 @@ export const FriendDetailPage = () => {
                 variant="contained"
                 className={styles.btn}
                 onClick={() => {
-                  console.log(isFollowing);
                   unFollow({
                     userId: parseInt(user?.id ?? "0"),
-                    friendId: friendId ?? 0,
+                    friendId: parseInt(friendId) ?? 0,
                   });
                   refetchIsFollowing();
+                  refetch();
                 }}
               >
                 UnFollow
@@ -219,12 +209,12 @@ export const FriendDetailPage = () => {
                 variant="contained"
                 className={styles.btn}
                 onClick={() => {
-                  console.log(isFollowing);
                   follow({
                     userId: parseInt(user?.id ?? "0"),
-                    friendId: friendId ?? 0,
+                    friendId: parseInt(friendId) ?? 0,
                   });
                   refetchIsFollowing();
+                  refetch();
                 }}
               >
                 Follow

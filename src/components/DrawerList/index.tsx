@@ -9,7 +9,6 @@ import {
 
 import PersonIcon from "@mui/icons-material/Person";
 import PagesIcon from "@mui/icons-material/Pages";
-import SettingsIcon from "@mui/icons-material/Settings";
 import PeopleIcon from "@mui/icons-material/People";
 import { useNavigate } from "react-router-dom";
 
@@ -54,15 +53,6 @@ export const DrawerList = (props: Props) => {
               <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Friends" />
-          </ListItemButton>
-        </ListItem>
-
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate("/settings")}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
           </ListItemButton>
         </ListItem>
       </List>

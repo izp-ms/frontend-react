@@ -299,11 +299,16 @@
   height: 20%;
   @include H_Big;
 }
+
 .buttons {
   display: flex;
   flex-direction: row;
   width: 100%;
+  gap: 10rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
 }
+
 .btn {
   @include H_Medium;
   width: 100%;

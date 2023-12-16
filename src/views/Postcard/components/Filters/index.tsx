@@ -37,20 +37,17 @@ export const Filters = (props: Props) => {
       if (searchInput === "") {
         searchParams.delete("Search");
       } else {
-        console.log("alert 1");
         searchParams.set("Search", searchInput);
       }
     } else {
       if (searchInput === "") {
         searchParams.delete("Search");
       } else {
-        console.log("alert 2");
         searchParams.set("Search", searchInput);
       }
       if (searchCityInput === "") {
         searchParams.delete("City");
       } else {
-        console.log("alert 3");
         searchParams.set("City", searchCityInput);
       }
     }
@@ -66,41 +63,47 @@ export const Filters = (props: Props) => {
     setSearchParams(searchParams);
   };
 
-  if (viewType == "postcard") {
+  if (viewType === "postcard") {
     return (
-      <>
-        Search:
-        <Input
-          placeholder="Enter phrase"
-          onChange={handleChangeSearch}
-          value={searchInput}
-        />
-        <span
-          className={styles.update}
-          onClick={() => {
-            handleClickSearch();
-          }}
-        >
-          <Button variant="contained" className={styles.btn}>
-            Search
-          </Button>
-        </span>
-        <span
-          className={styles.update}
-          onClick={() => {
-            handleClickClear();
-          }}
-        >
-          <Button variant="contained" className={styles.btn}>
-            Clear
-          </Button>
-        </span>
-      </>
+      <div className={styles.filters}>
+        <div className={styles.search}>
+          <span>Search:</span>
+          <Input
+            placeholder="Enter phrase"
+            onChange={handleChangeSearch}
+            value={searchInput}
+          />
+        </div>
+
+        <div className={styles.buttons}>
+          <span
+            className={styles.update}
+            onClick={() => {
+              handleClickSearch();
+            }}
+          >
+            <Button variant="contained" className={styles.btn}>
+              Search
+            </Button>
+          </span>
+          <span
+            className={styles.update}
+            onClick={() => {
+              handleClickClear();
+            }}
+          >
+            <Button variant="contained" className={styles.btn}>
+              Clear
+            </Button>
+          </span>
+        </div>
+      </div>
     );
   }
-  if (viewType == "postcardData") {
+
+  if (viewType === "postcardData") {
     return (
-      <>
+      <div className={styles.filters}>
         Search:
         <Input
           placeholder="Enter phrase"
@@ -119,27 +122,29 @@ export const Filters = (props: Props) => {
             handleSetCountry={handleSetCountry}
           />
         </div>
-        <span
-          className={styles.update}
-          onClick={() => {
-            handleClickSearch();
-          }}
-        >
-          <Button variant="contained" className={styles.btn}>
-            Search
-          </Button>
-        </span>
-        <span
-          className={styles.update}
-          onClick={() => {
-            handleClickClear();
-          }}
-        >
-          <Button variant="contained" className={styles.btn}>
-            Clear
-          </Button>
-        </span>
-      </>
+        <div className={styles.buttons}>
+          <span
+            className={styles.update}
+            onClick={() => {
+              handleClickSearch();
+            }}
+          >
+            <Button variant="contained" className={styles.btn}>
+              Search
+            </Button>
+          </span>
+          <span
+            className={styles.update}
+            onClick={() => {
+              handleClickClear();
+            }}
+          >
+            <Button variant="contained" className={styles.btn}>
+              Clear
+            </Button>
+          </span>
+        </div>
+      </div>
     );
   }
 

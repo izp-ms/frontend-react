@@ -1,4 +1,4 @@
-import { Box, Button, TablePagination } from "@mui/material";
+import { Box, TablePagination } from "@mui/material";
 import { useTypedSelector } from "../../store";
 import styles from "./styles.module.scss";
 import { PostcardTab, PostcardTabs } from "./components/PostcardTabs";
@@ -6,11 +6,9 @@ import { HorizontalDivider } from "../../components/HorizontalDivider";
 import { useGetPostcardsQuery } from "../../services/postcard.service";
 import { useGetPostcardsDataQuery } from "../../services/postcard-data.service";
 import { useSearchParams } from "react-router-dom";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
-import { Input } from "@mui/material";
-import CountrySelect from "../../components/TextFieldCountry";
 import { Filters } from "./components/Filters";
 
 export const PostcardsPage = () => {
@@ -44,7 +42,6 @@ export const PostcardsPage = () => {
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log(newPage);
     setPageNumber(newPage + 1);
     postcardsRefetch();
     postcardsDataRefetch();
@@ -66,13 +63,21 @@ export const PostcardsPage = () => {
     searchParams.set("PageNumber", pageNumber.toString());
     searchParams.set("PageSize", pageSize.toString());
     setSearchParams(searchParams);
-    console.log(user?.id);
     if (tabName === "postcards-to-send" || tabName === "my-postcards") {
       setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
     } else {
       setpaginatedDataCount(paginatedDataForPostcardsData?.totalCount ?? 0);
     }
-  }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
+  }, [
+    pageNumber,
+    pageSize,
+    paginatedDataForPostcards?.totalCount,
+    paginatedDataForPostcardsData?.totalCount,
+    searchParams,
+    setSearchParams,
+    tabName,
+    user?.id,
+  ]);
 
   useEffect(() => {
     if (
@@ -81,22 +86,26 @@ export const PostcardsPage = () => {
     ) {
       setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
     }
-  }, [paginatedDataForPostcards]);
+  }, [paginatedDataCount, paginatedDataForPostcards]);
 
   useEffect(() => {
     if (!user?.id) {
       return;
     }
-    console.log("------------user---------------");
-    console.log(paginatedDataForPostcards?.totalCount);
     setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
     searchParams.set("PageNumber", pageNumber.toString());
     searchParams.set("PageSize", pageSize.toString());
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("IsSent", "true");
     setSearchParams(searchParams);
-    console.log(user?.id);
-  }, [user?.id]);
+  }, [
+    pageNumber,
+    pageSize,
+    paginatedDataForPostcards?.totalCount,
+    searchParams,
+    setSearchParams,
+    user?.id,
+  ]);
 
   const handleChangeTab = (
     _event: React.SyntheticEvent,
@@ -165,8 +174,6 @@ export const PostcardsPage = () => {
         <PostcardTabs currentTab={tabName} handleChangeTab={handleChangeTab} />
       </div>
       <HorizontalDivider />
-
-      <div>Filters:</div>
 
       <div>
         {tabName === "my-postcards" || tabName === "postcards-to-send" ? (

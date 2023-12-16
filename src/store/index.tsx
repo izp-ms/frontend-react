@@ -3,7 +3,7 @@ import { userApi } from "../services/user.service";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import auth from "./auth.slice";
-import friends from "./friends.slice";
+import favouritesPostcards from "./favouritesPostcards.slice";
 import { apiReducers } from "../services";
 import { postcardApi } from "../services/postcard.service";
 import { postcardDataApi } from "../services/postcard-data.service";
@@ -11,7 +11,7 @@ import { friendApi } from "../services/friend.service";
 
 const storeReducers = {
   auth,
-  friends,
+  favouritesPostcards,
 };
 
 export const rootReducer = combineReducers({

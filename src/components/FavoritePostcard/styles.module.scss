@@ -5,17 +5,21 @@
   display: flex;
   flex-direction: column;
 }
+
 .update {
   margin: 1em 0rem;
 }
+
 .btn {
   width: 100%;
-  margin: 1em 0rem;
+  margin: 1rem 0rem;
 }
+
 .save {
   width: 20%;
   height: 50px;
 }
+
 .tabs {
   display: flex;
   flex-direction: row;
@@ -46,14 +50,18 @@
   align-items: center;
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  row-gap: 2rem;
 }
+
 .container_button {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
 }
+
 .indicator {
   @include H_Huge;
   position: absolute;

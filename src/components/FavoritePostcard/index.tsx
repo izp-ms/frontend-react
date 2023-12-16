@@ -14,6 +14,7 @@ import { Postcard } from "../../models/postcard";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+
 function FavouritePostcards() {
   const user = useTypedSelector((state) => state.auth.user);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,9 +29,11 @@ function FavouritePostcards() {
   const { data: paginatedData, refetch } = useGetPostcardsQuery({
     searchParams: searchParams.toString(),
   });
+
   const [isAddedAsFavorite, setIsAddedAsFavorite] = useState<boolean[]>(
     new Array(1).fill(false)
   );
+
   const { data: favouritePostcards, refetch: favouriteRefetch } =
     useGetFavouritePostcardsQuery(user?.id ?? "0");
 
@@ -41,9 +44,11 @@ function FavouritePostcards() {
       postcardId: 0,
     },
   ];
+
   const [favoritePostcards, setFavoritePostcards] = useState(
     favoritePostcardsArray
   );
+
   const favouriteStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -55,6 +60,7 @@ function FavouritePostcards() {
     boxShadow: 24,
     p: 4,
   };
+
   const onSubmit = () => {
     const reducedPostcard = favoritePostcards.map((postcard) => {
       return {
@@ -69,8 +75,6 @@ function FavouritePostcards() {
       userId: user?.id ?? "0",
       postcardIdsWithOrders: reducedPostcard,
     };
-
-    console.log(toSend);
 
     updateFavoritePostcards(toSend);
   };
@@ -113,16 +117,17 @@ function FavouritePostcards() {
         prevIsAddedAsFavorite.map((item, i) => (i === index ? true : item))
       );
   };
+
   const deleteButtonChange = (index: number) => {
     setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
       prevIsAddedAsFavorite.map((item, i) => (i === index ? false : item))
     );
   };
+
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
-    console.log(newPage);
     setPageNumber(newPage + 1);
     refetch();
   };
@@ -134,6 +139,7 @@ function FavouritePostcards() {
     setPageNumber(1);
     refetch();
   };
+
   useEffect(() => {
     setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
   }, [paginatedData]);
@@ -192,32 +198,11 @@ function FavouritePostcards() {
           </span>
           <Box className={styles.container} sx={{ color: "text.primary" }}>
             <div className={styles.postcard}>
-              {/* <ul>
-                    {isAddedAsFavorite.map((item, x) => {
-                      return <span key={x}>{item.toString()} </span>;
-                    })}
-                  </ul>
-                  <main>
-                    <ul>
-                      {favoritePostcards.map((favoritePostcard, index) => (
-                        <li key={index}>
-                          <span>number: {favoritePostcard.number} </span>
-                          <span>index: {favoritePostcard.favIndex} </span>
-                          <span>postcard id: {favoritePostcard.postcardId}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </main> */}
               <div>
                 <div className={styles.postcard_list}>
                   {paginatedData?.content?.map(
                     (postcard: Postcard, postcardIndex: number) => (
-                      <div>
-                        {/* <div className={styles.favorite_number}>
-                              {postcardIndex + 1}
-                              {"---"}
-                              {postcard.id}
-                            </div> */}
+                      <div key={postcard.id}>
                         <PostcardCard postcard={postcard} />
                         <span className={styles.update}>
                           <div className={styles.container_button}>
@@ -227,7 +212,7 @@ function FavouritePostcards() {
                               <>
                                 <div className={styles.indicator}>
                                   {favoritePostcards.map(
-                                    (favoritePostcard, index) => (
+                                    (favoritePostcard, _) => (
                                       <>
                                         {favoritePostcard.favIndex ===
                                         postcardIndex +
@@ -254,14 +239,7 @@ function FavouritePostcards() {
                                       postcardIndex +
                                         pageSize * (pageNumber - 1)
                                     );
-                                    favoritePostcards.forEach((postcard) => {
-                                      // console.log(
-                                      //   "postcard.number: " +
-                                      //     postcard.number +
-                                      //     " " +
-                                      //     postcard.favIndex
-                                      // );
-                                    });
+                                    favoritePostcards.forEach((postcard) => {});
                                   }}
                                 >
                                   Delete Postcard
@@ -298,11 +276,18 @@ function FavouritePostcards() {
               <Button
                 variant="contained"
                 className={styles.save}
-                onClick={() => {
+                onClick={async () => {
                   onSubmit();
-                  refetch();
-                  favouriteRefetch();
+                  await refetch();
+                  await favouriteRefetch();
                   handleCloseFavourite();
+                  setFavoritePostcards([
+                    {
+                      number: 0,
+                      favIndex: 0,
+                      postcardId: 0,
+                    },
+                  ]);
                 }}
               >
                 <CheckIcon />
@@ -317,7 +302,7 @@ function FavouritePostcards() {
                 onPageChange={handleChangePage}
                 rowsPerPage={pageSize}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                rowsPerPageOptions={[2, 3, 6]}
+                rowsPerPageOptions={[2, 6, 12, 18]}
               />
             </div>
           </Box>
