@@ -17,7 +17,7 @@
   transform-style: preserve-3d;
   box-sizing: border-box;
   border-radius: 5px;
-  border:white 10px solid;
+  border: white 10px solid;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
   cursor: pointer;
@@ -30,7 +30,7 @@
 
 .front__image1 {
   width: 100%;
-  -webkit-filter: grayscale(100%); 
+  -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
   -ms-filter: grayscale(100%);
   -o-filter: grayscale(100%);
@@ -49,18 +49,24 @@
   height: 100px;
 }
 
-.wrap{
-
+.wrap {
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
 }
 
-.wrap_alert{
+.wrap_alert {
   font-weight: 400;
   font-size: 42px;
   letter-spacing: 4px;
   text-align: center;
-  font-family: 'Rubik';
+  font-family: "Rubik";
+}
+.no_draggable {
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

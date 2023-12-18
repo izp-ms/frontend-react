@@ -27,12 +27,6 @@ export const PostcardCard = (props: Props) => {
           <div className={styles.card_back}>
             <PostcardFront postcard={postcard} />
           </div>
-          {/* <div className={styles.card_back}>
-              <PostcardBack postcard={postcard} />
-            </div>
-            <div className={styles.card_front}>
-              <PostcardFront postcard={postcard} />
-            </div> */}
         </div>
       </CSSTransition>
     </div>

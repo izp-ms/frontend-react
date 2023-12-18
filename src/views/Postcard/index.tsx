@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
 import { Filters } from "./components/Filters";
+import { ref } from "yup";
 
 export const PostcardsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -68,16 +69,7 @@ export const PostcardsPage = () => {
     } else {
       setpaginatedDataCount(paginatedDataForPostcardsData?.totalCount ?? 0);
     }
-  }, [
-    pageNumber,
-    pageSize,
-    paginatedDataForPostcards?.totalCount,
-    paginatedDataForPostcardsData?.totalCount,
-    searchParams,
-    setSearchParams,
-    tabName,
-    user?.id,
-  ]);
+  }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
 
   useEffect(() => {
     if (
@@ -86,7 +78,7 @@ export const PostcardsPage = () => {
     ) {
       setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
     }
-  }, [paginatedDataCount, paginatedDataForPostcards]);
+  }, [paginatedDataForPostcards]);
 
   useEffect(() => {
     if (!user?.id) {
@@ -98,14 +90,7 @@ export const PostcardsPage = () => {
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("IsSent", "true");
     setSearchParams(searchParams);
-  }, [
-    pageNumber,
-    pageSize,
-    paginatedDataForPostcards?.totalCount,
-    searchParams,
-    setSearchParams,
-    user?.id,
-  ]);
+  }, [user?.id]);
 
   const handleChangeTab = (
     _event: React.SyntheticEvent,
@@ -137,6 +122,7 @@ export const PostcardsPage = () => {
           <div>
             <PostcardsComponent
               postcards={paginatedDataForPostcards?.content ?? []}
+              refetch={postcardsRefetch}
             />
           </div>
         );

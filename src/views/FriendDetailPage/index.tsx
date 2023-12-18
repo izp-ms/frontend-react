@@ -58,9 +58,8 @@ export const FriendDetailPage = () => {
   const [toastSuccessMessage] = useState<string>("User updated successfully");
   const [toastErrorMessage] = useState<string>("Something went wrong");
 
-  const { data: favouritePostcards } = useGetFavouritePostcardsQuery(
-    user?.id ?? "0"
-  );
+  const { data: favouritePostcards, refetch: favouriteRefetch } =
+    useGetFavouritePostcardsQuery(friendId ? `${friendId}` : "0");
 
   const navigate = useNavigate();
 

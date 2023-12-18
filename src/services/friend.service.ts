@@ -72,8 +72,6 @@ export const friendApi = createApi({
           body,
         }),
       }),
-      // post
-      //delete
   }),
 });
 
