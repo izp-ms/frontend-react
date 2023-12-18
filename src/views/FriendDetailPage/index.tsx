@@ -190,13 +190,14 @@ export const FriendDetailPage = () => {
               <Button
                 variant="contained"
                 className={styles.btn}
-                onClick={() => {
-                  unFollow({
+                sx={{ marginLeft: "1rem", marginRight: "1rem" }}
+                onClick={async () => {
+                  await unFollow({
                     userId: parseInt(user?.id ?? "0"),
                     friendId: parseInt(friendId) ?? 0,
                   });
                   refetchIsFollowing();
-                  refetch();
+                  await refetch();
                 }}
               >
                 UnFollow
@@ -207,13 +208,14 @@ export const FriendDetailPage = () => {
               <Button
                 variant="contained"
                 className={styles.btn}
-                onClick={() => {
-                  follow({
+                sx={{ marginLeft: "1rem", marginRight: "1rem" }}
+                onClick={async () => {
+                  await follow({
                     userId: parseInt(user?.id ?? "0"),
                     friendId: parseInt(friendId) ?? 0,
                   });
                   refetchIsFollowing();
-                  refetch();
+                  await refetch();
                 }}
               >
                 Follow

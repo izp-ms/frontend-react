@@ -17,6 +17,6 @@ const favouritesPostcards = createSlice({
   },
 });
 
-export const { addNewFavouritePostcard, removeFavouritePostcard } =
+export const { addNewFavouritePostcard, removeFavouritePostcard} =
   favouritesPostcards.actions;
 export default favouritesPostcards.reducer;

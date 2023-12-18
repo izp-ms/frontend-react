@@ -7,4 +7,6 @@ export interface PostcardData {
   longitude: string;
   latitude: string;
   collectRangeInMeters: number;
+  type?: string;
+  createdAt?: string;
 }

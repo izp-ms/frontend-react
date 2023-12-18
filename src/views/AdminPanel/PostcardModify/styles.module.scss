@@ -1,11 +1,33 @@
-@import "../../styles/styles.scss";
+@import "../../../styles/styles.scss";
 
-.container {
-  @include container;
+.btn {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.pop_up {
+  color: white;
+}
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: white;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+.inputs {
+  width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 1rem;
+}
+.form {
+  display: flex;
+  flex-direction: row;
 }
 .postcard {
   display: flex;
@@ -13,19 +35,10 @@
   padding: 1rem;
   height: auto;
   border-radius: 20px;
-  cursor: pointer;
-  &:hover {
-    background-color: $gray-100;
-    //background-color: opacity(0.5);
-    transition: all 0.3s ease-in-out;
-  }
 }
-.postcard_list {
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  width: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.postcard_edit:hover {
+  background-color: $gray-100;
+  transition: all 0.3s ease-in-out;
 }
 
 .card {
@@ -36,6 +49,7 @@
   border: white 10px solid;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
+  cursor: pointer;
   height: auto;
   width: 200px;
   perspective: 1000px;
@@ -46,19 +60,10 @@
 .front__image {
   width: 100%;
 }
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
 
 .title {
   width: 200px;
   height: 100px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .no_draggable {
@@ -67,11 +72,4 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-}
-.wrapper {
-  display: flex;
-  flex-direction: column;
-}
-.update {
-  border: solid 1px red;
 }

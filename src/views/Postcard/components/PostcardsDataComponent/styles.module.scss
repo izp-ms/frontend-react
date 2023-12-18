@@ -45,8 +45,11 @@
 
 .title {
   width: 200px;
-  //white-space: wrap;
   height: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrap {
