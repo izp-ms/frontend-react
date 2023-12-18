@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../core/config";
 import { getTokenFromSessionStorage } from "../hooks/useToken";
 import { Pagination } from "../models/pagination";
-import { Coordinates } from "../models/coordinates";
+//import { Coordinates } from "../models/coordinates";
 import { PostcardData } from "../models/postcard-data";
 import { PostcardDataFilter } from "../models/filters";
 
@@ -25,13 +25,13 @@ export const postcardDataApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    postCoordinates: builder.mutation<Coordinates, PostcardData>({
-      query: (body) => ({
-        url: "/api/User/login",
-        method: "POST",
-        body,
-      }),
-    }),
+    // postCoordinates: builder.mutation<Coordinates, PostcardData>({
+    //   query: (body) => ({
+    //     url: "/api/User/login",
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
     getPostcardsData: builder.query<Pagination<PostcardData>, PostcardDataFilter>({
       query: (postcardDataFilter) => {
         const queryUrl = queryBuilder(postcardDataFilter);
@@ -44,4 +44,6 @@ export const postcardDataApi = createApi({
   }),
 });
 
-export const { usePostCoordinatesMutation, useGetPostcardsDataQuery } = postcardDataApi;
+export const { 
+  //usePostCoordinatesMutation, 
+  useGetPostcardsDataQuery } = postcardDataApi;
