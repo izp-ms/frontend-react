@@ -18,7 +18,7 @@ interface Props {
   refetch?: () => void;
 }
 
-export const PostcardModify = (props: Props) => {
+export const ModifyPostcard = (props: Props) => {
   const { postcardData, refetch } = props;
 
   const [openPostcardData, setOpenPostcardData] = React.useState(false);
@@ -28,7 +28,9 @@ export const PostcardModify = (props: Props) => {
   const [updatePostcardData] = useUpdatePostcardDataMutation();
 
   const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
-  const [toastSuccessMessage] = useState<string>("User updated successfully");
+  const [toastSuccessMessage] = useState<string>(
+    "Postcard updated successfully"
+  );
   const [toastErrorMessage, setToastErrorMessage] = useState<string>(
     "Something went wrong"
   );

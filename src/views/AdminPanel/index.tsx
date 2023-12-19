@@ -5,7 +5,8 @@ import { useTypedSelector } from "../../store";
 import { useGetPostcardsDataQuery } from "../../services/postcard-data.service";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { PostcardModify } from "./PostcardModify";
+import { ModifyPostcard } from "./ModifyPostcard";
+import { CreatePostcardData } from "./CreatePostcardData";
 
 export const AdminPanel = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -53,12 +54,14 @@ export const AdminPanel = () => {
 
       <div className={styles.postcard_list}>
         {paginatedDataForPostcardsData?.content.map((postcard) => (
-          <PostcardModify
+          <ModifyPostcard
             postcardData={postcard}
             refetch={postcardsDataRefetch}
           />
         ))}
       </div>
+
+      <CreatePostcardData refetch={postcardsDataRefetch} />
 
       <TablePagination
         className={styles.pagination}

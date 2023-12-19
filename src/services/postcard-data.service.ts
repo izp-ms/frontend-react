@@ -48,9 +48,18 @@ export const postcardDataApi = createApi({
         body,
       }),
     }),
+    postPostcardData: builder.mutation<PostcardData, PostcardData>({
+      query: (body) => ({
+        url: "/api/PostcardData",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
 export const { 
+  
+  useGetPostcardsDataQuery,
   useUpdatePostcardDataMutation, 
-  useGetPostcardsDataQuery } = postcardDataApi;
+  usePostPostcardDataMutation } = postcardDataApi;
