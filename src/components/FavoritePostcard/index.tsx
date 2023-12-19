@@ -187,11 +187,6 @@ function FavouritePostcards() {
           </span>
 
           <Box className={styles.container} sx={{ color: "text.primary" }}>
-            <div>
-              {/* {isAddedAsFavorite.map((value, index) => (
-                <div>{`${index + 1}. ${value}`}</div>
-              ))} */}
-            </div>
             <div className={styles.postcard}>
               <div>
                 <div className={styles.postcard_list}>
