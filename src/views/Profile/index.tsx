@@ -260,7 +260,19 @@ export const Profile = () => {
                       handleUpdateUser();
                     }}
                   >
-                    <Button variant="contained" className={styles.btn}>
+                    <Button
+                      sx={{
+                        marginBottom: "1rem",
+                        marginTop: "1rem",
+                        fontSize: "20px",
+                        fontWeight: "400",
+                        fontStyle: "normal",
+                        letterSpacing: "0px",
+                        fontFamily: "Rubik",
+                      }}
+                      variant="contained"
+                      className={styles.btn}
+                    >
                       <CheckIcon />
                       Save
                     </Button>
@@ -298,7 +310,18 @@ export const Profile = () => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography className={styles.about_me}>About me</Typography>
+                <Typography
+                  sx={{
+                    fontSize: "24px",
+                    fontWeight: "400",
+                    fontStyle: "normal",
+                    letterSpacing: "0px",
+                    fontFamily: "Rubik",
+                  }}
+                  className={styles.about_me}
+                >
+                  About me
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div className={styles.bio}>
@@ -322,7 +345,11 @@ export const Profile = () => {
                     </span>
                   </div>
                 </div>
-                <Typography>{editedUser?.description ?? "-"}</Typography>
+                <Typography>
+                  <div className={styles.description}>
+                    {editedUser?.description ?? "-"}
+                  </div>
+                </Typography>
               </AccordionDetails>
             </Accordion>
           </div>

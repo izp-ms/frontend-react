@@ -62,7 +62,7 @@ function FavouritePostcards() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1000,
+    width: 1200,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -157,7 +157,9 @@ function FavouritePostcards() {
             onClick={handleOpenFavourite}
           >
             <EditIcon />
-            <span>Edit favourite</span>
+            <span className={styles.edit_favourite_none_text}>
+              Edit favourite
+            </span>
           </span>
         </Box>
       ) : (
@@ -201,6 +203,13 @@ function FavouritePostcards() {
                             ] ? (
                               <>
                                 <Button
+                                  sx={{
+                                    fontSize: "16px",
+                                    fontWeight: "400",
+                                    fontStyle: "normal",
+                                    letterSpacing: "0px",
+                                    fontFamily: "Rubik",
+                                  }}
                                   variant="contained"
                                   className={styles.btn}
                                   onClick={() => {
@@ -232,6 +241,13 @@ function FavouritePostcards() {
                               </>
                             ) : (
                               <Button
+                                sx={{
+                                  fontSize: "16px",
+                                  fontWeight: "400",
+                                  fontStyle: "normal",
+                                  letterSpacing: "0px",
+                                  fontFamily: "Rubik",
+                                }}
                                 variant="contained"
                                 className={styles.btn}
                                 onClick={() => {
@@ -254,6 +270,13 @@ function FavouritePostcards() {
             </div>
             <div className={styles.tabs}>
               <Button
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
                 variant="contained"
                 className={styles.save}
                 onClick={async () => {

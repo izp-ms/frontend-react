@@ -6,6 +6,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  h1 {
+    font-family: "Rubik";
+  }
 }
 .postcard {
   display: flex;
@@ -26,6 +29,7 @@
   justify-items: center;
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .card {
@@ -37,7 +41,7 @@
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
   user-select: none;
   height: auto;
-  width: 200px;
+  width: 300px;
   perspective: 1000px;
   overflow: hidden;
   margin-bottom: 2rem;

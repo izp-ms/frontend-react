@@ -15,6 +15,7 @@ export const StyledButton = (props: Props) => {
     <>
       {icon ? (
         <Button
+          sx={{ fontFamily: "Rubik" }}
           variant="contained"
           startIcon={icon}
           onClick={onClick}
@@ -23,7 +24,12 @@ export const StyledButton = (props: Props) => {
           {content}
         </Button>
       ) : (
-        <Button variant="contained" onClick={onClick} disabled={disabled}>
+        <Button
+          sx={{ fontFamily: "Rubik" }}
+          variant="contained"
+          onClick={onClick}
+          disabled={disabled}
+        >
           {content}
         </Button>
       )}

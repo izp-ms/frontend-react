@@ -82,7 +82,17 @@ export const Filters = (props: Props) => {
               handleClickSearch();
             }}
           >
-            <Button variant="contained" className={styles.btn}>
+            <Button
+              sx={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              variant="contained"
+              className={styles.btn}
+            >
               Search
             </Button>
           </span>
@@ -92,7 +102,17 @@ export const Filters = (props: Props) => {
               handleClickClear();
             }}
           >
-            <Button variant="contained" className={styles.btn}>
+            <Button
+              sx={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              variant="contained"
+              className={styles.btn}
+            >
               Clear
             </Button>
           </span>
@@ -104,13 +124,13 @@ export const Filters = (props: Props) => {
   if (viewType === "postcardData") {
     return (
       <div className={styles.filters}>
-        Search:
+        <span>Search:</span>
         <Input
           placeholder="Enter phrase"
           onChange={handleChangeSearch}
           value={searchInput}
         />
-        City:
+        <span>City:</span>
         <Input
           placeholder="Enter name of the city"
           onChange={handleChangeSearchCity}
@@ -129,7 +149,17 @@ export const Filters = (props: Props) => {
               handleClickSearch();
             }}
           >
-            <Button variant="contained" className={styles.btn}>
+            <Button
+              sx={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              variant="contained"
+              className={styles.btn}
+            >
               Search
             </Button>
           </span>
@@ -139,7 +169,17 @@ export const Filters = (props: Props) => {
               handleClickClear();
             }}
           >
-            <Button variant="contained" className={styles.btn}>
+            <Button
+              sx={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              variant="contained"
+              className={styles.btn}
+            >
               Clear
             </Button>
           </span>

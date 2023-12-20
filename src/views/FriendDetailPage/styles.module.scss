@@ -230,7 +230,10 @@
     font-weight: 700;
   }
 }
-
+.description {
+  margin: 1rem;
+  @include H_Small;
+}
 .update {
   width: 100%;
 }
@@ -305,13 +308,14 @@
   flex-direction: row;
   width: 100%;
   gap: 10rem;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 2rem;
+  //border: 1px solid red;
 }
 
 .btn {
   @include H_Medium;
-  width: 100%;
+  width: 30%;
   border-radius: 20px;
   padding: 1rem;
   margin: 0.5rem;

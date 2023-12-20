@@ -113,8 +113,16 @@ export const PostcardToSend = (props: Props) => {
   return (
     <div>
       <Button
+        sx={{
+          marginBottom: "1rem",
+          marginTop: "1rem",
+          fontSize: "16px",
+          fontWeight: "400",
+          fontStyle: "normal",
+          letterSpacing: "0px",
+          fontFamily: "Rubik",
+        }}
         variant="contained"
-        sx={{ marginBottom: "1rem", marginTop: "1rem" }}
         className={styles.btn}
         onClick={() => {
           handleOpenPostcard();
@@ -173,7 +181,18 @@ export const PostcardToSend = (props: Props) => {
             </div>
           </div>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Choose postcard recipient</FormLabel>
+            <FormLabel
+              sx={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              component="legend"
+            >
+              Choose postcard recipient
+            </FormLabel>
             <RadioGroup
               aria-label="Friend"
               name={`radio-buttons-group`}
@@ -203,8 +222,29 @@ export const PostcardToSend = (props: Props) => {
                           src={friend.avatarBase64}
                           alt={friend.nickName}
                         />
-                        <Typography variant="h6">{friend.nickName}</Typography>
-                        <Typography>{friend.email}</Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "24px",
+                            fontWeight: "400",
+                            fontStyle: "normal",
+                            letterSpacing: "0px",
+                            fontFamily: "Rubik",
+                          }}
+                          variant="h6"
+                        >
+                          {friend.nickName}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "20px",
+                            fontWeight: "400",
+                            fontStyle: "normal",
+                            letterSpacing: "0px",
+                            fontFamily: "Rubik",
+                          }}
+                        >
+                          {friend.email}
+                        </Typography>
                         <Typography>{friend.role}</Typography>
                       </div>
                     }
@@ -232,7 +272,17 @@ export const PostcardToSend = (props: Props) => {
               handleClosePostcard();
             }}
           >
-            <Button variant="contained" className={styles.btn}>
+            <Button
+              sx={{
+                fontSize: "20px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
+              variant="contained"
+              className={styles.btn}
+            >
               <CheckIcon />
               Send
             </Button>

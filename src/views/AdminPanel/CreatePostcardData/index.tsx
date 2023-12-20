@@ -212,7 +212,15 @@ export const CreatePostcardData = (props: Props) => {
             }}
           >
             <Button
-              sx={{ marginBottom: "1rem", marginTop: "1rem" }}
+              sx={{
+                marginBottom: "1rem",
+                marginTop: "1rem",
+                fontSize: "20px",
+                fontWeight: "400",
+                fontStyle: "normal",
+                letterSpacing: "0px",
+                fontFamily: "Rubik",
+              }}
               variant="contained"
               className={styles.btn}
             >

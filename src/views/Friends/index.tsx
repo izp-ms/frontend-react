@@ -16,6 +16,7 @@ import {
   useGetFriendsQuery,
 } from "../../services/friend.service";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import profile from "../../assets/png/default-profile.png";
 
 export const FriendsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -127,9 +128,39 @@ export const FriendsPage = () => {
       sx={{ color: "text.primary", marginTop: 10 }}
     >
       <Tabs value={currentTab} centered>
-        <Tab label="Users" onClick={() => handleChangeTab(0)} />
-        <Tab label="Followers" onClick={() => handleChangeTab(1)} />
-        <Tab label="Following" onClick={() => handleChangeTab(2)} />
+        <Tab
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            fontStyle: "normal",
+            letterSpacing: "0px",
+            fontFamily: "Rubik",
+          }}
+          label="Users"
+          onClick={() => handleChangeTab(0)}
+        />
+        <Tab
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            fontStyle: "normal",
+            letterSpacing: "0px",
+            fontFamily: "Rubik",
+          }}
+          label="Followers"
+          onClick={() => handleChangeTab(1)}
+        />
+        <Tab
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            fontStyle: "normal",
+            letterSpacing: "0px",
+            fontFamily: "Rubik",
+          }}
+          label="Following"
+          onClick={() => handleChangeTab(2)}
+        />
       </Tabs>
 
       <h2>Search by user Name</h2>
@@ -149,9 +180,30 @@ export const FriendsPage = () => {
                 navigate(`/friends/${friend.id}`);
               }}
             >
-              <Avatar src={friend.avatarBase64} alt={friend.nickName} />
-              <Typography variant="h6">{friend.nickName}</Typography>
-              <Typography>{friend.email}</Typography>
+              <Avatar src={profile} alt={friend.nickName} />
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+                variant="h6"
+              >
+                {friend.nickName}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "300",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+              >
+                {friend.email}
+              </Typography>
               <Typography>{friend.role}</Typography>
             </div>
           ))}
@@ -161,10 +213,37 @@ export const FriendsPage = () => {
       {currentTab === 1 && (
         <div className={styles.grid}>
           {followersData?.content.map((friend) => (
-            <div key={friend.id} className={styles.friendCard}>
-              <Avatar src={friend.avatarBase64} alt={friend.nickName} />
-              <Typography variant="h6">{friend.nickName}</Typography>
-              <Typography>{friend.email}</Typography>
+            <div
+              key={friend.id}
+              className={styles.friendCard}
+              onClick={() => {
+                navigate(`/friends/${friend.id}`);
+              }}
+            >
+              <Avatar src={profile} alt={friend.nickName} />
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+                variant="h6"
+              >
+                {friend.nickName}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "300",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+              >
+                {friend.email}
+              </Typography>
               <Typography>{friend.role}</Typography>
             </div>
           ))}
@@ -174,10 +253,37 @@ export const FriendsPage = () => {
       {currentTab === 2 && (
         <div className={styles.grid}>
           {followingData?.content.map((friend) => (
-            <div key={friend.id} className={styles.friendCard}>
-              <Avatar src={friend.avatarBase64} alt={friend.nickName} />
-              <Typography variant="h6">{friend.nickName}</Typography>
-              <Typography>{friend.email}</Typography>
+            <div
+              key={friend.id}
+              className={styles.friendCard}
+              onClick={() => {
+                navigate(`/friends/${friend.id}`);
+              }}
+            >
+              <Avatar src={profile} alt={friend.nickName} />
+              <Typography
+                sx={{
+                  fontSize: "24px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+                variant="h6"
+              >
+                {friend.nickName}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "300",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
+              >
+                {friend.email}
+              </Typography>
               <Typography>{friend.role}</Typography>
             </div>
           ))}
