@@ -15,7 +15,7 @@ input[type="file"] {
   border-radius: 20px;
   display: inline-block;
   padding: 0.7rem 1rem;
-
+  color: black;
   background-color: $primary-100;
   cursor: pointer;
 }
@@ -36,14 +36,31 @@ input[type="file"] {
     border-radius: 20px 20px 0 0;
   }
   &_postcard {
-    aspect-ratio: 3 / 4;
-    width: 200px;
-    height: auto;
-    border-radius: 5px;
-    border: white 10px solid;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
-    perspective: 1000px;
-    overflow: hidden;
+    position: relative;
+    border: none;
+    margin: 1rem 2rem;
+    &_img {
+      aspect-ratio: 3 / 4;
+      width: 200px;
+      height: auto;
+      border-radius: 5px;
+      border: white 10px solid;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
+      perspective: 1000px;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    &_div {
+      aspect-ratio: 3 / 4;
+      width: 200px;
+      height: auto;
+      border-radius: 5px;
+      border: white 10px solid;
+      margin: 1rem 2rem;
+      background-color: #1c1c1c;
+    }
   }
 }
 

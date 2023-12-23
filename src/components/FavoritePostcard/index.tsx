@@ -21,16 +21,17 @@ import {
 
 function FavouritePostcards() {
   const user = useTypedSelector((state) => state.auth.user);
+
   const favouritePostcardsStore = useTypedSelector(
     (state) => state.favouritesPostcards.favouritesPostcards
   );
-  const dispatch = useTypedDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
 
+  const dispatch = useTypedDispatch();
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
   const [updateFavoritePostcards] = useUpdateFavoritePostcardsMutation();
-
   const [isOpenModalFavourite, setIsOpenModalFavourite] = useState(false);
   const handleOpenFavourite = () => setIsOpenModalFavourite(true);
   const handleCloseFavourite = () => setIsOpenModalFavourite(false);
@@ -46,24 +47,22 @@ function FavouritePostcards() {
   const { data: favouritePostcards, refetch: favouriteRefetch } =
     useGetFavouritePostcardsQuery(user?.id ?? "0");
 
-  const favoritePostcardsArray = [
-    {
-      number: 0,
-      favIndex: 0,
-      postcardId: 0,
-    },
-  ];
-
-  const [favoritePostcards, setFavoritePostcards] = useState(
-    favoritePostcardsArray
-  );
-
+  const clearAllFavoritePostcard = () => {
+    favouritePostcardsStore.map((favoriteNumber: number) => {
+      dispatch(removeFavouritePostcard(favoriteNumber));
+    });
+  };
+  const close = () => {
+    handleCloseFavourite();
+    clearAllFavoritePostcard();
+    setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
+  };
   const favouriteStyle = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 1000,
+    width: 1200,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -71,62 +70,46 @@ function FavouritePostcards() {
   };
 
   const onSubmit = () => {
-    const reducedPostcard = favoritePostcards.map((postcard) => {
-      return {
-        postcardId: postcard.postcardId,
-        orderId: postcard.number,
-      };
-    });
-
-    reducedPostcard.splice(0, 1);
-
+    console.log(isAddedAsFavorite);
+    const sliced = favouritePostcardsStore.map(
+      (favoriteNumber: number, postcardIndexNumber: number) => {
+        return {
+          postcardId: favoriteNumber,
+          orderId: postcardIndexNumber + 1,
+        };
+      }
+    );
+    console.log(isAddedAsFavorite);
     const toSend = {
       userId: user?.id ?? "0",
-      postcardIdsWithOrders: reducedPostcard,
+      postcardIdsWithOrders: sliced,
     };
 
     updateFavoritePostcards(toSend);
+
+    clearAllFavoritePostcard();
+    setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
+    handleCloseFavourite();
   };
 
-  const handleAddFavoritePostcard = (index: number, postcardId: number) => {
-    if (favoritePostcards.length >= 7)
-      return alert("You can add only 6 Postcards");
-    else {
-      setFavoritePostcards((prevfavoritePostcards) => [
-        ...prevfavoritePostcards,
-        {
-          number: favoritePostcards.length,
-          favIndex: index,
-          postcardId: postcardId,
-        },
-      ]);
+  const addButtonChange = (postcardId: number, index: number) => {
+    if (favouritePostcardsStore.length < 5) {
+      dispatch(addNewFavouritePostcard(postcardId));
+      setIsAddedAsFavorite((prevArray) => {
+        const newArray = [...prevArray];
+        newArray[index] = true;
+        return newArray;
+      });
     }
   };
-
-  const handleDeleteFavoritePostcard = (number: number) => {
-    let checkNumber = false;
-    favoritePostcards.forEach((postcard) => {
-      if (postcard.favIndex === number) {
-        checkNumber = true;
-      } else if (checkNumber) {
-        postcard.number = postcard.number - 1;
-      }
-    });
-
-    dispatch(removeFavouritePostcard(number));
-    // setFavoritePostcards(
-    //   favoritePostcards.filter((item) => {
-    //     return item.favIndex !== number;
-    //   })
-    // );
-  };
-
-  const addButtonChange = (index: number) => {
-    if (favoritePostcards.length < 7) {
-      dispatch(addNewFavouritePostcard(index));
-      // setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
-      //   prevIsAddedAsFavorite.map((item, i) => (i === index ? true : item))
-      // );
+  const deleteButtonChange = (postcardId: number, index: number) => {
+    if (favouritePostcardsStore.length > 0) {
+      dispatch(removeFavouritePostcard(postcardId));
+      setIsAddedAsFavorite((prevArray) => {
+        const newArray = [...prevArray];
+        newArray[index] = false;
+        return newArray;
+      });
     }
   };
 
@@ -134,36 +117,31 @@ function FavouritePostcards() {
     console.log(favouritePostcardsStore);
   }, [favouritePostcardsStore]);
 
-  const deleteButtonChange = (index: number) => {
-    setIsAddedAsFavorite((prevIsAddedAsFavorite) =>
-      prevIsAddedAsFavorite.map((item, i) => (i === index ? false : item))
-    );
-  };
-
-  const handleChangePage = (
+  const handleChangePage = async (
     _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPageNumber(newPage + 1);
-    refetch();
+    await refetch();
   };
 
-  const handleChangeRowsPerPage = (
+  const handleChangeRowsPerPage = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setPageSize(parseInt(event.target.value, 10));
     setPageNumber(1);
-    refetch();
+    await refetch();
+    setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
+    clearAllFavoritePostcard();
   };
 
-  useEffect(() => {
-    setIsAddedAsFavorite(new Array(paginatedData?.totalCount).fill(false));
-  }, [paginatedData]);
+  useEffect(() => {}, [refetch]);
 
   useEffect(() => {
     if (!user?.id) {
       return;
     }
+
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("PageSize", pageSize.toString());
     searchParams.set("PageNumber", pageNumber.toString());
@@ -179,7 +157,9 @@ function FavouritePostcards() {
             onClick={handleOpenFavourite}
           >
             <EditIcon />
-            <span>Edit favourite</span>
+            <span className={styles.edit_favourite_none_text}>
+              Edit favourite
+            </span>
           </span>
         </Box>
       ) : (
@@ -197,21 +177,17 @@ function FavouritePostcards() {
         </Box>
       )}
 
-      <Modal
-        open={isOpenModalFavourite}
-        onClose={handleCloseFavourite}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={isOpenModalFavourite} onClose={close}>
         <BoxM sx={favouriteStyle}>
           <span
             className={styles.close}
             onClick={() => {
-              setIsOpenModalFavourite(false);
+              close();
             }}
           >
             <CloseIcon />
           </span>
+
           <Box className={styles.container} sx={{ color: "text.primary" }}>
             <div className={styles.postcard}>
               <div>
@@ -226,53 +202,57 @@ function FavouritePostcards() {
                               postcardIndex + pageSize * (pageNumber - 1)
                             ] ? (
                               <>
-                                <div className={styles.indicator}>
-                                  {favoritePostcards.map(
-                                    (favoritePostcard, _) => (
-                                      <>
-                                        {favoritePostcard.favIndex ===
-                                        postcardIndex +
-                                          1 +
-                                          pageSize * (pageNumber - 1) ? (
-                                          <>{favoritePostcard.number}</>
-                                        ) : (
-                                          <></>
-                                        )}
-                                      </>
-                                    )
-                                  )}
-                                </div>
                                 <Button
+                                  sx={{
+                                    fontSize: "16px",
+                                    fontWeight: "400",
+                                    fontStyle: "normal",
+                                    letterSpacing: "0px",
+                                    fontFamily: "Rubik",
+                                  }}
                                   variant="contained"
                                   className={styles.btn}
                                   onClick={() => {
-                                    handleDeleteFavoritePostcard(
-                                      postcardIndex +
-                                        1 +
-                                        pageSize * (pageNumber - 1)
-                                    );
                                     deleteButtonChange(
+                                      postcard.id,
                                       postcardIndex +
                                         pageSize * (pageNumber - 1)
                                     );
-                                    favoritePostcards.forEach((postcard) => {});
                                   }}
                                 >
                                   Delete Postcard
                                 </Button>
+                                {favouritePostcardsStore.map(
+                                  (
+                                    favoriteNumber: number,
+                                    postcardIndexNumber: number
+                                  ) => (
+                                    <>
+                                      {favoriteNumber === postcard.id ? (
+                                        <div className={styles.indicator}>
+                                          {postcardIndexNumber + 1}
+                                        </div>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </>
+                                  )
+                                )}
                               </>
                             ) : (
                               <Button
+                                sx={{
+                                  fontSize: "16px",
+                                  fontWeight: "400",
+                                  fontStyle: "normal",
+                                  letterSpacing: "0px",
+                                  fontFamily: "Rubik",
+                                }}
                                 variant="contained"
                                 className={styles.btn}
                                 onClick={() => {
-                                  handleAddFavoritePostcard(
-                                    postcardIndex +
-                                      1 +
-                                      pageSize * (pageNumber - 1),
-                                    postcard.id
-                                  );
                                   addButtonChange(
+                                    postcard.id,
                                     postcardIndex + pageSize * (pageNumber - 1)
                                   );
                                 }}
@@ -290,20 +270,19 @@ function FavouritePostcards() {
             </div>
             <div className={styles.tabs}>
               <Button
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "400",
+                  fontStyle: "normal",
+                  letterSpacing: "0px",
+                  fontFamily: "Rubik",
+                }}
                 variant="contained"
                 className={styles.save}
                 onClick={async () => {
                   onSubmit();
                   await refetch();
                   await favouriteRefetch();
-                  handleCloseFavourite();
-                  setFavoritePostcards([
-                    {
-                      number: 0,
-                      favIndex: 0,
-                      postcardId: 0,
-                    },
-                  ]);
                 }}
               >
                 <CheckIcon />

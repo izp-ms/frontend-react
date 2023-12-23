@@ -1,8 +1,10 @@
 .front {
   width: 100%;
+  height: 100%;
   white-space: wrap;
   box-sizing: border-box;
   position: relative;
+  //border: solid 1px red;
   .no_draggable {
     user-drag: none;
     -webkit-user-drag: none;
@@ -13,12 +15,13 @@
   }
   .front__image {
     width: 100%;
+    height: 100%;
   }
-  .front_title{
+  .front_title {
     position: absolute;
     bottom: 2rem;
   }
-  .front_country_city{
+  .front_country_city {
     position: absolute;
     bottom: 1rem;
   }

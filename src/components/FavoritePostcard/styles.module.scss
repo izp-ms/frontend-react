@@ -51,6 +51,8 @@
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   row-gap: 2rem;
+  overflow-y: scroll;
+  height: 700px;
 }
 
 .container_button {
@@ -74,7 +76,7 @@
   background-color: $dark;
   border-radius: 50%;
   color: white;
-  top: -170px;
+  top: -250px;
 }
 
 .edit_favourite {
@@ -130,6 +132,9 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+.edit_favourite_none_text {
+  font-family: "Rubik";
 }
 
 .favourites_none {

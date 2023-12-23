@@ -24,19 +24,19 @@ export const PostcardsDataComponent = (props: Props) => {
         <div className={styles.postcard_list}>
           {postcards.map((postcard: PostcardData) => (
             <div>
-              <div className={styles.card}>
+              <div>
                 {user !== undefined ? (
                   <>
                     {postcardCollection?.postcardDataIds.map((number: any) =>
                       number === postcard.id ? (
                         <img
-                          className={`${styles.front__image2} ${styles.no_draggable}`}
+                          className={`${styles.card} ${styles.no_draggable}`}
                           src={postcard.imageBase64}
                           alt="postcardData"
                         />
                       ) : (
                         <img
-                          className={`${styles.front__image1} ${styles.no_draggable}`}
+                          className={`${styles.card} ${styles.gray} ${styles.no_draggable}`}
                           src={postcard.imageBase64}
                           alt="postcardData"
                         />
@@ -45,7 +45,7 @@ export const PostcardsDataComponent = (props: Props) => {
                   </>
                 ) : (
                   <img
-                    className={`${styles.front__image2} ${styles.no_draggable}`}
+                    className={`${styles.card} ${styles.no_draggable}`}
                     src={postcard.imageBase64}
                     alt="postcardData"
                   />
@@ -55,9 +55,11 @@ export const PostcardsDataComponent = (props: Props) => {
             </div>
           ))}
         </div>
-      ) : ( 
+      ) : (
         <div className={styles.wrap}>
-          <span className={styles.wrap_alert}>Unfortunately,We couldn't find any postcards :(</span>
+          <span className={styles.wrap_alert}>
+            Unfortunately,We couldn't find any postcards :(
+          </span>
         </div>
       )}
     </div>

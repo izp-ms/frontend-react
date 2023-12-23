@@ -1,5 +1,9 @@
+@import "../../styles/styles.scss";
 .container {
   padding: 20px;
+  h2 {
+    @include H_Huge;
+  }
 }
 
 .grid {
@@ -17,6 +21,7 @@
   margin: 10px;
   width: 300px;
   text-align: center;
+  background-color: $darkish-100;
   &:hover {
     cursor: pointer;
     opacity: 0.5;

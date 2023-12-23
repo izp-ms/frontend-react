@@ -115,7 +115,10 @@
     gap: 0.5rem;
   }
 }
-
+.description {
+  margin: 1rem;
+  @include H_Small;
+}
 .info {
   display: flex;
   flex-direction: column;

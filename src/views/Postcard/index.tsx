@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
 import { Filters } from "./components/Filters";
-import { ref } from "yup";
 
 export const PostcardsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);

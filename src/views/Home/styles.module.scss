@@ -1,325 +1,349 @@
-@import '../../styles/styles.scss';
+@import "../../styles/styles.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
 .postcard_section {
-    width: 100%;
-    height: auto;
-    background-color: #8DCFDE;
-    padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: #8dcfde;
+  padding-bottom: 50px;
 }
 
 .postcard_section_content {
-    padding: 174px 64px 0 120px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 30px;
+  padding: 174px 64px 0 120px;
+  max-width: 1600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
 }
 
 .postcard_section_information {
-    flex-direction: column;
-    gap: 80px;
+  flex-direction: column;
+  gap: 80px;
 
+  & h2 {
+    font-size: 64px;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+  }
 
-    & h2 {
-        font-size: 128px;
-        font-family: "Rubik";
-        font-style: normal;
-        font-weight: 400;
-        margin: 0;
-    }
-
-    & p {
-        font-size: 36px;
-        font-family: "Rubik";
-        font-style: normal;
-        font-weight: 400;
-        margin: 0;
-        max-width: 838px;
-    }
+  & p {
+    font-size: 32px;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    max-width: 838px;
+  }
 }
 
 .postcard_section_images {
-    gap: 139px;
-    align-items: end;
+  gap: 139px;
+  align-items: end;
 }
 
 .postcard_image {
-    max-width: 100%;
-    height: auto;
-    padding-right: 77px;
+  max-width: 100%;
+  height: auto;
+  padding-right: 77px;
 }
 
 .dots_image {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .download_section {
-    width: 100%;
-    min-height: 1080px;
-    height: auto;
-    padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 1080px;
+  height: auto;
+  padding-bottom: 60px;
 }
 
 .download_section_content {
-    padding: 50px 70px 0 70px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  max-width: 1600px;
+  padding: 50px 70px 0 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .download_section_information {
-    flex-direction: column;
-    gap: 80px;
-    width: 100%;
-    align-items: center;
+  flex-direction: column;
+  gap: 80px;
+  width: 100%;
+  align-items: center;
 
+  & h2 {
+    font-size: 128px;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    line-height: 128px;
+  }
 
-    & h2 {
-        font-size: 128px;
-        font-family: "Rubik";
-        font-style: normal;
-        font-weight: 400;
-        margin: 0;
-        line-height: 128px;
-    }
-
-    & p {
-        font-size: 36px;
-        font-family: "Rubik";
-        font-style: normal;
-        font-weight: 400;
-        margin: 0;
-        max-width: 1547px;
-        text-align: center;
-    }
+  & p {
+    font-size: 32px;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    max-width: 1547px;
+    text-align: center;
+  }
 }
 
 .download_now {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .download_now_shadow {
-    width: 530px;
-    height: 80px;
-    border-radius: 15px;
-    background-color: #8DCFDE;
-    margin-left: -220px;
-    margin-top: -60px;
+  width: 530px;
+  height: 80px;
+  border-radius: 15px;
+  background-color: #8dcfde;
+  margin-left: -220px;
+  margin-top: -60px;
 }
 
 .lines_streight_image_wrapper {
-    position: relative;
-    width: 300px;
+  position: relative;
+  width: 300px;
 }
 
 .lines_streight_image {
-    position: absolute;
-    left: 0;
-    max-width: 100%;
-    height: auto;
+  position: absolute;
+  left: -5rem;
+  max-width: 100%;
+  height: auto;
 }
 
 .store_cards_wrapper {
-    display: flex;
-    flex-direction: row;
-    padding: 0 350px 200px 350px;
-    justify-content: space-between;
-    ;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .store_card {
-    width: 376px;
-    height: 126px;
-    background-color: #eed;
-  box-shadow: -10px 10px 0px  #8DCFDE;
-  -moz-box-shadow: -10px 10px 0px  #8DCFDE;
-  -webkit-box-shadow: -10px 10px 0px  #8DCFDE;
-  -o-box-shadow: -10px 10px 0px  #8DCFDE;
-  border-radius:21px;
+  width: 376px;
+  height: 126px;
+  background-color: #eed;
+  box-shadow: -10px 10px 0px #8dcfde;
+  -moz-box-shadow: -10px 10px 0px #8dcfde;
+  -webkit-box-shadow: -10px 10px 0px #8dcfde;
+  -o-box-shadow: -10px 10px 0px #8dcfde;
+  border-radius: 21px;
 }
 
 .photos_section {
-    width: 100%;
-    min-height: 1080px;
-    height: auto;
-    background-color: #C4CDCD;
-    display: flex;
-    justify-content: end;
+  width: 100%;
+  min-height: 1080px;
+  height: auto;
+  background-color: #c4cdcd;
+  display: flex;
+  justify-content: end;
 }
-
+.info_img {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 0px;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  margin: 2rem;
+  border: solid red 1px;
+}
 .background_trapezoid {
-    border-bottom: 1080px solid #8DCFDE;
-    border-left: 800px solid transparent;
-    border-right: 0px solid transparent;
-    height: 0;
-    width: 1200px;
+  border-bottom: 1080px solid #8dcfde;
+  border-left: 800px solid transparent;
+  border-right: 0px solid transparent;
+  height: 0;
+  width: 1200px;
 }
 
 .preview_wrapper {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    padding-top: 90px;
+  margin-top: 3rem;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding-top: 90px;
 }
 
 .preview {
-    width: 400px;
-    height: auto;
-    padding-bottom: 40px;
+  width: 400px;
+  height: auto;
+  padding-bottom: 40px;
 }
 
 @media (max-width: 1720px) {
-    .store_cards_wrapper {
-        gap: 40px;
-        padding: 0 0 200px 350px;
-        justify-content: flex-start;
-    }
+  .store_cards_wrapper {
+    gap: 40px;
+    padding: 0 0 200px 350px;
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 1360px) {
-    .store_cards_wrapper {
-        padding: 0 0 40px 350px;
-        flex-direction: column;
-    }
+  .store_cards_wrapper {
+    padding: 0 0 40px 350px;
+    flex-direction: column;
+  }
 
-    .preview_wrapper {
-        flex-direction: column;
-        align-items: center;
-    }
+  .preview_wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .background_trapezoid {
-        border-bottom: 4080px solid #8DCFDE;
-    }
+  .background_trapezoid {
+    border-bottom: 4080px solid #8dcfde;
+  }
 
-    .preview {
-        width: 600px;
-    }
+  .preview {
+    width: 600px;
+  }
 }
 
 @media (max-width: 1150px) {
+  .postcard_section_content {
+    padding: 100px 60px 0 60px;
+  }
 
-    .postcard_section_content {
-        padding: 100px 60px 0 60px;
+  .postcard_image {
+    display: none;
+  }
+
+  .dots_image {
+    display: none;
+  }
+
+  .postcard_section_information {
+    gap: 40px;
+
+    & h2 {
+      font-size: 80px;
     }
+  }
 
-    .postcard_image {
-        display: none;
+  .download_section_content {
+    padding: 50px 35px 0 35px;
+  }
+
+  .download_section_information {
+    gap: 40px;
+
+    & h2 {
+      font-size: 80px;
+      line-height: 80px;
     }
+  }
 
-    .dots_image {
-        display: none;
-    }
-
-    .postcard_section_information {
-        gap: 40px;
-
-        & h2 {
-            font-size: 80px;
-        }
-    }
-
-    .download_section_content {
-        padding: 50px 35px 0 35px;
-    }
-
-    .download_section_information {
-        gap: 40px;
-
-        & h2 {
-            font-size: 80px;
-            line-height: 80px;
-        }
-    }
-
-    .download_now_shadow {
-        width: 340px;
-        height: 45px;
-        margin-left: -130px;
-        margin-top: -40px;
-    }
+  .download_now_shadow {
+    width: 340px;
+    height: 45px;
+    margin-left: -130px;
+    margin-top: -40px;
+  }
 }
 
 @media (max-width: 850px) {
-    .lines_streight_image {
-        display: none;
-    }
+  .lines_streight_image {
+    display: none;
+  }
 
-    .store_cards_wrapper {
-        padding: 0;
-        width: 100%;
-        align-items: center;
-    }
+  .store_cards_wrapper {
+    padding: 0;
+    width: 100%;
+    align-items: center;
+  }
 
-    .background_trapezoid {
-        display: none;
-    }
+  .background_trapezoid {
+    display: none;
+  }
 
-    .preview {
-        width: 100%;
-        padding-left: 40px;
-        padding-right: 40px;
-    }
+  .preview {
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
 }
 
 @media (max-width: 699px) {
-    .download_now {
-        align-items: flex-start;
-    }
+  .download_now {
+    align-items: flex-start;
+  }
 
-    .download_now_shadow {
-        width: 340px;
-        height: 45px;
-        margin-top: -120px;
-        margin-left: 80px;
-    }
+  .download_now_shadow {
+    width: 340px;
+    height: 45px;
+    margin-top: -120px;
+    margin-left: 80px;
+  }
 
-    .download_section_information {
-        gap: 100px;
-        & p {
-            text-align: start;
-        }
+  .download_section_information {
+    gap: 100px;
+    & p {
+      text-align: start;
     }
+  }
 }
 
 @media (max-width: 500px) {
+  .postcard_section_content {
+    padding: 100px 30px 0 30px;
+  }
 
-    .postcard_section_content {
-        padding: 100px 30px 0 30px;
+  .postcard_section_information {
+    gap: 20px;
+
+    & h2 {
+      font-size: 60px;
     }
 
-    .postcard_section_information {
-        gap: 20px;
+    & p {
+      font-size: 26px;
+    }
+  }
 
-        & h2 {
-            font-size: 60px;
-        }
+  .download_section_information {
+    gap: 80px;
 
-        & p {
-            font-size: 26px;
-        }
+    & h2 {
+      font-size: 60px;
+      line-height: 60px;
     }
 
-    .download_section_information {
-        gap: 80px;
-
-        & h2 {
-            font-size: 60px;
-            line-height: 60px;
-        }
-
-        & p {
-            font-size: 26px;
-        }
+    & p {
+      font-size: 26px;
     }
+  }
 
-    .download_now_shadow {
-        width: 250px;
-        height: 30px;
-        margin-top: -85px;
-        margin-left: 60px;
-    }
+  .download_now_shadow {
+    width: 250px;
+    height: 30px;
+    margin-top: -85px;
+    margin-left: 60px;
+  }
 }

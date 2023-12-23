@@ -62,13 +62,15 @@ function Base64Converter(props: Props) {
         return (
           <>
             {image ? (
-              <img
-                alt="Converter"
-                src={image}
-                className={`${styles.img_postcard} ${styles.img}`}
-              />
+              <div className={styles.img_postcard}>
+                <img
+                  alt="Converter"
+                  src={image}
+                  className={styles.img_postcard_img}
+                />
+              </div>
             ) : (
-              <div className={`${styles.img_postcard} ${styles.img}`} />
+              <div className={styles.img_postcard_div} />
             )}
           </>
         );

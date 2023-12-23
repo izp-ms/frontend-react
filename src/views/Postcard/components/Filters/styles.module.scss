@@ -8,10 +8,13 @@
   justify-content: flex-start;
   align-items: flex-start;
   background: rgb(100, 100, 100);
-
+  span {
+    @include H_Small;
+  }
   .search {
     span {
       padding-right: 1rem;
+      @include H_Small;
     }
   }
 
