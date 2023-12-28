@@ -22,7 +22,6 @@ import React, { useEffect, useState } from "react";
 import { useTypedSelector } from "../../../../../store";
 import { useSearchParams } from "react-router-dom";
 import { Toast, ToastStatus } from "../../../../../components/Toast";
-import { fr } from "date-fns/locale";
 
 interface Props {
   postcard: Postcard;
@@ -239,6 +238,7 @@ export const PostcardToSend = (props: Props) => {
                       <div
                         key={friend.id}
                         className={`${styles.friendCard} ${
+                          // eslint-disable-next-line eqeqeq
                           friend.id == selectedFriend
                             ? styles.friendCard_gold
                             : styles.friendCard_white

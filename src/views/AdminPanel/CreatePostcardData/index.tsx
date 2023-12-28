@@ -76,19 +76,15 @@ export const CreatePostcardData = (props: Props) => {
     validationSchema: userSchema,
 
     onSubmit: async (values) => {
-      console.log("lol???");
-      console.log(values);
       await addPostcardData(values)
         .then((response: any) => {
           if (response.error) {
-            console.log(response.error.data.message);
             setToastStatus("error");
             setToastErrorMessage(
               response.error.data.message ?? "Something went wrong"
             );
             return null;
           }
-          console.log("lol-XD");
           setToastStatus("success");
           refetchPostcard();
           handleClosePostcardData();
@@ -103,7 +99,6 @@ export const CreatePostcardData = (props: Props) => {
 
   const handlePostcardData = async (): Promise<void> => {
     submitForm();
-    console.log("lol2");
   };
 
   const handleSetCountry = (country: string) => {

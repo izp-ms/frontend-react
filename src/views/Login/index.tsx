@@ -36,8 +36,8 @@ export default function Login() {
   const dispatch = useTypedDispatch();
 
   const initialValue = {
-    email: "admin2@email.com", // user - john.doe@email.com
-    password: "string123",
+    email: "", // user - john.doe@email.com user2 - admin2@email.com
+    password: "", // default password - string123
   };
 
   const loginSchema = Yup.object().shape({

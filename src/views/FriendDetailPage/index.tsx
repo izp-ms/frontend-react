@@ -42,10 +42,6 @@ export const FriendDetailPage = () => {
   const [follow] = usePostFollowFriendMutation();
   const [unFollow] = useDeleteFollowFriendMutation();
 
-  useEffect(() => {
-    console.log(params);
-  }, [params]);
-
   const { data: isFollowing, refetch: refetchIsFollowing } =
     useGetIsFollowingQuery(parseInt(friendId) ?? 0);
 
@@ -58,8 +54,9 @@ export const FriendDetailPage = () => {
   const [toastSuccessMessage] = useState<string>("User updated successfully");
   const [toastErrorMessage] = useState<string>("Something went wrong");
 
-  const { data: favouritePostcards, refetch: favouriteRefetch } =
-    useGetFavouritePostcardsQuery(friendId ? `${friendId}` : "0");
+  const { data: favouritePostcards } = useGetFavouritePostcardsQuery(
+    friendId ? `${friendId}` : "0"
+  );
 
   const navigate = useNavigate();
 

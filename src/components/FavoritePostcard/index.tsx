@@ -53,7 +53,7 @@ function FavouritePostcards() {
     useGetFavouritePostcardsQuery(user?.id ?? "0");
 
   const clearAllFavoritePostcard = () => {
-    favouritePostcardsStore.map((favoriteNumber: number) => {
+    favouritePostcardsStore.forEach((favoriteNumber: number) => {
       dispatch(removeFavouritePostcard(favoriteNumber));
     });
   };
@@ -75,7 +75,6 @@ function FavouritePostcards() {
   };
 
   const onSubmit = () => {
-    console.log(isAddedAsFavorite);
     const sliced = favouritePostcardsStore.map(
       (favoriteNumber: number, postcardIndexNumber: number) => {
         return {
@@ -84,7 +83,6 @@ function FavouritePostcards() {
         };
       }
     );
-    console.log(isAddedAsFavorite);
     const toSend = {
       userId: user?.id ?? "0",
       postcardIdsWithOrders: sliced,
@@ -122,10 +120,6 @@ function FavouritePostcards() {
       });
     }
   };
-
-  useEffect(() => {
-    console.log(favouritePostcardsStore);
-  }, [favouritePostcardsStore]);
 
   const handleChangePage = async (
     _event: React.MouseEvent<HTMLButtonElement> | null,

@@ -18,9 +18,7 @@ export const PostcardsComponent = (props: Props) => {
           {postcards.map((postcard: Postcard) => (
             <div>
               <PostcardCard postcard={postcard} />
-              {postcard.isSent ? (
-                <></>
-              ) : (
+              {!postcard.isSent && (
                 <PostcardToSend postcard={postcard} refetch={refetch} />
               )}
             </div>
@@ -29,7 +27,7 @@ export const PostcardsComponent = (props: Props) => {
       ) : (
         <div className={styles.wrap}>
           <span className={styles.wrap_alert}>
-            Unfortunately,We couldn't find any postcards :(
+            Unfortunately, We couldn't find any postcards :(
           </span>
         </div>
       )}
