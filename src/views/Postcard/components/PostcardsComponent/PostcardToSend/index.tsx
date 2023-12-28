@@ -21,6 +21,8 @@ import { useGetFriendsQuery } from "../../../../../services/friend.service";
 import React, { useEffect, useState } from "react";
 import { useTypedSelector } from "../../../../../store";
 import { useSearchParams } from "react-router-dom";
+import { Toast, ToastStatus } from "../../../../../components/Toast";
+import { fr } from "date-fns/locale";
 
 interface Props {
   postcard: Postcard;
@@ -39,6 +41,12 @@ export const PostcardToSend = (props: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+
+  const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
+  const [toastSuccessMessage] = useState<string>("Postcard sent");
+  const [toastErrorMessage, setToastErrorMessage] = useState<string>(
+    "Something went wrong"
+  );
 
   const { data: friendsData, refetch: friendsRefetch } = useGetFriendsQuery(
     {
@@ -84,7 +92,8 @@ export const PostcardToSend = (props: Props) => {
   };
   const onSubmit = () => {
     if (selectedFriend === "0") {
-      alert("Please choose a friend");
+      setToastStatus("error");
+      setToastErrorMessage("Please select a friend");
       return;
     }
 
@@ -100,7 +109,24 @@ export const PostcardToSend = (props: Props) => {
       },
       newUserId: parseInt(selectedFriend) ?? 0,
     };
-    updateTransferPostcards(toSend);
+    updateTransferPostcards(toSend)
+      .then((response: any) => {
+        if (response.error) {
+          setToastStatus("error");
+          setToastErrorMessage(
+            response.error.data.message ?? "Something went wrong"
+          );
+          return null;
+        }
+        setToastStatus("success");
+        refetchPostcard();
+        friendsRefetch();
+        handleClosePostcard();
+      })
+      .catch((e: { message: any }) => {
+        setToastStatus("error");
+        setToastErrorMessage(e.message ?? "Something went wrong");
+      });
   };
 
   useEffect(() => {
@@ -267,9 +293,6 @@ export const PostcardToSend = (props: Props) => {
             className={styles.update}
             onClick={async () => {
               onSubmit();
-              await refetchPostcard();
-              await friendsRefetch();
-              handleClosePostcard();
             }}
           >
             <Button
@@ -287,6 +310,12 @@ export const PostcardToSend = (props: Props) => {
               Send
             </Button>
           </span>
+          <Toast
+            toastStatus={toastStatus}
+            successMessage={toastSuccessMessage}
+            errorMessage={toastErrorMessage}
+            handleToastClose={() => setToastStatus("none")}
+          />
         </BoxM>
       </Modal>
     </div>

@@ -18,6 +18,7 @@ import {
   addNewFavouritePostcard,
   removeFavouritePostcard,
 } from "../../store/favouritesPostcards.slice";
+import { Toast, ToastStatus } from "../Toast";
 
 function FavouritePostcards() {
   const user = useTypedSelector((state) => state.auth.user);
@@ -27,7 +28,11 @@ function FavouritePostcards() {
   );
 
   const dispatch = useTypedDispatch();
-
+  const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
+  const [toastSuccessMessage] = useState<string>("Postcard sent");
+  const [toastErrorMessage, setToastErrorMessage] = useState<string>(
+    "Something went wrong"
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
@@ -93,13 +98,18 @@ function FavouritePostcards() {
   };
 
   const addButtonChange = (postcardId: number, index: number) => {
-    if (favouritePostcardsStore.length < 5) {
-      dispatch(addNewFavouritePostcard(postcardId));
-      setIsAddedAsFavorite((prevArray) => {
-        const newArray = [...prevArray];
-        newArray[index] = true;
-        return newArray;
-      });
+    if (favouritePostcardsStore.length >= 4) {
+      setToastStatus("error");
+      setToastErrorMessage("You can't add more than 9 postcards");
+    } else {
+      if (favouritePostcardsStore.length < 4) {
+        dispatch(addNewFavouritePostcard(postcardId));
+        setIsAddedAsFavorite((prevArray) => {
+          const newArray = [...prevArray];
+          newArray[index] = true;
+          return newArray;
+        });
+      }
     }
   };
   const deleteButtonChange = (postcardId: number, index: number) => {
@@ -301,6 +311,12 @@ function FavouritePostcards() {
               />
             </div>
           </Box>
+          <Toast
+            toastStatus={toastStatus}
+            successMessage={toastSuccessMessage}
+            errorMessage={toastErrorMessage}
+            handleToastClose={() => setToastStatus("none")}
+          />
         </BoxM>
       </Modal>
     </>

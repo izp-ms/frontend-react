@@ -206,7 +206,6 @@ export const CreatePostcardData = (props: Props) => {
           <span
             className={styles.update}
             onClick={async () => {
-              console.log("lol");
               handlePostcardData();
               await refetchPostcard();
             }}

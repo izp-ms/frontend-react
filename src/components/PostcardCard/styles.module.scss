@@ -4,7 +4,6 @@
   height: auto;
   width: auto;
   perspective: 1000px;
-  //border: solid 1px red;
 }
 
 .card {
@@ -21,8 +20,6 @@
 
 .card_front,
 .card_back {
-  // border: solid 1px red;
-  //box-sizing: border-box;
   height: 100%;
   width: 100%;
   -webkit-backface-visibility: hidden;
@@ -32,16 +29,14 @@
   justify-content: center;
   font-family: Montserrat;
   font-weight: 800;
-
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-  //overflow: hidden;
   @include H_Small;
 }
 
 .card_front {
   color: black;
   background-color: #fcf5ef;
-  transform: rotateY(180deg); // rotate the card to show the back
+  transform: rotateY(180deg);
 }
 
 .card_back {

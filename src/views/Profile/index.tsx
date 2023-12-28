@@ -90,7 +90,6 @@ export const Profile = () => {
     birthDate: Yup.string().required("Birth date is required"),
     avatarBase64: Yup.string().required("Avatar is required"),
     backgroundBase64: Yup.string().required("Background is required"),
-    description: Yup.string().required("Description is required"),
   });
 
   const { values, errors, touched, setFieldValue, submitForm } = useFormik({
@@ -235,12 +234,6 @@ export const Profile = () => {
                       format="dd.MM.yyyy"
                     />
                   </LocalizationProvider>
-                  {/* <TextareaAutosize
-                    className={styles.form_input_description}
-                    value={values.description}
-                    maxRows={3}
-                    onChange={(e) => setFieldValue("description", e.target.value)}
-                  /> */}
 
                   <TextField
                     className={styles.form_input}

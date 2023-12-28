@@ -1,7 +1,7 @@
 import { PostcardData } from "../../../../models/postcard-data";
 import styles from "./styles.module.scss";
 import { useGetPostcardCollectionQuery } from "../../../../services/postcard.service";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   postcards: PostcardData[];
@@ -14,9 +14,19 @@ export const PostcardsDataComponent = (props: Props) => {
   const { data: postcardCollection, refetch: collectionRefetch } =
     useGetPostcardCollectionQuery(user ?? "0");
 
-  useEffect(() => {
-    collectionRefetch();
-  }, [collectionRefetch]);
+  const checkCollection = (postcardData: number) => {
+    let check = false;
+    postcardCollection?.postcardDataIds.map((number: number) => {
+      if (postcardData == number) {
+        check = true;
+      }
+    });
+    if (check) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   return (
     <div>
@@ -27,20 +37,19 @@ export const PostcardsDataComponent = (props: Props) => {
               <div>
                 {user !== undefined ? (
                   <>
-                    {postcardCollection?.postcardDataIds.map((number: any) =>
-                      number === postcard.id ? (
-                        <img
-                          className={`${styles.card} ${styles.no_draggable}`}
-                          src={postcard.imageBase64}
-                          alt="postcardData"
-                        />
-                      ) : (
-                        <img
-                          className={`${styles.card} ${styles.gray} ${styles.no_draggable}`}
-                          src={postcard.imageBase64}
-                          alt="postcardData"
-                        />
-                      )
+                    {postcardCollection?.postcardDataIds.length === 0 ||
+                    checkCollection(parseInt(postcard.id)) ? (
+                      <img
+                        className={`${styles.card} ${styles.gray} ${styles.no_draggable}`}
+                        src={postcard.imageBase64}
+                        alt="postcardData"
+                      />
+                    ) : (
+                      <img
+                        className={`${styles.card} ${styles.no_draggable}`}
+                        src={postcard.imageBase64}
+                        alt="postcardData"
+                      />
                     )}
                   </>
                 ) : (
