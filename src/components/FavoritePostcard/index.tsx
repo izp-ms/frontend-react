@@ -96,11 +96,11 @@ function FavouritePostcards() {
   };
 
   const addButtonChange = (postcardId: number, index: number) => {
-    if (favouritePostcardsStore.length >= 4) {
+    if (favouritePostcardsStore.length >= 6) {
       setToastStatus("error");
-      setToastErrorMessage("You can't add more than 9 postcards");
+      setToastErrorMessage("You can't add more than 6 postcards");
     } else {
-      if (favouritePostcardsStore.length < 4) {
+      if (favouritePostcardsStore.length < 6) {
         dispatch(addNewFavouritePostcard(postcardId));
         setIsAddedAsFavorite((prevArray) => {
           const newArray = [...prevArray];
