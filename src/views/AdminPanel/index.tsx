@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ModifyPostcard } from "./ModifyPostcard";
 import { CreatePostcardData } from "./CreatePostcardData";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const AdminPanel = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -15,13 +16,16 @@ export const AdminPanel = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const { data: paginatedDataForPostcardsData, refetch: postcardsDataRefetch } =
-    useGetPostcardsDataQuery(
-      {
-        searchParams: searchParams.toString(),
-      },
-      { skip: !user?.id, refetchOnMountOrArgChange: true }
-    );
+  const {
+    data: paginatedDataForPostcardsData,
+    refetch: postcardsDataRefetch,
+    isFetching,
+  } = useGetPostcardsDataQuery(
+    {
+      searchParams: searchParams.toString(),
+    },
+    { skip: !user?.id, refetchOnMountOrArgChange: true }
+  );
 
   const handleChangePage = async (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -47,6 +51,14 @@ export const AdminPanel = () => {
     searchParams.set("PageSize", pageSize.toString());
     setSearchParams(searchParams);
   }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
+
+  if (isFetching) {
+    return (
+      <Box className={styles.container} sx={{ color: "text.primary" }}>
+        <LoadingSpinner />
+      </Box>
+    );
+  }
 
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>

@@ -347,3 +347,14 @@
     margin-left: 60px;
   }
 }
+
+.source {
+  margin: 2rem 0;
+  color: white;
+  a {
+    color: white;
+    &:hover {
+      color: #8dcfde;
+    }
+  }
+}

@@ -83,6 +83,16 @@ export const Home = () => {
           <img className={styles.preview} src={preview3} alt="Preview" />
         </div>
       </div>
+
+      <div className={styles.source}>
+        <a
+          target="_blank"
+          href="https://www.freepik.com/free-vector/hand-drawn-abstract-landscape-cover-collection_15591719.htm"
+          rel="noreferrer"
+        >
+          Source of postcard images
+        </a>
+      </div>
     </div>
   );
 };

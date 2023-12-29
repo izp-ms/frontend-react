@@ -18,6 +18,7 @@ import {
   addNewFavouritePostcard,
   removeFavouritePostcard,
 } from "../../store/favouritesPostcards.slice";
+import { Toast, ToastStatus } from "../Toast";
 
 function FavouritePostcards() {
   const user = useTypedSelector((state) => state.auth.user);
@@ -27,7 +28,11 @@ function FavouritePostcards() {
   );
 
   const dispatch = useTypedDispatch();
-
+  const [toastStatus, setToastStatus] = useState<ToastStatus>("none");
+  const [toastSuccessMessage] = useState<string>("Postcard sent");
+  const [toastErrorMessage, setToastErrorMessage] = useState<string>(
+    "Something went wrong"
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(6);
@@ -48,7 +53,7 @@ function FavouritePostcards() {
     useGetFavouritePostcardsQuery(user?.id ?? "0");
 
   const clearAllFavoritePostcard = () => {
-    favouritePostcardsStore.map((favoriteNumber: number) => {
+    favouritePostcardsStore.forEach((favoriteNumber: number) => {
       dispatch(removeFavouritePostcard(favoriteNumber));
     });
   };
@@ -70,7 +75,6 @@ function FavouritePostcards() {
   };
 
   const onSubmit = () => {
-    console.log(isAddedAsFavorite);
     const sliced = favouritePostcardsStore.map(
       (favoriteNumber: number, postcardIndexNumber: number) => {
         return {
@@ -79,7 +83,6 @@ function FavouritePostcards() {
         };
       }
     );
-    console.log(isAddedAsFavorite);
     const toSend = {
       userId: user?.id ?? "0",
       postcardIdsWithOrders: sliced,
@@ -93,13 +96,18 @@ function FavouritePostcards() {
   };
 
   const addButtonChange = (postcardId: number, index: number) => {
-    if (favouritePostcardsStore.length < 5) {
-      dispatch(addNewFavouritePostcard(postcardId));
-      setIsAddedAsFavorite((prevArray) => {
-        const newArray = [...prevArray];
-        newArray[index] = true;
-        return newArray;
-      });
+    if (favouritePostcardsStore.length >= 6) {
+      setToastStatus("error");
+      setToastErrorMessage("You can't add more than 6 postcards");
+    } else {
+      if (favouritePostcardsStore.length < 6) {
+        dispatch(addNewFavouritePostcard(postcardId));
+        setIsAddedAsFavorite((prevArray) => {
+          const newArray = [...prevArray];
+          newArray[index] = true;
+          return newArray;
+        });
+      }
     }
   };
   const deleteButtonChange = (postcardId: number, index: number) => {
@@ -112,10 +120,6 @@ function FavouritePostcards() {
       });
     }
   };
-
-  useEffect(() => {
-    console.log(favouritePostcardsStore);
-  }, [favouritePostcardsStore]);
 
   const handleChangePage = async (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -301,6 +305,12 @@ function FavouritePostcards() {
               />
             </div>
           </Box>
+          <Toast
+            toastStatus={toastStatus}
+            successMessage={toastSuccessMessage}
+            errorMessage={toastErrorMessage}
+            handleToastClose={() => setToastStatus("none")}
+          />
         </BoxM>
       </Modal>
     </>

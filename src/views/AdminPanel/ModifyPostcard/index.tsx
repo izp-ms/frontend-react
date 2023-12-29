@@ -1,11 +1,10 @@
 import { Button, Modal, TextField } from "@mui/material";
-import { useUpdateTransferPostcardMutation } from "../../../services/postcard.service";
 import { PostcardData } from "../../../models/postcard-data";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./styles.module.scss";
 import BoxM from "@mui/material/Box";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CountrySelect from "../../../components/TextFieldCountry";
 import Base64Converter from "../../../components/Base64Converter";
 import * as Yup from "yup";
@@ -97,6 +96,7 @@ export const ModifyPostcard = (props: Props) => {
           setToastStatus("error");
           setToastErrorMessage(e.message ?? "Something went wrong");
         });
+      refetch && refetch();
     },
     enableReinitialize: true,
   });
@@ -216,7 +216,7 @@ export const ModifyPostcard = (props: Props) => {
             className={styles.update}
             onClick={async () => {
               handlePostcardData();
-              await refetchPostcard();
+              refetchPostcard();
             }}
           >
             <Button

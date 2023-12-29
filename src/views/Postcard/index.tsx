@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { PostcardsComponent } from "./components/PostcardsComponent";
 import { PostcardsDataComponent } from "./components/PostcardsDataComponent";
 import { Filters } from "./components/Filters";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const PostcardsPage = () => {
   const user = useTypedSelector((state) => state.auth.user);
@@ -18,21 +19,27 @@ export const PostcardsPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
-  const { data: paginatedDataForPostcards, refetch: postcardsRefetch } =
-    useGetPostcardsQuery(
-      {
-        searchParams: searchParams.toString(),
-      },
-      { skip: !user?.id, refetchOnMountOrArgChange: true }
-    );
+  const {
+    data: paginatedDataForPostcards,
+    refetch: postcardsRefetch,
+    isFetching: isPostcardsFetching,
+  } = useGetPostcardsQuery(
+    {
+      searchParams: searchParams.toString(),
+    },
+    { skip: !user?.id, refetchOnMountOrArgChange: true }
+  );
 
-  const { data: paginatedDataForPostcardsData, refetch: postcardsDataRefetch } =
-    useGetPostcardsDataQuery(
-      {
-        searchParams: searchParams.toString(),
-      },
-      { skip: !user?.id, refetchOnMountOrArgChange: true }
-    );
+  const {
+    data: paginatedDataForPostcardsData,
+    refetch: postcardsDataRefetch,
+    isFetching: isPostcardsDataFetching,
+  } = useGetPostcardsDataQuery(
+    {
+      searchParams: searchParams.toString(),
+    },
+    { skip: !user?.id, refetchOnMountOrArgChange: true }
+  );
 
   const [tabName, setTabName] = useState<PostcardTab>("my-postcards");
 
@@ -68,6 +75,7 @@ export const PostcardsPage = () => {
     } else {
       setpaginatedDataCount(paginatedDataForPostcardsData?.totalCount ?? 0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, pageSize, searchParams, setSearchParams, user?.id]);
 
   useEffect(() => {
@@ -77,6 +85,7 @@ export const PostcardsPage = () => {
     ) {
       setpaginatedDataCount(paginatedDataForPostcards?.totalCount ?? 0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginatedDataForPostcards]);
 
   useEffect(() => {
@@ -89,6 +98,7 @@ export const PostcardsPage = () => {
     searchParams.set("UserId", user?.id ?? "0");
     searchParams.set("IsSent", "true");
     setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   const handleChangeTab = (
@@ -117,42 +127,43 @@ export const PostcardsPage = () => {
   const renderPostcardContent = () => {
     switch (tabName) {
       case "postcards-to-send":
-        return (
-          <div>
-            <PostcardsComponent
-              postcards={paginatedDataForPostcards?.content ?? []}
-              refetch={postcardsRefetch}
-            />
-          </div>
+        return isPostcardsFetching ? (
+          <LoadingSpinner />
+        ) : (
+          <PostcardsComponent
+            postcards={paginatedDataForPostcards?.content ?? []}
+            refetch={postcardsRefetch}
+          />
         );
       case "my-postcards":
-        return (
-          <div>
-            <PostcardsComponent
-              postcards={paginatedDataForPostcards?.content ?? []}
-            />
-          </div>
+        return isPostcardsFetching ? (
+          <LoadingSpinner />
+        ) : (
+          <PostcardsComponent
+            postcards={paginatedDataForPostcards?.content ?? []}
+          />
         );
       case "my-collection":
-        return (
-          <div>
-            <PostcardsDataComponent
-              postcards={paginatedDataForPostcardsData?.content ?? []}
-              user={user?.id ?? "0"}
-            />
-          </div>
+        return isPostcardsDataFetching ? (
+          <LoadingSpinner />
+        ) : (
+          <PostcardsDataComponent
+            postcards={paginatedDataForPostcardsData?.content ?? []}
+            user={user?.id ?? "0"}
+          />
         );
       case "all-postcards":
-        return (
-          <div>
-            <PostcardsDataComponent
-              postcards={paginatedDataForPostcardsData?.content ?? []}
-            />
-          </div>
+        return isPostcardsDataFetching ? (
+          <LoadingSpinner />
+        ) : (
+          <PostcardsDataComponent
+            postcards={paginatedDataForPostcardsData?.content ?? []}
+          />
         );
+      default:
+        return null;
     }
   };
-
   return (
     <Box className={styles.container} sx={{ color: "text.primary" }}>
       <div className={styles.tabs}>
@@ -161,9 +172,8 @@ export const PostcardsPage = () => {
       <HorizontalDivider />
 
       <div>
-        {tabName === "my-postcards" || tabName === "postcards-to-send" ? (
-          <Filters viewType="postcard" />
-        ) : (
+        {tabName === "my-postcards" && <Filters viewType="postcard" />}
+        {(tabName === "all-postcards" || tabName === "my-collection") && (
           <Filters viewType="postcardData" />
         )}
       </div>

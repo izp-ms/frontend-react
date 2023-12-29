@@ -71,39 +71,40 @@ export const CreatePostcardData = (props: Props) => {
     p: 4,
   };
 
-  const { values, errors, touched, setFieldValue, submitForm } = useFormik({
-    initialValues: initialValue,
-    validationSchema: userSchema,
+  const { values, errors, touched, setFieldValue, submitForm, isValid } =
+    useFormik({
+      initialValues: initialValue,
+      validationSchema: userSchema,
 
-    onSubmit: async (values) => {
-      console.log("lol???");
-      console.log(values);
-      await addPostcardData(values)
-        .then((response: any) => {
-          if (response.error) {
-            console.log(response.error.data.message);
+      onSubmit: async (values) => {
+        if (!isValid) {
+          return;
+        }
+
+        await addPostcardData(values)
+          .then((response: any) => {
+            if (response.error) {
+              setToastStatus("error");
+              setToastErrorMessage(
+                response.error.data.message ?? "Something went wrong"
+              );
+              return null;
+            }
+            setToastStatus("success");
+            refetchPostcard();
+            handleClosePostcardData();
+          })
+          .catch((e: { message: any }) => {
             setToastStatus("error");
-            setToastErrorMessage(
-              response.error.data.message ?? "Something went wrong"
-            );
-            return null;
-          }
-          console.log("lol-XD");
-          setToastStatus("success");
-          refetchPostcard();
-          handleClosePostcardData();
-        })
-        .catch((e: { message: any }) => {
-          setToastStatus("error");
-          setToastErrorMessage(e.message ?? "Something went wrong");
-        });
-    },
-    enableReinitialize: true,
-  });
+            setToastErrorMessage(e.message ?? "Something went wrong");
+          });
+        refetch();
+      },
+      enableReinitialize: true,
+    });
 
   const handlePostcardData = async (): Promise<void> => {
     submitForm();
-    console.log("lol2");
   };
 
   const handleSetCountry = (country: string) => {
@@ -206,9 +207,7 @@ export const CreatePostcardData = (props: Props) => {
           <span
             className={styles.update}
             onClick={async () => {
-              console.log("lol");
               handlePostcardData();
-              await refetchPostcard();
             }}
           >
             <Button
