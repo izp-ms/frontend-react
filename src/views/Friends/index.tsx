@@ -290,16 +290,44 @@ export const FriendsPage = () => {
         </div>
       )}
 
-      <TablePagination
-        className={styles.pagination}
-        component="div"
-        count={friendsData?.totalCount ?? 0}
-        page={pageNumber - 1}
-        onPageChange={handleChangePage}
-        rowsPerPage={pageSize}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[2, 3, 10, 25, 50]}
-      />
+      {currentTab === 0 && (
+        <TablePagination
+          className={styles.pagination}
+          component="div"
+          count={friendsData?.totalCount ?? 0}
+          page={pageNumber - 1}
+          onPageChange={handleChangePage}
+          rowsPerPage={pageSize}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[10, 25, 50]}
+        />
+      )}
+
+      {currentTab === 1 && (
+        <TablePagination
+          className={styles.pagination}
+          component="div"
+          count={followersData?.totalCount ?? 0}
+          page={pageNumber - 1}
+          onPageChange={handleChangePage}
+          rowsPerPage={pageSize}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[10, 25, 50]}
+        />
+      )}
+
+      {currentTab === 2 && (
+        <TablePagination
+          className={styles.pagination}
+          component="div"
+          count={followingData?.totalCount ?? 0}
+          page={pageNumber - 1}
+          onPageChange={handleChangePage}
+          rowsPerPage={pageSize}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[10, 25, 50]}
+        />
+      )}
     </Box>
   );
 };

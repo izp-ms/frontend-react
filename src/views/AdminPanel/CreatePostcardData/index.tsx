@@ -71,31 +71,37 @@ export const CreatePostcardData = (props: Props) => {
     p: 4,
   };
 
-  const { values, errors, touched, setFieldValue, submitForm } = useFormik({
-    initialValues: initialValue,
-    validationSchema: userSchema,
+  const { values, errors, touched, setFieldValue, submitForm, isValid } =
+    useFormik({
+      initialValues: initialValue,
+      validationSchema: userSchema,
 
-    onSubmit: async (values) => {
-      await addPostcardData(values)
-        .then((response: any) => {
-          if (response.error) {
+      onSubmit: async (values) => {
+        if (!isValid) {
+          return;
+        }
+
+        await addPostcardData(values)
+          .then((response: any) => {
+            if (response.error) {
+              setToastStatus("error");
+              setToastErrorMessage(
+                response.error.data.message ?? "Something went wrong"
+              );
+              return null;
+            }
+            setToastStatus("success");
+            refetchPostcard();
+            handleClosePostcardData();
+          })
+          .catch((e: { message: any }) => {
             setToastStatus("error");
-            setToastErrorMessage(
-              response.error.data.message ?? "Something went wrong"
-            );
-            return null;
-          }
-          setToastStatus("success");
-          refetchPostcard();
-          handleClosePostcardData();
-        })
-        .catch((e: { message: any }) => {
-          setToastStatus("error");
-          setToastErrorMessage(e.message ?? "Something went wrong");
-        });
-    },
-    enableReinitialize: true,
-  });
+            setToastErrorMessage(e.message ?? "Something went wrong");
+          });
+        refetch();
+      },
+      enableReinitialize: true,
+    });
 
   const handlePostcardData = async (): Promise<void> => {
     submitForm();
@@ -202,7 +208,6 @@ export const CreatePostcardData = (props: Props) => {
             className={styles.update}
             onClick={async () => {
               handlePostcardData();
-              await refetchPostcard();
             }}
           >
             <Button
